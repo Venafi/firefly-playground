@@ -1,0 +1,15 @@
+bootstrap:
+  vaas:
+    url: https://api.venafi.cloud
+    auth:
+      privateKeyFile: /etc/firefly/private-key.pem
+      clientID: 38a1c311-b629-11ee-a852-1e33adc71475
+    csr:
+      instanceNaming: SKO Demo
+server:
+  rest:
+    port: 8281
+    tls:
+      dnsNames:
+      - firefly.venafi.example
+      ipAddress: 127.0.0.1

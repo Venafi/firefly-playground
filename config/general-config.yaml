@@ -1,0 +1,42 @@
+bootstrap:
+  selfSigned:
+    csr:
+      commonName: SKO Demo
+      privateKey:
+        algorithm: ECDSA
+        size: 256
+      duration: 8760h # one year
+    trustRootDirectory: /etc/firefly/trust
+signer:
+  inMemory: true
+server:
+  rest:
+    port: 8281
+    tls:
+      dnsNames:
+      - firefly.venafi.example
+      ipAddress: 127.0.0.1
+  authentication:
+    jwt:
+#      oidc:
+#        baseUrl: http://superfuzz.venafi.example:8000
+#        audience: firefly
+      jwks:
+        urls:
+        - http://jwt-this.example:8000/.well-known/jwks.json
+  authorization:
+    configuration: SKO Demo Config
+policies:
+- name: SKO Demo Policy
+  keyUsages:
+  - digitalSignature
+  - keyEncipherment
+  extendedKeyUsages:
+  - SERVER_AUTH
+  keyAlgorithm:
+    allowedValues:
+    - RSA_2048
+    - RSA_3072
+    - RSA_4096
+    defaultValue: RSA_2048
+  validityPeriod: P7D

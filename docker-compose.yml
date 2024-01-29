@@ -1,0 +1,37 @@
+services:
+  elevate:
+    image: "3goats/elevate"
+    command: --api-key 97f26f6e-9935-4aff-a505-d286f3747981 -f /config/general-config.yaml --force -p sko-demo -t sko-demo
+    volumes:
+      - ./config:/config
+    profiles:
+      - control-plane
+  jwt-this:
+    image: "tr1ck3r/jwt-this:latest"
+    ports:
+      - "8001:8000"
+    command: --config-name "SKO Demo Config" --policy-names "SKO Demo Policy"
+    profiles:
+      - demo
+  firefly:
+    #depends_on:
+    #    elevate: 
+    #      condition: service_completed_successfully
+    image: "public.ecr.aws/venafi-images/firefly"
+    ports:
+      #- "8082:8082"
+      #- "8123:8123"
+      - "8289:8281"
+    command: run -c /etc/firefly/config.yaml
+    volumes:
+      - ./config/config.yaml:/etc/firefly/config.yaml
+      - ./config:/etc/firefly:ro
+      - ./trust:/etc/firefly/trust:rw
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - ACCEPT_TERMS=Y
+    links:
+      - "jwt-this:jwt-this.example"
+    profiles:
+      - demo
