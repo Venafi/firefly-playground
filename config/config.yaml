@@ -3,7 +3,7 @@ bootstrap:
     url: https://api.venafi.cloud
     auth:
       privateKeyFile: /etc/firefly/private-key.pem
-      clientID: 38a1c311-b629-11ee-a852-1e33adc71475
+      clientID: 8104b51c-bf7e-11ee-9c78-4a98e9dd68c7
     csr:
       instanceNaming: SKO Demo
 server:
