@@ -1,16 +1,16 @@
 services:
   elevate:
     image: "3goats/elevate"
-    command: --api-key 97f26f6e-9935-4aff-a505-d286f3747981 -f /config/general-config.yaml --force -p sko-demo -t sko-demo
+    command: --api-key 97f26f6e-9935-4aff-a505-d286f3747981 -f /config/general-config.yaml --force -p basic-demo -t basic-demo
     volumes:
-      - ./config:/config
+      - ./config:/config:rw
     profiles:
       - control-plane
   jwt-this:
     image: "tr1ck3r/jwt-this:latest"
     ports:
       - "8001:8000"
-    command: --config-name "SKO Demo Config" --policy-names "SKO Demo Policy"
+    command: --config-name "Basic Demo" --policy-names "Basic Demo"
     profiles:
       - demo
   firefly:

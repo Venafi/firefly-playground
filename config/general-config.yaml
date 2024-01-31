@@ -1,7 +1,7 @@
 bootstrap:
   selfSigned:
     csr:
-      commonName: SKO Demo
+      commonName: Demo
       privateKey:
         algorithm: ECDSA
         size: 256
@@ -25,9 +25,9 @@ server:
         urls:
         - http://jwt-this.example:8000/.well-known/jwks.json
   authorization:
-    configuration: SKO Demo Config
+    configuration: Basic Demo
 policies:
-- name: SKO Demo Policy
+- name: Basic Demo
   keyUsages:
   - digitalSignature
   - keyEncipherment
