@@ -2,8 +2,9 @@
 icon: material/information-outline
 tags:
   - v0.1
-  - brand new
 ---
+
+# Getting started with the Venafi Firefly Playground 
 
 ## Overview 
 
@@ -11,13 +12,24 @@ This quick-start playground is intended to showcase Venafi's {{ component_name }
 
 ### Prerequisites 
 
-You will require one of the following to proceed.
+This playground can be run in one of two ways as follows: 
 
-!!! Options
+| Option      | Description                          |
+| ----------- | ------------------------------------ |
+| :octicons-codespaces-24:  GitHub CodeSpaces  | This is the quickest and easiest way to get started as there are no local dependencies. The codespace includes everything you need to try Firefly in your own GitHub dev container.   |
+| :simple-docker: Local Docker       |  This option can be used to run Firefly on your local machine and has additional dependencies   |
+
+
+* Run directly from GitHub CodeSpaces - no local dependencies
+* Clone the repository and run in your own Docker environment - with local dependencies 
+  ffdsfds
+
+
+!!! Dependencies
 
     === "Run Playground in GitHub CodeSpaces"
 
-        The following prerequisites can be used to run the {{ component_name }} playground in a GitHub CodeSpaces environment. This option has local dependencies and can be run entirely in a browser. 
+        The following prerequisites can be used to run the {{ component_name }} playground in a GitHub CodeSpaces environment. This easiest and quickest way to get started and has no local dependencies and can be run entirely in a browser. 
 
         ---
         
@@ -26,12 +38,13 @@ You will require one of the following to proceed.
         * An API key for your Venafi Cloud account. This can be obtained as follows: 
             1. Log in to TLS Protect Cloud.
             2. In the menu bar, click your **avatar** in the top-right corner, and then click **Preferences**.
-            3. On the **API Keys** tab, click ![copy button](https://docs.venafi.cloud/api/img/ico-copy-paste.png) to generate and copy your API key.
+            3. On the **API Keys** tab, click the link to generate and copy your API key.
+
     
     
     === "Run Playground in local Docker environment"
 
-        The following prerequisites can be used to run the Firefly playground in your own Docker environment. This option has has local dependencies.
+        The following prerequisites can be used to run the Firefly playground in your own Docker environment. This option has has mandatory and some optional local dependencies.
 
         ---
         
@@ -40,7 +53,13 @@ You will require one of the following to proceed.
         * An API key for your Venafi Cloud account. This can be obtained as follows: 
             1. Log in to TLS Protect Cloud.
             2. In the menu bar, click your **avatar** in the top-right corner, and then click **Preferences**.
-            3. On the **API Keys** tab, click ![copy button](https://docs.venafi.cloud/api/img/ico-copy-paste.png) to generate and copy your API key.
+            3. On the **API Keys** tab, click the link to generate and copy your API key.
+        * The following utilities are not required to run the Firefly playground but are used as a convenience to quickly demonstrate the Firefly API.     
+            * Locally installed (cURL)[https://curl.se] command line utility
+            * Locally installed (JQ)[https://jqlang.github.io/jq/] command line utility
+            * Locally installed (OpenSSL)[https://www.openssl.org] command line utility
+            * Locally installed (JWT)[https://github.com/mike-engel/jwt-cli] command line utility
+
         
         
 ## Audience
