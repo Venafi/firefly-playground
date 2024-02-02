@@ -1,7 +1,7 @@
 services:
   elevate:
     image: "3goats/elevate"
-    command: --api-key <API Key> -f /config/general-config.yaml --force -p Basic-demo -t Basic-demo
+    command: --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p Basic-demo -t Basic-demo
     volumes:
       - ./config:/config
     profiles:
