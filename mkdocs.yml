@@ -7,8 +7,7 @@ edit_uri: ""
 
 
 theme:
-  icon:
-    logo: fontawesome/solid/arrow-up-right-from-square
+  logo: assets\firefly-logo.svg
   name: material
   features:
     - content.code.annotate
@@ -44,9 +43,9 @@ markdown_extensions:
 
 plugins:
     - search
-    #- macros
+    - macros
     - tags
-    #- glightbox  
+    - glightbox  
     #- mike:
         # these fields are all optional; the defaults are as below...
      #   version_selector: true   # set to false to leave out the version selector
@@ -78,7 +77,10 @@ plugins:
 #     - Page n: section/page-n.md
     
 #   - Scatch: edgeca/scratch.md
-     
+
+extra_css:
+  - stylesheets/extra.css
+
 extra:
     version:
       provider: mike
