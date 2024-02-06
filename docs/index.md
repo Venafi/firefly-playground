@@ -4,7 +4,7 @@ tags:
   - v0.1
 ---
 
-# Getting started with the Venafi Firefly Playground 
+# Getting started with the Venafi Firefly Playground.
 
 ## Overview 
 
