@@ -1,3 +1,3 @@
 ## Welcome to the Venafi Firefly Playground 
 
-Please refer to the projects (wiki)[fgdsgfdgfd] pages for further instructions..
+Please refer to the projects documentation here https://venafi.github.io/firefly-playground for instructions. 
