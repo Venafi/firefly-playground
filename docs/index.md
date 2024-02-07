@@ -35,10 +35,8 @@ This playground can be run in one of two ways as follows:
         
         * A working GitHub account 
         * Venafi Cloud account for {{ component_name }} - you can signup for a free 30 day trial [here](https://venafi.com/try-venafi/firefly/)
-        * An API key for your Venafi Cloud account. This can be obtained as follows: 
-            1. Log in to TLS Protect Cloud.
-            2. In the menu bar, click your **avatar** in the top-right corner, and then click **Preferences**.
-            3. On the **API Keys** tab, click the link to generate and copy your API key.
+        * An API key for your Venafi Cloud account. Use the instructions below to get your API key.
+          
 
     
     
@@ -50,10 +48,7 @@ This playground can be run in one of two ways as follows:
         
         *  Access to a fairly recent Docker runtime environment 
         *  Venafi Cloud account for Firefly - you can signup for a free 30 day trial [here](https://venafi.com/try-venafi/firefly/)
-        * An API key for your Venafi Cloud account. This can be obtained as follows: 
-            1. Log in to TLS Protect Cloud.
-            2. In the menu bar, click your **avatar** in the top-right corner, and then click **Preferences**.
-            3. On the **API Keys** tab, click the link to generate and copy your API key.
+        * An API key for your Venafi Cloud account. Use the instructions below to get your API key.
         * The following utilities are not required to run the Firefly playground but are used as a convenience to quickly demonstrate the Firefly API.     
             * Locally installed (cURL)[https://curl.se] command line utility
             * Locally installed (JQ)[https://jqlang.github.io/jq/] command line utility
@@ -61,6 +56,23 @@ This playground can be run in one of two ways as follows:
             * Locally installed (JWT)[https://github.com/mike-engel/jwt-cli] command line utility
 
         
+??? tip "Getting an API Key"
+
+    If you don't have an API key you can follow this steps: 
+
+    1. Login to https://ui.venafi.cloud. If you don't already have an account you can sign-up for a 30 day trail. 
+    2. In the menu bar, click your **avatar** in the top-right corner, and then click **Preferences**. <figure markdown>
+      ![Image title](images/preferences.png){ width="300" }
+      </figure>
+    3. Click the "Generate New Key" link, then specify the "API Key Validity Period". Recommend 30 days. <figure markdown>
+      ![Image title](images/generate-api-key.png){ width="300" }
+      </figure>
+    4. Click the "Generate" button at the bottom of the page. You will then see options to view or copy the new key. Keep a note of the API key somewhere secure for later<figure markdown>
+      ![Image title](images/copy-api-key.png){ width="300" }
+      </figure>
+
+
+
         
 ## Audience
 
@@ -71,7 +83,7 @@ The intended audience for this playground is:
 * Developers, SRE's and platform engineering teams wanting to learn more about the services that Info Sec teams should be providing 
 * Internal Venafi staff wanting to demonstrate Firefly to partners and customers.
 
-## Get Started
+## Getting Started
 
 The quick-start demo runs entirely in Docker and consists of three container images that a pulled from the public Docker repositories. 
 
@@ -106,24 +118,35 @@ To simplify the this demonstration, the project includes an interactive Jupyter 
 
     Before you can run Firefly, you must edit the `.env` file to include a valid Venafi cloud API key (referenced in the prerequisites) at the placeholder. This is the only thing you need to change.
 
-    ```text title=".env file"
-    TLSPC_API_KEY=xxxxx-xxxxxx-xxxxxx-xxxxxx
+    The first task in the demo creates a `.env` file that is used to store a variable for the API key.
+
+    e.g. 
+
+    ```text title="create a .env file"
+    echo "TLSPC_API_KEY=xxxxx-xxxxxx-xxxxxx-xxxxxx" > .env
     ```
 
+At this point you can either follow the instructions here and cut/past the commands into the terminal in the codesdpace, or just step through and run each of the cells in the `demo.ipynb` interactive notebook file.
 
+### Step 1 - Configure the control plane
 
-You can now run a docker command to configure the Venafi Cloud control plane as follows:
+Every Firefly instance requires a valid service account, configuration and policy in the Venafi Control Plane (TLS Protect Cloud). For production, this task would often be completed by your InfoSec team. However, it might be undertaken by the platform engineering teams. Either way, you need to login to https://ui.venafi.cloud to create various config items. 
 
-``` bash
+To simplify this process and reduce the time it takes to get started, we will use the prebuilt `3goats/elevate` container that fully automates the creation of the service account, configuration and policy. It will also create a private key file `private-key.pem` and local firefly `config.yaml` in the `config` directory.  
+
+To do this use the following `docker compose` command. This will run only the `3goats/elevate` container.
+
+???+ warning "Important"
+
+    Do not run the `docker` commands in the interactive `demo.ipynb` environment. Instead type or cut and past the commands into the terminal. 
+
+``` bash title="Configure the Control Plane"
 docker compose --profile control-plane up
 ```
 
 You should see the following output. You should also the following new files in the  `./config` directory. 
 
-*  **config.yaml** - This is a generated Firefly configuration that will be used to pass the Firefly instance some basic values that are required as part of the bootstrap process,
-* **private-key.pem** This is the private part of a generated key pair that will be used by firefly to authenticate to the Venafi Cloud control plane.  
-
-```bash
+```bash title="Example output"
 [+] Running 2/0
  ✔ Network firefly-quickstart_default      Created  0.0s 
  ✔ Container firefly-quickstart-elevate-1  Created  0.0s 
@@ -147,4 +170,33 @@ elevate-1  |       ipAddress: 127.0.0.1
 elevate-1  | 
 elevate-1 exited with code 0
 ```
+
+The following files will also be updated to include valid content. 
+
+*  **config.yaml** - This is a generated Firefly configuration that will be used to pass the Firefly instance some basic values that are required as part of the bootstrap process,
+* **private-key.pem** This is the private part of a generated key pair that will be used by firefly to authenticate to the Venafi Cloud control plane.  
+
+### Step 2 - Start Firefly and the local JWT service
+
+Now that we've configured the Control Plane, we can now start the Firefly container `public.ecr.aws/venafi-images/firefly` and the `tr1ck3r/jwt-this`. 
+
+To do this use the following `docker compose` command. The `--profile demo` flag tells Docker to run only the `public.ecr.aws/venafi-images/firefly` and the `tr1ck3r/jwt-this` containers.
+
+``` bash title="Start Firefly & the JWT service"
+docker compose --profile demo up
+```
+
+You should see the following output. 
+
+```bash title="Example output"
+todo
+.........
+.........
+.........
+```
+
+!!! note 
+
+    The above command runs docker in interactive mode which means that the process does not exit.
+
 
