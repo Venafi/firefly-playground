@@ -13,6 +13,7 @@ theme:
     - content.code.annotate
     - navigation.expand
     - content.tabs.link
+    - content.code.copy
   palette: 
     - scheme: default
       toggle:
