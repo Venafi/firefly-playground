@@ -35,7 +35,7 @@ This playground can be run in one of two ways as follows:
         
         * A working GitHub account 
         * Venafi Cloud account for {{ component_name }} - you can signup for a free 30 day trial [here](https://venafi.com/try-venafi/firefly/)
-        * An API key for your Venafi Cloud account. Use the instructions below to get your API key.
+        * An API key for your Venafi Cloud account. Use the instructions in the info panel below to get your API key.
           
 
     
@@ -48,7 +48,7 @@ This playground can be run in one of two ways as follows:
         
         *  Access to a fairly recent Docker runtime environment 
         *  Venafi Cloud account for Firefly - you can signup for a free 30 day trial [here](https://venafi.com/try-venafi/firefly/)
-        * An API key for your Venafi Cloud account. Use the instructions below to get your API key.
+        * An API key for your Venafi Cloud account. Use the instructions in the info panel below to get your API key.
         * The following utilities are not required to run the Firefly playground but are used as a convenience to quickly demonstrate the Firefly API.     
             * Locally installed (cURL)[https://curl.se] command line utility
             * Locally installed (JQ)[https://jqlang.github.io/jq/] command line utility
@@ -56,7 +56,7 @@ This playground can be run in one of two ways as follows:
             * Locally installed (JWT)[https://github.com/mike-engel/jwt-cli] command line utility
 
         
-??? tip "Getting an API Key"
+??? info "Getting an API Key"
 
     If you don't have an API key you can follow this steps: 
 
@@ -93,21 +93,20 @@ The quick-start demo runs entirely in Docker and consists of three container ima
 
 :octicons-container-24: &nbsp; *public.ecr.aws/venafi-images/firefly* - This is the main Firefly instance that will be initialised for the demonstration
 
-The demonstration uses a single `docker-compose`file (docker-compose.yaml) that automates the three containers as follows:
+To start the demo using Github CodeSpaces, use the steps in following info panel.
 
-## Launching the Firefly Playground using Github CodeSpaces
+??? info "Launching the Firefly Playground using Github CodeSpaces"
 
-A codespace is a development environment that's hosted in the cloud. The {{ component_name }} playground GitHub repository provides a custom dev container that includes all of the prerequisites that are required. 
+    A codespace is a development environment that's hosted in the cloud. The {{ component_name }} playground GitHub repository provides a custom dev container that includes all of the prerequisites that are required:
 
-1. Login to your GitHub account and goto https://github.com/Venafi/firefly-playground
-2. Create a new CodeSpace by clicking on the "Code" button, then "Create codespace on main" e.g. <figure markdown>
-  ![Image title](images/github-codespaces.png){ width="400" }
-</figure>
+    1. Login to your GitHub account and goto https://github.com/Venafi/firefly-playground
+    2. Create a new CodeSpace by clicking on the "Code" button, then "Create codespace on main" e.g. <figure markdown>
+    ![Image title](images/github-codespaces.png){ width="400" }
+    </figure>
 
-3. This will build and launch a new dev container which will take a few minutes to complete. You should then see a new development environment. e.g. <figure markdown>
-  ![Image title](images/new-codespace.png){ width="400" }
-</figure>
-
+    3. This will build and launch a new dev container which will take a few minutes to complete. You should then see a new development environment. e.g. <figure markdown>
+    ![Image title](images/new-codespace.png){ width="400" }
+    </figure>
 
 
 ## Running the Firefly Demo
@@ -154,22 +153,40 @@ Attaching to elevate-1
 elevate-1  | 
 elevate-1  | bootstrap:
 elevate-1  |   vaas:
-elevate-1  |     url: https://api.venafi.cloud
+elevate-1  |     url: https://api.venafi.cloud # (1)
 elevate-1  |     auth:
-elevate-1  |       privateKeyFile: /etc/firefly/private-key.pem
-elevate-1  |       clientID: 8104b51c-bf7e-11ee-9c78-4a98e9dd68c7
+elevate-1  |       privateKeyFile: /etc/firefly/private-key.pem  # (2)
+elevate-1  |       clientID: 8104b51c-bf7e-11ee-9c78-4a98e9dd68c7  # (3)
 elevate-1  |     csr:
-elevate-1  |       instanceNaming: SKO Demo
-elevate-1  | server:
-elevate-1  |   rest:
-elevate-1  |     port: 8281
-elevate-1  |     tls:
-elevate-1  |       dnsNames:
+elevate-1  |       instanceNaming: SKO Demo # (4)
+elevate-1  | server: # (5)
+elevate-1  |   rest: # (6)
+elevate-1  |     port: 8281 # (7)
+elevate-1  |     tls: # (8)
+elevate-1  |       dnsNames: # (9)
 elevate-1  |       - firefly.venafi.example
-elevate-1  |       ipAddress: 127.0.0.1
+elevate-1  |       ipAddress: 127.0.0.1 # (10)
 elevate-1  | 
 elevate-1 exited with code 0
 ```
+
+1.  :fontawesome-solid-circle-info: This is the url for the Venafi control plane API.
+2.  :fontawesome-solid-circle-info: The path to the private key that will be used to authenticate the Firefly instance to the Venafi control plane. The corresponding public key is stored in the control plane definition for the service account.
+3.  :fontawesome-solid-circle-info: This is a reference to the `clientID` that will be used to authenticate the Firefly instance.
+4.  :fontawesome-solid-circle-info: A name that will be used to identify the Firefly instance in the control plane.
+5.  :fontawesome-solid-circle-info: Firefly will run in server mode and expose networking ports. Firefly can also run in Kubernetes operator mode and will not expose networking ports.
+6.  :fontawesome-solid-circle-info: Firefly will expose a REST API. Firefly supports REST, GraphQL and gRPC.
+7.  :fontawesome-solid-circle-info: The port used for the REST API.
+8.  :fontawesome-solid-circle-info: Define the TLS configuration for the REST API.
+9.  :fontawesome-solid-circle-info: A list of FQDN's that will be included in the auto generated TLS certificate used for the REST API.
+10. :fontawesome-solid-circle-info: The IP address used for the REST API.
+
+
+
+
+!!! note "Firefly Configuration file"
+
+    C9ick on the `+` symbols in the output above to learn more about how Firefly uses the local `config.yaml` file. 
 
 The following files will also be updated to include valid content. 
 
@@ -199,4 +216,5 @@ todo
 
     The above command runs docker in interactive mode which means that the process does not exit.
 
+### Step 3 - Request a certificate 
 
