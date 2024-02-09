@@ -22,6 +22,7 @@
 		},
         // Add Kubernetes support with k3d and the kubectl, and helm CLI tools.
         "ghcr.io/rio/features/k3d:1.1.0": {},
+		"ghcr.io/rio/features/k9s:1.1.5": {},
         "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
         // Add Python support.
         //"ghcr.io/devcontainers/features/python:1": {
