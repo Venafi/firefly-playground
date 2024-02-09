@@ -3,3 +3,6 @@ wheel==0.42.0
 bash_kernel==0.9.3
 mkdocs-glightbox==0.3.7
 mkdocs-macros-plugin==1.0.5
+mkdocs-material==9.5.8
+
+
