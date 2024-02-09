@@ -7,7 +7,7 @@ edit_uri: ""
 
 
 theme:
-  logo: assets\firefly-logo.svg
+  logo: assets/firefly-logo.svg
   name: material
   features:
     - content.code.annotate
@@ -26,6 +26,9 @@ theme:
 copyright: Copyright &copy; 2024 Venafi
 
 markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
   - admonition
@@ -35,9 +38,6 @@ markdown_extensions:
   - pymdownx.snippets
   - attr_list
   - md_in_html
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true     
 
