@@ -111,6 +111,12 @@ To start the demo using Github CodeSpaces, use the steps in following info panel
     ![Image title](images/new-codespace.png){ width="400" }
     </figure>
 
+    !!! warning "Important"
+
+        Before you start using the new CodeSpace wait for the `PostCreateCommand` to finish installing the dependencies for the dev container.
+
+
+
 
 ## Running the Firefly Demo
 
