@@ -21,12 +21,12 @@
 			"dockerDashComposeVersion": "v2"
 		},
         // Add Kubernetes support with k3d and the kubectl, and helm CLI tools.
-        "ghcr.io/rio/features/k3d:1": {},
+        "ghcr.io/rio/features/k3d:1.1.0": {},
         "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
         // Add Python support.
-        "ghcr.io/devcontainers/features/python:1": {
-            "version": "3.11"
-        },
+        //"ghcr.io/devcontainers/features/python:1": {
+        //    "version": "3.11"
+        //},
         // Add common utilities and name non-root user.
         "ghcr.io/devcontainers/features/common-utils:2": {
             "configureZshAsDefaultShell": true
