@@ -10,6 +10,9 @@ tags:
 
 This quick-start playground is intended to showcase Venafi's {{ component_name }} ephemeral CA in the shortest possible time. Assuming the following prerequisites, it should take less than 60 seconds to deploy a fully functioning {{ component_name }} instance in a Github CodeSpaces or local Docker environment. 
 
+For simplicity the demo will use a built in certificate authority CA provided by as part of the Venafi Cloud service. 
+
+
 ### Prerequisites 
 
 This playground can be run in one of two ways as follows: 
@@ -269,10 +272,9 @@ Authorization: Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6IlNVVkQwc3NlNGxNcWhQ...
 Lets use cURL get a JWT using using the `jwt-this` service. This creates a new environment variable `$token` that stores the token.  
 
 ```bash title="cURL Usage to request JWT"
-$token=$( curl -d "email=user1@acme.com" \
-     -H "Content-Type: application/x-www-form-urlencoded" \
+token=$( curl -H "Content-Type: application/x-www-form-urlencoded" \
      -X POST http://localhost:8001/token \
-     --resolve jwt-this.localhost:9443:127.0.0.1 -k -s |  jq -r  '.access_token' ) 
+     -k -s |  jq -r  '.access_token' ) 
 ```
 
 You can decode and see the JWT content using the `jq` command line. e.g.
@@ -306,7 +308,7 @@ Note the `venafi-firefly.allowAllPolicies`, `venafi-firefly.allowedPolicies` and
 
 
 
-### Step 3 - Create a Certificate Signing Request (CSR)
+### Step 4 - Create a Certificate Signing Request (CSR)
 
 Before we can request a new certificate we first need to create a Certificate Signing Request (CSR). To keep things simple we'll just use `openssl` to create this. We'll then store it as another environment variable called `$csr`. Because we need to format the CSR as JSON string this is a 2 step process. 
 
@@ -319,3 +321,17 @@ csr=$( jq -n --arg string "$tmp" '$string' | tr -d '"' )
 
 1.  :fontawesome-solid-circle-info: Store's the CSR in PEM format
 2.  :fontawesome-solid-circle-info: Formats the PEM formatted CSR as JSON string that be sent to Firefly
+
+### Step 5 - Request a certificate 
+
+Now that we both a JWT and a CSR we can make a request to our Firefly instance. 
+
+```bash title="cURL Usage to request certificate"
+curl --location 'https://localhost:8289/v1/certificatesigningrequest' \
+--header 'Content-Type: application/json' \
+ -H "Authorization: Bearer $token" \
+--data '{
+    "request": "'"$csr"'",
+    "policyName": "Basic Demo"
+}' -k -s 
+```
