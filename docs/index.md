@@ -361,7 +361,7 @@ You should see output similar to the following. Note: The response includes the 
 
 
 
-???+ tip "Tip - Removing the JSON Formatting"
+??? tip "Tip - Removing the JSON Formatting"
 
     You can also use the `JQ` utility to reformat the certificate chain and remove the JSON encoding. To do this pipe the output to `JQ` and specifiy the `-r` for raw falg.
 
