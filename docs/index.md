@@ -361,9 +361,9 @@ You should see output similar to the following. Note: The response includes the 
 
 
 
-??? tip "Tip - Removing the JSON Formatting"
+??? tip "Tip - Getting a valid PEM format"
 
-    You can also use the `JQ` utility to reformat the certificate chain and remove the JSON encoding. To do this pipe the output to `JQ` and specifiy the `-r` for raw falg.
+    Because the output is returned as a JSON data structure it will be JSON encoded and the certificate chain will be on a single line. This will not work with your applications that typically require a PEM format which includes newlines. You can use the `JQ` utility to reformat the certificate chain and remove the JSON encoding. To do this pipe the output to `JQ` and specifiy the `-r` for raw flag.
 
     ```bash title="Example"
     curl --location 'https://localhost:8289/v1/certificatesigningrequest' \
