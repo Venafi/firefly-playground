@@ -283,10 +283,14 @@ token=$( curl -H "Content-Type: application/x-www-form-urlencoded" \
      -k -s |  jq -r  '.access_token' ) 
 ```
 
-You can decode and see the JWT content using the `jq` command line. e.g.
+You can decode and see the JWT content using a nifty trick with the `jq` command. e.g.
+
 
 ```bash title="JQ Usage to decode JWT"
-$echo ${token} | jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
+echo ${token} | jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
+```
+
+```bash title="Output"
 
 {
   "alg": "ES256",
@@ -330,10 +334,12 @@ csr=$( jq -n --arg string "$tmp" '$string' | tr -d '"' )
 
 ### Step 5 - Request a certificate 
 
-Now that we both a JWT and a CSR we can make a request to our Firefly instance. 
+Now that we have both a JWT and a CSR we can make a request to our Firefly instance. 
+
+The following cURL command sends a simple JSON data structure to Firefly that contains the CSR and a reference to the policy that will be used to fulfill the certificate request. The policy reference must correspond to one of the `venafi-firefly.allowedPolicies` within the JWT. 
 
 ```bash title="cURL Usage to request certificate"
-curl --location 'https://localhost:8289/v1/certificatesigningrequest' \
+curl 'https://localhost:8289/v1/certificatesigningrequest' \
 --header 'Content-Type: application/json' \
  -H "Authorization: Bearer $token" \
 --data '{
@@ -341,3 +347,101 @@ curl --location 'https://localhost:8289/v1/certificatesigningrequest' \
     "policyName": "Basic Demo"
 }' -k -s 
 ```
+
+You should see output similar to the following. Note: The response includes the following certificates which are returned in the order listed: 
+
+* The entity/leaf certificate itself 
+* The intermediate certificate for the `Firefly SubCA` used to sign the requested entity/leaf certificate 
+* The intermediate/SubCa certificate for the`Sub CA Provider` as listed in the Venafi Control plane
+
+
+```bash title="Truncated Output"
+{"certificateChain":"-----BEGIN CERTIFICATE-----\nMIICgDCCAiagAwIBAgIRAPVKH ....
+```
+
+
+
+???+ tip "Tip - Removing the JSON Formatting"
+
+    You can also use the `JQ` utility to reformat the certificate chain and remove the JSON encoding. To do this pipe the output to `JQ` and specifiy the `-r` for raw falg.
+
+    ```bash title="Example"
+    curl --location 'https://localhost:8289/v1/certificatesigningrequest' \
+    --header 'Content-Type: application/json' \
+     -H "Authorization: Bearer $token" \
+    --data '{
+        "request": "'"$csr"'",
+        "policyName": "Basic Demo"
+    }' -k -s | jq -r .certificateChain
+    ```
+
+    This will produce a PEM output that will probably be more useful and can be used directly by your applications. 
+
+    ```bash title="Example PEM Output"
+        -----BEGIN CERTIFICATE-----
+    MIICgDCCAiagAwIBAgIRALcojaIkJtPIm7suinBqQPgwCgYIKoZIzj0EAwIwFjEU
+    MBIGA1UEAxMLRGVtbyBJc3N1ZXIwHhcNMjQwMjEwMTEzMjAzWhcNMjQwNTEwMTEz
+    MjAzWjBAMQ4wDAYDVQQHEwVTb2ZpYTEVMBMGA1UEChMMVmVuYWZpLCBJbmMuMRcw
+    FQYDVQQDDA51c2VyMUBhY21lLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+    AQoCggEBAK1whkeg9ucVyPCB/Kyur6w3WzVepUT03tzF8GHSRbT6RXdwGPcq/ck7
+    X3/D3mPuU2S3HL7FjpNIEi3pXJazjQBFxzKaKqlYorkcEs7IPwDa+xgMUubCBK7/
+    1i27HmMo0yBRtrN6ulUNsuTFhXUsQpLThtOTafcGjwau7grIp9IXmYrvdkS9HQOs
+    YATxN3HM9FMaUNWrF/p7iaMNSMttnLu7aGVUe5O15i1C9ixzlc4u0SU0ZR6K722z
+    2EuFNQtQzsXKBobqmvMUo3Pi4HUuDQ4W79TEEBoWHdotCZY+NO153+bBCVdh/nwO
+    gzkya5+atFNFdr6EetegN/yoxrb4sAUCAwEAAaNgMF4wDgYDVR0PAQH/BAQDAgWg
+    MB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAAMB8G
+    A1UdIwQYMBaAFJZxTTv0xv8Kc2mLIjlXunAOoCiuMAoGCCqGSM49BAMCA0gAMEUC
+    IQDQcZHeoZ2ngis5LAsG4cLAng+CyVYEnyCMG9/cGZdEVgIgal9HjdkasP1DeRga
+    K3i8pw9dTr40mvhPVtQwYQw03cM=
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIDtTCCAp2gAwIBAgIUaafwxTAoCEc2EkPeII39lnt8y/UwDQYJKoZIhvcNAQEL
+    BQAweDELMAkGA1UEBhMCVVMxFTATBgNVBAoTDFZlbmFmaSwgSW5jLjERMA8GA1UE
+    CxMIQnVpbHQtaW4xPzA9BgNVBAMTNkRlZGljYXRlZCAtIFZlbmFmaSBDbG91ZCBC
+    dWlsdC1JbiBJbnRlcm1lZGlhdGUgQ0EgLSBHMTAeFw0yNDAyMTAxMTExNTdaFw0y
+    NDA1MTAxMTEyMjdaMBYxFDASBgNVBAMTC0RlbW8gSXNzdWVyMFkwEwYHKoZIzj0C
+    AQYIKoZIzj0DAQcDQgAEresHmPd1pKTqTD5Cob8O0VVgm+3rMnJGpBRidsV2AguR
+    xUFLtjq5VdWqx+RjVSHyZ6n+r1jyVPE20Q90Bo+wFqOCAWIwggFeMBIGA1UdEwEB
+    /wQIMAYBAf8CAQAwHQYDVR0OBBYEFJZxTTv0xv8Kc2mLIjlXunAOoCiuMB8GA1Ud
+    IwQYMBaAFCe55cW8WhjR9H0N3jhpvocPFjUCMIGCBggrBgEFBQcBAQR2MHQwcgYI
+    KwYBBQUHMAKGZmh0dHA6Ly9idWlsdGluY2EudmVuYWZpLmNsb3VkL3YxL2J1aWx0
+    aW5jYS9jYWNoYWluLzBkNDdhNTgxLTk1OGQtMTFlZC1iN2JjLWJmZTEyYmY1ZTUx
+    Ni1JbnRlcm1lZGlhdGVDQTBzBgNVHR8EbDBqMGigZqBkhmJodHRwOi8vYnVpbHRp
+    bmNhLnZlbmFmaS5jbG91ZC92MS9idWlsdGluY2EvY3JsLzBkNDdhNTgxLTk1OGQt
+    MTFlZC1iN2JjLWJmZTEyYmY1ZTUxNi1JbnRlcm1lZGlhdGVDQTAOBgNVHQ8BAf8E
+    BAMCAoQwDQYJKoZIhvcNAQELBQADggEBAHr/CzXpoq5XGWWBQIgWCka4cQKisSK5
+    wJAVY771mcwxjt0kfQh7jKzI6gH/xGJIeWXIbzAnIIAMItWWNeVnCJfQD8rkDPdC
+    IyrscWUzZJIxxqeNt0oV4a8qV5OAY24ODRo9vYdR1wqKE0CPAYLFAzgIZSR4aQY5
+    FYMl2Hk1XoY67nYlSBLr2IcletACpHmt83GjBKyeT0VX00AEqO7Z9cDQ/Iq3qInC
+    dLxuPbSd+0cPM6mQEcVrZpkzqYSWYgkIm2BdPbYyQFUnFRICC0IGzz4+xfvLppRE
+    QDxLYgi8/MD8ebn9xuwZIyJZ4FgFbci49Df4qgPGgTRiE4cnED76wBc=
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIEtzCCA5+gAwIBAgIUZLSN3/h90AM/RJcoX2beeYd1vqkwDQYJKoZIhvcNAQEL
+    BQAwZjELMAkGA1UEBhMCVVMxFTATBgNVBAoTDFZlbmFmaSwgSW5jLjERMA8GA1UE
+    CxMIQnVpbHQtaW4xLTArBgNVBAMTJERlZGljYXRlZCAtIFZlbmFmaSBDbG91ZCBC
+    dWlsdC1JbiBDQTAeFw0yMzAxMTYxMTAwMjlaFw0yODAxMTUxMTAwNTlaMHgxCzAJ
+    BgNVBAYTAlVTMRUwEwYDVQQKEwxWZW5hZmksIEluYy4xETAPBgNVBAsTCEJ1aWx0
+    LWluMT8wPQYDVQQDEzZEZWRpY2F0ZWQgLSBWZW5hZmkgQ2xvdWQgQnVpbHQtSW4g
+    SW50ZXJtZWRpYXRlIENBIC0gRzEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+    AoIBAQDbB2x7ti8wNQFho7BhriBfOArJnh5blnuk+M0OO3LdBNWc0C0Kw7LusPAi
+    jL26iliHilX9jTcmSO/8fTnHmAJp2ZgtG6BBGUX+srez1i/oyGKn4ISPpLezvawy
+    qym4CBGcYkq6Ob9EaGX8kl7todPRvrkWBRQxX/iXnt1p+WBoqw3H4D/uZw1M2LRY
+    gxaqTwyjotOQmsfv/nN1Ylpn5Qc3glOTcIX9ijP7EvBpwIuSGE9zpuH6d7JCaV6t
+    mDr7Lk7KgCxSVaM7mBiZ3Nkf1JC+J805chUOCf4P5wOL8yGphYN8LsmpJgNw/gEo
+    dwl+dt96WfW29meEWos9pVY4/Y/VAgMBAAGjggFJMIIBRTAOBgNVHQ8BAf8EBAMC
+    AQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUJ7nlxbxaGNH0fQ3eOGm+hw8W
+    NQIwHwYDVR0jBBgwFoAUxmQN0ktNODYkJmEFxskk7NhgrYowdQYIKwYBBQUHAQEE
+    aTBnMGUGCCsGAQUFBzAChllodHRwOi8vYnVpbHRpbmNhLnZlbmFmaS5jbG91ZC92
+    MS9idWlsdGluY2EvY2EvMGQ0N2E1ODEtOTU4ZC0xMWVkLWI3YmMtYmZlMTJiZjVl
+    NTE2LVJvb3RDQTBrBgNVHR8EZDBiMGCgXqBchlpodHRwOi8vYnVpbHRpbmNhLnZl
+    bmFmaS5jbG91ZC92MS9idWlsdGluY2EvY3JsLzBkNDdhNTgxLTk1OGQtMTFlZC1i
+    N2JjLWJmZTEyYmY1ZTUxNi1Sb290Q0EwDQYJKoZIhvcNAQELBQADggEBAJttmpUq
+    EXNfl3DLfWuMaFOrLWh5B/m5bPJXGtMKzJFN3MtLjiBRz5yq5BtRf4xHbEHYGk0h
+    N2jJo56zSR7H6YI0tmy/uPW0H9NNkVMBvOIX/qhOkVPWMCmJY82qI5bv4yAgClXY
+    xBaA2IaATA+ZAd9IvJdyLnkKxkKz1vP2OwJ3eF3oX0gY5NnQNtXGUyAMfgyrJaCi
+    eKEwu5EVKVwoXYDyO3rrkKgnmzktyiKxtAij6sf3Z4CRDhrnfwGXJnv6DJHj1yFd
+    LHv2Zzh0jOjXXtvwoP5pvoOTkToVsTdW+KpBowracf19pS56ZbLtOOxIxX65FpGo
+    x4QlptWfjmdj2zI=
+    -----END CERTIFICATE-----   
+    ```

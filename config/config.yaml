@@ -3,10 +3,13 @@ bootstrap:
     url: https://api.venafi.cloud
     auth:
       privateKeyFile: /etc/firefly/private-key.pem
-      clientID: f531953f-c51c-11ee-aa38-62722f50b33a
+      clientID: a6498bb7-c804-11ee-bcff-7a10aefd838f
     csr:
       instanceNaming: Demo
 server:
-  grpc:
-    uds:
-      socketPath: /opt/firefly/grpc.sock
+  rest:
+    port: 8281
+    tls:
+      dnsNames:
+      - firefly.venafi.example
+      ipAddress: 127.0.0.1
