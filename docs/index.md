@@ -136,7 +136,7 @@ To simplify the this demonstration, the project includes an interactive Jupyter 
 
 At this point you can either follow the instructions here and cut/past the commands into the terminal in the codesdpace, or just step through and run each of the cells in the `demo.ipynb` interactive notebook file.
 
-### Step 1 - Configure the control plane
+### <font color="#FF6333">Step 1 </font>  - Configure the control plane
 
 Every Firefly instance requires a valid service account, configuration and policy in the Venafi Control Plane (TLS Protect Cloud). For production, this task would often be completed by your InfoSec team. However, it might be undertaken by the platform engineering teams. Either way, you need to login to https://ui.venafi.cloud to create various config items. 
 
@@ -210,7 +210,7 @@ If you take a look at the `config.yaml` it will look something like this:
 
 
 
-### Step 2 - Start Firefly and the local JWT service
+### <font color="#FF6333">Step 2 </font> - Start Firefly and the local JWT service
 
 Now that we've configured the Control Plane, we can now start the Firefly container `public.ecr.aws/venafi-images/firefly` and the `tr1ck3r/jwt-this`. 
 
@@ -267,7 +267,7 @@ firefly-1   | I0207 12:30:02.173788       1 tls.go:169] "msg"="signed tls certif
 
     The above command runs docker in interactive mode which means that the process does not exit. Be careful not to accidentally exit the process.
 
-### Step 3 - Create a new JWT
+### <font color="#FF6333">Step 3 </font>  - Create a new JWT
 
 When running in `server mode` all certificate requests will require a valid JWT to be provided in the HTTP `auth` header. i.e. the request must include a 
 
@@ -318,7 +318,7 @@ Note the `venafi-firefly.allowAllPolicies`, `venafi-firefly.allowedPolicies` and
 
 
 
-### Step 4 - Create a Certificate Signing Request (CSR)
+### <font color="#FF6333">Step 4 </font> - Create a Certificate Signing Request (CSR)
 
 Before we can request a new certificate we first need to create a Certificate Signing Request (CSR). To keep things simple we'll just use `openssl` to create this. We'll then store it as another environment variable called `$csr`. Because we need to format the CSR as JSON string this is a 2 step process. 
 
