@@ -1,0 +1,18 @@
+bootstrap:
+  vaas:
+    url: https://api.venafi.cloud
+    auth:
+      privateKeyFile: /etc/firefly/private-key.pem
+      clientID: 1a96c965-e079-11ee-9c40-cee71b57a333
+    csr:
+      instanceNaming: Demo
+server:
+  rest:
+    port: 8281
+    tls:
+      dnsNames:
+      - firefly.venafi.example
+      ipAddress: 127.0.0.1
+  #grpc:
+  #  uds:
+  #    socketPath: /etc/firefly/uds/grpc.sock

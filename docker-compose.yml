@@ -6,6 +6,8 @@ services:
       - ./config:/config
     profiles:
       - control-plane
+
+
   jwt-this.example:    
   #jwt-this:
     image: "tr1ck3r/jwt-this:latest"
@@ -44,7 +46,7 @@ services:
       #- ${PWD}/config:/etc/firefly:ro
       #- /home/ubuntu/development/firefly-playground/config:/etc/firefly:ro
       #- /home/ubuntu/development/firefly-playground/socket:/opt/firefly
-      - /home/ubuntu/development/firefly-playground/config:/etc/firefly:rw
+       - ${PWD}/config:/etc/firefly:rw
       #- ${PWD}/config:/etc/firefly:rw
       #- type: volume
       #  source: /home/ubuntu/development/firefly-playground/socket/
@@ -105,9 +107,7 @@ services:
       - token=${VTOKEN}
       - vcert=/tmp/vcert_arm
 networks:
-   firefly:
-<<<<<<< HEAD
-     external: true
-=======
-     external: true
->>>>>>> 59e8d826772684deaa21af838d13301ba8a75c2b
+  firefly:
+    name: firefly
+    external: false
+
