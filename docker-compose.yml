@@ -106,4 +106,8 @@ services:
       - vcert=/tmp/vcert_arm
 networks:
    firefly:
+<<<<<<< HEAD
      external: true
+=======
+     external: true
+>>>>>>> 59e8d826772684deaa21af838d13301ba8a75c2b
