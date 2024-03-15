@@ -8,8 +8,7 @@ services:
       - control-plane
 
 
-  jwt-this.example:    
-  #jwt-this:
+  jwt-this.example:   
     image: "tr1ck3r/jwt-this:latest"
     ports:
       - "8001:8000"
@@ -27,61 +26,20 @@ services:
           condition: service_started
     image: "registry.venafi.cloud/public/venafi-images/firefly:latest"
     privileged: true
-    #user: root
     ports:
-      #- "8082:8082"
-      #- "8123:8123"
       - "8289:8281"
     command: run -c /etc/firefly/config.yaml
-    #volumes:
-    #  - /home/ubuntu/development/firefly-playground/config/config.yaml:/etc/firefly/config.yaml
-    #  - /home/ubuntu/development/firefly-playground/config:/etc/firefly:ro
-      #- /home/ubuntu/development/firefly-playground/socket:/opt/firefly
-    #  - type: volume
-    #    source: /home/ubuntu/development/firefly-playground/config
-    #    target: /etc/firefly:rw
     volumes:
-      #- ${PWD}/config/config.yaml:/etc/firefly/config.yaml
-      #- /home/ubuntu/development/firefly-playground/config/config.yaml:/etc/firefly/config.yaml
-      #- ${PWD}/config:/etc/firefly:ro
-      #- /home/ubuntu/development/firefly-playground/config:/etc/firefly:ro
-      #- /home/ubuntu/development/firefly-playground/socket:/opt/firefly
        - ${PWD}/config:/etc/firefly:rw
-      #- ${PWD}/config:/etc/firefly:rw
-      #- type: volume
-      #  source: /home/ubuntu/development/firefly-playground/socket/
-      #  target: /opt/firefly/grpc.sock
     cap_add:
       - IPC_LOCK
     environment:
       - ACCEPT_TERMS=Y
-    #links:
-    #  - "jwt-this:jwt-this.example"/Users/carl.bourne/development/vcert/built/vcert86
     profiles:
       - firefly
     networks: 
       - firefly
   
-  vcert:
-    #depends_on:
-    #    firefly.venafi.example: 
-    #      condition: service_started
-  #jwt-this:
-    image: "3goats/vcert:latest"
-    #command: token=$(./get-jwt) && ./vcert enroll --platform firefly -u https://firefly.venafi.example:8289 -t ${TOKEN} --no-prompt --insecure --cn www.5goats.cafe  --san-dns www.5goats.cafe -z "Basic Demo" --key-file /tmp/privkey.pem --cert-file /tmp/fullchain.pem
-    command: 
-        - /bin/sh
-        - -c
-        - |
-          token=$(./get-jwt)
-          ./vcert enroll --platform firefly -u https://firefly.venafi.example:8289 -t $$token --no-prompt --insecure --cn www.5goats.cafe  --san-dns www.5goats.cafe -z "Basic Demo" --key-file /tmp/privkey.pem --cert-file /tmp/fullchain.pem
-    profiles:
-      - carl
-    volumes:
-        - ${PWD}/nginx-conf:/tmp
-    network_mode: host
-
-
   nginx:
     image: nginx:latest
     profiles:
