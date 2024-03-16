@@ -41,7 +41,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install --user -r requirements.txt && python3 -m bash_kernel.install && printf 'TLSPC_API_KEY={PASTE API KEY}\nVTOKEN={PASTE TOKEN KEY}\n' > .env"
+	"postCreateCommand": "pip3 install --user -r requirements.txt && python3 -m bash_kernel.install && printf 'TLSPC_API_KEY={PASTE API KEY}\nVTOKEN={PASTE TOKEN KEY}\n' > .env && touch ./config/config.yaml && touch ./config/private-key.pem"
 
 	// Configure tool-specific properties.
 	// "customizations": {},

@@ -26,61 +26,18 @@ server:
         - http://jwt-this.example:8000/.well-known/jwks.json
   authorization:
     configuration: Basic Demo
+
 policies:
 - name: Basic Demo
-  subject:
-    commonName:
-      type: OPTIONAL
-      allowedValues:
-      - ^.*\.vena\.fi
-      maxOccurrences: 1
-    organization:
-      type: LOCKED
-      defaultValues:
-      - Venafi, Inc.
-    organizationalUnit:
-      type: IGNORED
-    locality:
-      type: OPTIONAL
-      allowedValues:
-      - Sofia
-      - London
-      defaultValues:
-      - Sofia
-      maxOccurrences: 1
-    stateOrProvince:
-      type: IGNORED
-    country:
-      type: REQUIRED
-      allowedValues:
-      - BG
-      - GB
-      minOccurrences: 1
-      maxOccurrences: 1
-  sans:
-    dnsNames:
-      type: REQUIRED
-      allowedValues:
-      - ^.*\.vena\.fi
-      minOccurrences: 1
-      maxOccurrences: 10
-    ipAddresses:
-      type: FORBIDDEN
-    rfc822Names:
-      type: IGNORED
-    uniformResourceIdentifiers:
-      type: FORBIDDEN
   keyUsages:
   - digitalSignature
   - keyEncipherment
   extendedKeyUsages:
   - SERVER_AUTH
-  - CLIENT_AUTH
   keyAlgorithm:
     allowedValues:
     - EC_P256
     - EC_P384
     - EC_P521
     defaultValue: EC_P256
-  signatureAlgorithm: EC_DSA_WITH_SHA256
-  validityPeriod: P90D
+  validityPeriod: P7D
