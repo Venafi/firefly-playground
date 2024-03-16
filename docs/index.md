@@ -12,6 +12,11 @@ This quick-start playground is intended to showcase Venafi's {{ component_name }
 
 For simplicity the demo will use a built in certificate authority CA provided by as part of the Venafi Cloud service. 
 
+### Architecture 
+
+The following diagram provides a high level architectural overview that shows the outcome of what we will be building: 
+
+![alt text](images/firefly-tlspc-architecture.svg)
 
 ### Prerequisites 
 
