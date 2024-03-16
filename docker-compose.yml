@@ -63,7 +63,7 @@ services:
       - firefly
     environment:
       - token=${VTOKEN}
-      - vcert=/tmp/vcert_arm
+      - vcert=/tmp/vcert-amd64
 networks:
   firefly:
     name: firefly
