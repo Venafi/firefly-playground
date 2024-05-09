@@ -21,7 +21,7 @@ services:
     image: "tr1ck3r/jwt-this:latest"
     ports:
       - "8001:8000"
-    command: --config-name "firefly-playground" --policy-names "firefly-playground"
+    command: --config-name "Firefly Playground" --policy-names "Firefly Playground"
     profiles:
       - firefly
       - jwtthis
