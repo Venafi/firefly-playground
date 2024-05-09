@@ -2,7 +2,7 @@ services:
   elevate-1:
     image: "3goats/elevate:buildx-latest"
     #image: "3goats/elevate" 
-    command: add --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p Firefly Playground -t Firefly Playground
+    command: add --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p "Firefly Playground" -t "Firefly Playground"
     volumes:
       - ./config:/config
     profiles:
@@ -10,7 +10,7 @@ services:
   elevate-2:
     image: "3goats/elevate:buildx-latest"
     #image: "3goats/elevate" 
-    command: remove --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p firefly-playground -t firefly-playground
+    command: remove --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p "Firefly Playground" -t "Firefly Playground"
     volumes:
       - ./config:/config
     profiles:
