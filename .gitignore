@@ -1,3 +1,5 @@
 config/config.yaml
 config/private-key.pem
+opa-policy
+tlspc-config
 .env.bu
