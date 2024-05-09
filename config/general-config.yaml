@@ -1,11 +1,11 @@
 bootstrap:
   selfSigned:
     csr:
-      commonName: Demo
+      commonName: Firefly Playground
       privateKey:
-        algorithm: ECDSA
-        size: 256
-      duration: 8760h # one year
+        algorithm: EC
+        size: P256
+      duration: PT8760H # one year
     trustRootDirectory: /etc/firefly/trust
 signer:
   inMemory: true
@@ -25,10 +25,10 @@ server:
         urls:
         - http://jwt-this.example:8000/.well-known/jwks.json
   authorization:
-    configuration: Basic Demo
+    configuration: Firefly Playground
 
 policies:
-- name: Basic Demo
+- name: Firefly Playground
   keyUsages:
   - digitalSignature
   - keyEncipherment
