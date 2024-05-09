@@ -1,18 +1,27 @@
 services:
-  elevate:
-    image: "3goats/elevate"
-    command: --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p Basic-demo -t Basic-demo
+  elevate-1:
+    image: "3goats/elevate:buildx-latest"
+    #image: "3goats/elevate" 
+    command: add --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p firefly-playground -t firefly-playground
     volumes:
       - ./config:/config
     profiles:
       - control-plane
+  elevate-2:
+    image: "3goats/elevate:buildx-latest"
+    #image: "3goats/elevate" 
+    command: remove --api-key ${TLSPC_API_KEY} -f /config/general-config.yaml --force -p firefly-playground -t firefly-playground
+    volumes:
+      - ./config:/config
+    profiles:
+      - remove-control-plane    
 
 
   jwt-this.example:   
     image: "tr1ck3r/jwt-this:latest"
     ports:
       - "8001:8000"
-    command: --config-name "Basic Demo" --policy-names "Basic Demo"
+    command: --config-name "firefly-playground" --policy-names "firefly-playground"
     profiles:
       - firefly
       - jwtthis
