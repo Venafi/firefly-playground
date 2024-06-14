@@ -187,7 +187,7 @@ If you take a look at the `config.yaml` it will look something like this:
        privateKeyFile: /etc/firefly/private-key.pem  # (2)
        clientID: 8104b51c-bf7e-11ee-9c78-4a98e9dd68c7  # (3)
      csr:
-       instanceNaming: SKO Demo # (4)
+       instanceNaming: Firefly Playground # (4)
  server: # (5)
    rest: # (6)
      port: 8281 # (7)
@@ -219,10 +219,10 @@ If you take a look at the `config.yaml` it will look something like this:
 
 Now that we've configured the Control Plane, we can now start the Firefly container `public.ecr.aws/venafi-images/firefly` and the `tr1ck3r/jwt-this`. 
 
-To do this use the following `docker compose` command. The `--profile demo` flag tells Docker to run only the `public.ecr.aws/venafi-images/firefly` and the `tr1ck3r/jwt-this` containers.
+To do this use the following `docker compose` command. The `--profile firefly` flag tells Docker to run only the `public.ecr.aws/venafi-images/firefly` and the `tr1ck3r/jwt-this` containers.
 
 ``` bash title="Start Firefly & the JWT service"
-docker compose --profile demo up
+docker compose --profile firefly up
 ```
 
 This will create 2 containers
@@ -230,7 +230,7 @@ This will create 2 containers
 You should see the following output. 
 
 ```bash title="Example output - Truncated"
-docker compose --profile demo up
+docker compose --profile firefly up
 [+] Running 2/0
  ✔ Container firefly-playground-jwt-this-1  Created                                                                                                                   0.0s 
  ✔ Container firefly-playground-firefly-1   Created                                                                                                                   0.0s 
@@ -260,9 +260,9 @@ firefly-1   | I0207 12:30:01.090982       1 readyz.go:68] "msg"="adding readines
 firefly-1   | I0207 12:30:01.091020       1 client.go:195] "msg"="creating vaas client" "logger"="agent.bootstrap.vaas.client"
 ...
 firefly-1   | I0207 12:30:02.061899       1 client.go:296] "msg"="retrieve issued intermediate certificate from VaaS" "logger"="agent.bootstrap.vaas.client"
-firefly-1   | I0207 12:30:02.169560       1 vaas.go:123] "msg"="issued intermediate certificate from VaaS" "CN"="Demo Issuer" "id"="9d03a130-c5b4-11ee-b282-75b352d68206" "logger"="agent.bootstrap.vaas"
+firefly-1   | I0207 12:30:02.169560       1 vaas.go:123] "msg"="issued intermediate certificate from VaaS" "CN"="Firefly Playground Issuer" "id"="9d03a130-c5b4-11ee-b282-75b352d68206" "logger"="agent.bootstrap.vaas"
 firefly-1   | I0207 12:30:02.172270       1 inmemory.go:49] "msg"="stored in memory certificate private key bundle" "logger"="agent.signer.inmemory"
-firefly-1   | I0207 12:30:02.172303       1 renewer.go:135] "msg"="fetched intermediate certificate from bootstrap" "CN"="Demo Issuer" "logger"="agent.agent_renewer"
+firefly-1   | I0207 12:30:02.172303       1 renewer.go:135] "msg"="fetched intermediate certificate from bootstrap" "CN"="Firefly Playground Issuer" "logger"="agent.agent_renewer"
 firefly-1   | I0207 12:30:02.172324       1 renewer.go:169] "msg"="waiting to renew certificate" "logger"="agent.agent_renewer" "renew_time"="2024-04-07 12:29:51 +0000 UTC"
 firefly-1   | I0207 12:30:02.172328       1 tls.go:144] "msg"="signing tls certificate" "logger"="agent.server.rest.tls"
 firefly-1   | I0207 12:30:02.173788       1 tls.go:169] "msg"="signed tls certificate" "logger"="agent.server.rest.tls" "renewal_time"="2024-02-08T04:30:02Z"
@@ -310,9 +310,9 @@ echo ${token} | jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
   "sub": "jwt-this",
   "venafi-firefly.allowAllPolicies": false,
   "venafi-firefly.allowedPolicies": [ # (1)
-    "Basic Demo"
+    "Firefly Playground"
   ],
-  "venafi-firefly.configuration": "Basic Demo" # (2)
+  "venafi-firefly.configuration": "Firefly Playground" # (2)
 }
 ```
 
@@ -349,7 +349,7 @@ curl 'https://localhost:8289/v1/certificatesigningrequest' \
  -H "Authorization: Bearer $token" \
 --data '{
     "request": "'"$csr"'",
-    "policyName": "Basic Demo"
+    "policyName": "Firefly Playground"
 }' -k -s 
 ```
 
@@ -376,7 +376,7 @@ You should see output similar to the following. Note: The response includes the 
      -H "Authorization: Bearer $token" \
     --data '{
         "request": "'"$csr"'",
-        "policyName": "Basic Demo"
+        "policyName": "Firefly Playground"
     }' -k -s | jq -r .certificateChain
     ```
 
