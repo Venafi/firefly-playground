@@ -474,8 +474,6 @@ This will be used to connect to the SaaS control plane and will use the SaaS con
       #uris:
       #- spiffe://cluster.local/ns/sandbox/sa/srvc1
     EOF
-
-
     ```
 
 
