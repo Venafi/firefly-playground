@@ -32,8 +32,6 @@ kubectl config use-context kind-enhanced-issuer-clean
 
 The CyberArk enterprise components for Kubernetes are made avaialble to customers via a private OCI (`registry.venafi.cloud`) repository. Access to this repository is provided via the CyberArk Certificate Manager control plane. An OCI credential can be created within the control plane UI or using the Venafi command line `venctl`.
 
-## Step 1. - Enable access to the private CyberArk OCI registry
-
 ??? abstract "Step 1. Enable access to the private CyberArk OCI registry"
 
     a. Create the credential
