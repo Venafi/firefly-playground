@@ -5,7 +5,6 @@ repo_name: firefly-playground
 repo_url: https://github.com/venafi/firefly-playground
 edit_uri: ""
 
-
 theme:
   logo: assets/firefly-logo.svg
   name: material
@@ -13,6 +12,7 @@ theme:
     - content.code.annotate
     - navigation.expand
     - content.tabs.link
+    - content.code.copy
   palette: 
     - scheme: default
       toggle:
@@ -22,6 +22,9 @@ theme:
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
+  icon:
+    admonition:
+      abstract: simple/googletasks
 
 copyright: Copyright &copy; 2024 Venafi
 
@@ -45,7 +48,7 @@ plugins:
     - search
     - macros
     - tags
-    - glightbox  
+    - glightbox
     #- mike:
         # these fields are all optional; the defaults are as below...
      #   version_selector: true   # set to false to leave out the version selector
