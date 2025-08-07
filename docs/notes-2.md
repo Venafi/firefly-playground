@@ -1,7 +1,7 @@
 ---
 icon: material/information-outline
 tags:
-  - v0.1
+  - v0.1 (DRAFT)
 ---
 
 # cert-manager with CyberArk Certificate Manager (SaaS & Datacenter) QuickStart
