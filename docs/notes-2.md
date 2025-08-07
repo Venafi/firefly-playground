@@ -187,11 +187,11 @@ The CyberArk enterprise components (enterprise Issuer & cert-manager) for Kubern
           name: cyberark-saas-credential
           namespace: venafi
         stringData:
-          venafi-cloud-key: 3968e3bb-12bc-48d6-aaf6-f51c05d900b3 # (1)
+          venafi-cloud-key: $(API_KEY) # (1)
         EOF
         ```
 
-         1. :fontawesome-solid-circle-info: This is API key used to authenticate with the SaaS control plane under "Account, Preferences"
+         2. :fontawesome-solid-circle-info: This is API key used to authenticate with the SaaS control plane under "Account, Preferences"
         
         create a SaaS connection
         terterwtewrt
@@ -273,7 +273,7 @@ The CyberArk enterprise components (enterprise Issuer & cert-manager) for Kubern
         get an access token with VCert
 
         ```sh title="get access token"
-        vcert getcred -u "https://tpp.emea.venafidemo.com" --username carl --password Tdoxwg7HysJOACvT
+        vcert getcred -u "https://tpp.emea.venafidemo.com" --username $(USER) --password $(PASSWORD)
         ```
 
         create a TPP secret 
@@ -287,7 +287,7 @@ The CyberArk enterprise components (enterprise Issuer & cert-manager) for Kubern
           name: venafi-tpp-credentials
           namespace: venafi
         stringData:
-          access-token: tuGwRpdwS580UvoTSOfORA==
+          access-token: $(ACCESS_TOKEN)
         EOF
         ```
 
@@ -523,7 +523,7 @@ This will be used by cert-manager to connect to the SaaS control plane
 ```
 
 ```sh
-~/development/utilities/vcert getcred -u "https://tpp.emea.venafidemo.com" --username carl --password Tdoxwg7HysJOACvT
+~/development/utilities/vcert getcred -u "https://tpp.emea.venafidemo.com" --username $(USER) --password $(PASSWORD)
 ```
 
 ## Step 1. Creating a testing a TPP connection
@@ -540,7 +540,7 @@ metadata:
   name: venafi-tpp-credentials
   namespace: venafi
 stringData:
-  access-token: tuGwRpdwS580UvoTSOfORA==
+  access-token: $(ACCESS_TOKEN)
 EOF
 ```
 
@@ -707,5 +707,5 @@ curl -sSfL https://dl.venafi.cloud/venctl/latest/installer.sh | bash -s -- --ski
 ```
 
 ```sh
-venctl installation cluster connect --name "kind-demo1" --api-key 3968e3bb-12bc-48d6-aaf6-f51c05d900b3
+venctl installation cluster connect --name "kind-demo1" --api-key $(API_KEY)
 ```
