@@ -128,7 +128,7 @@ The CyberArk enterprise components for Kubernetes are made avaialble to customer
         --version v0.16.0
     ```
     
-    1. :fontawesome-solid-circle-info: Use the `venafi-enhanced-issuer.values.yaml` provided below.
+     1. :fontawesome-solid-circle-info: Use the `venafi-enhanced-issuer.values.yaml` provided below.
     
     ```yaml title="venafi-enhanced-issuer.values.yaml"
     global:
@@ -143,18 +143,18 @@ The CyberArk enterprise components for Kubernetes are made avaialble to customer
         image:
           repository: private-registry.venafi.cloud/venafi-issuer/venafi-enhanced-issuer
     ```
-    
-    2. :fontawesome-solid-circle-info: This is the name of the Kubernetes secret you created in step 1 above.
+   
+    1. :fontawesome-solid-circle-info: This is the name of the Kubernetes secret you created in step 1 above.
 
-??? note
 
-    The enterprise issuer will automatically install the `Venafi Connection" component. Venafi Connection is used to configure the connection and authentication between Venafi Control Plane and your Kubernetes cluster.
-    
-    Venafi Connection is a "namespaced" resource. Any service account or secret referenced by a Venafi Connection must be in the same namespace as the Venafi Connection resource or in a namespace that matches the allowReferencesFrom field, as described in cross namespace Venafi Connection references.
-    
-    You can add the custom resources definitions for Venafi Connections to your Kubernetes API server when you install one of the projects that use the Venafi Connection resources as configuration.
+    !!! note
 
-This will be used to connect to the SaaS control plane and will use the SaaS control plane credential created in step 4.
+        The enterprise issuer will automatically install the `Venafi Connection" component. Venafi Connection is used to configure the connection and authentication between Venafi Control Plane and your Kubernetes cluster.
+    
+        Venafi Connection is a "namespaced" resource. Any service account or secret referenced by a Venafi Connection must be in the same namespace as the Venafi Connection resource or in a namespace that matches the allowReferencesFrom field, as described in cross namespace Venafi Connection references.
+    
+        You can add the custom resources definitions for Venafi Connections to your Kubernetes API server when you install one of the projects that use the Venafi Connection resources as configuration.
+
 
 ??? abstract "Step 4. Venafi Connections"
 
@@ -403,11 +403,7 @@ This will be used to connect to the SaaS control plane and will use the SaaS con
         EOF  
         ```
 
-??? note
-
-    The enterprise issuer will automatically install the `Venafi Connection" component. Venafi Connection is used to configure the connection and authentication between Venafi Control Plane and your Kubernetes cluster.
-
-??? abstract "Step test. Configure an RBAC for cert-manager auto-approve"
+??? abstract "Step 6. Configure an RBAC for cert-manager auto-approve"
 
     If you are using Approver Policy or Enterprise Approver Policy for CyberArk Certificate Manager, no further action is required. If not, you must let cert-manager auto-approve the certificate requests that reference the VenafiClusterIssuer and VenafiIssuer types with the following RBAC
     
@@ -446,7 +442,7 @@ This will be used to connect to the SaaS control plane and will use the SaaS con
     ```
 
 
-??? abstract "Step 6. Creating a testing certificate resources"
+??? abstract "Step 7. Creating a testing certificate resources"
 
 
     Create a new Certificate
