@@ -2,7 +2,6 @@
 
 Lets create a new Kubernetes cluster. You can use [KIND](https://kind.sigs.k8s.io) or [K3D](https://k3d.io/stable/).
 
-
 ## Step 1. Create the cluster
 
 ```sh
@@ -20,16 +19,15 @@ kubectl cluster-info
 kubectl config get-contexts
 ```
 
-
 ??? abstract "Step 1. Create a cluster"
 
     #### 1. Create the cluster
     We'll use KinD to create a quick cluster for our demo.
-
+    
     ```sh title="command create cluster"
     kind create cluster --name demo-cluster-1
     ```
-
+    
     #### 2. Get cluster information
     
     ```sh title="command get cluster information"
@@ -40,7 +38,6 @@ kubectl config get-contexts
     ```sh title="command get contexts"
     kubectl config get-contexts
     ```    
-    
 
 ??? abstract "Step 2. Install cert-manager"
 
@@ -53,38 +50,38 @@ kubectl config get-contexts
 ??? abstract "Step 3. Create a new namespace"
 
     #### 1. Create a new Venafi namespace
-
+    
     ```sh title="command"
     # Create Venafi namespace
     kubectl create ns venafi
     ```
 
-??? abstract "Step 4. Store the trustcahin/bundle"    
+??? abstract "Step 4. Store the trustcahin/bundle"
 
     #### 1. Store the trustcahin/bundle for either the TLSPC built in CA or ZTPKI as a generic secret
-
+    
     ```sh title="command"
     # Store the certificate chain in K8s secrets 
     # Remember to use either the ztpki_certificate_chain.cer for ZTPKI or the built-in_certificate_chain.cer cert chains depending on the Firefly configuration. 
     kubectl create secret generic -n cert-manager root-cert --from-file=root-cert.pem=../crypto/ztpki_certificate_chain.cer
     ```
 
-??? abstract "Step 5. Store the trustcahin/bundle"    
+??? abstract "Step 5. Store the trustcahin/bundle"
 
       #### Step 6. Store the private key for the TLSPC service account as a generic secret
-
+    
     ```sh
     # Add the private key for the Firefly service account
     kubectl create secret generic venafi-credentials --namespace venafi --from-file=../crypto/svc-acct.key
     ```
 
-??? abstract "Step 5. Install Firefly"    
-    
-    #### Step 1.  Install Firefly using the Helm chart
+??? abstract "Step 5. Install Firefly"
 
+    #### Step 1.  Install Firefly using the Helm chart
+    
     ```sh
     # Install Firefly using the helm chart
-
+    
     helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly \
       --install \
       --create-namespace \
@@ -93,10 +90,10 @@ kubectl config get-contexts
       --version v1.8.1
     ```
 
-??? abstract "Step 6. Test Firefly"    
+??? abstract "Step 6. Test Firefly"
 
     #### 1. Test Firefly
-
+    
     ```sh
     # Test Firefly using cmctl
     cmctl create certificaterequest my-cr-test1 \
@@ -105,16 +102,16 @@ kubectl config get-contexts
     cat my-cr-test1.crt | certigo dump
     ```
 
-??? abstract "Step 7. Install Istio-CSR"    
+??? abstract "Step 7. Install Istio-CSR"
 
     #### 1. Create a new namespace for Istio
-
+    
     ```sh title="command"
     kubectl create ns istio-system
     ```
-
+    
     #### 2. Install Istio-CSR using Helm
-
+    
     ```sh
     #Install istio CSR
     helm repo add jetstack https://charts.jetstack.io --force-update
@@ -122,19 +119,18 @@ kubectl config get-contexts
     #helm repo add jetstack https://charts.jetstack.io --force-update
     ```
 
-
-??? abstract "Step 7. Install Istio"    
+??? abstract "Step 7. Install Istio"
 
     #### 1. Install Istio
-
+    
     ```sh
     #Install Istio
     istioctl install -f ../istio-config/istio-config-1.17.2.yaml -y
     #istioctl upgrade
     ```
-
+    
      #### 1. Enable istio side-car injection 
-
+    
     ```sh
     # Enable istio side-car injection 
     #kubectl label namespace legacy istio-injection=enabled
@@ -143,10 +139,10 @@ kubectl config get-contexts
     #kubectl label namespace bookinfo istio-injection=enabled
     ```
 
-??? abstract "Step 8. Install Some demo apps"    
+??? abstract "Step 8. Install Some demo apps"
 
     #### 1.  Install Some Demo Apps
-
+    
     ```sh
     #kubectl delete -f ../samples/curl.yaml -n bar
     #k#ubectl delete -f ../samples/curl.yaml -n foo
@@ -158,15 +154,15 @@ kubectl config get-contexts
     #kubectl apply -f <(istioctl kube-inject -f ../samples/curl.yaml) -n foo
     kubectl create ns bar
     #kubectl label namespace bar istio-injection=enabled
-    kubectl apply -f <(istioctl kube-inject -f ../samples/httpbin.yaml) -n bar
-    kubectl apply -f <(istioctl kube-inject -f ../samples/curl.yaml) -n bar
+    kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/httpbin/httpbin.yaml) -n bar
+    kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/curl/curl.yaml) -n bar
     ```
-
+    
     ```sh
     kubectl create ns legacy
     kubectl apply -f ../istio/samples/curl/curl.yaml -n legacy
     ```
-
+    
     ```sh
     istioctl pc secret httpbin-655fd9b676-6hjl9 \
     -n foo -o json #| \
@@ -175,7 +171,7 @@ kubectl config get-contexts
     # certigo dump
     echo $?    
     ```
-
+    
     ```sh
     istioctl pc secret $(kubectl get pod -n bar -l app=httpbin -o jsonpath={.items..metadata.name})
     ```

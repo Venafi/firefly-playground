@@ -52,7 +52,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 kubectl create ns venafi
 ```
 
-## Step 5. Store the trustcahin/bundle for either the TLSPC built in CA or ZTPKI as a generic secret
+## Step 5. Store the trust chain bundle for either the TLSPC built in CA or ZTPKI as a generic secret
 
 ```sh
 # Store the certificate chain in K8s secrets 
@@ -85,10 +85,27 @@ helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly 
 ```sh
 # Test Firefly using cmctl
 cmctl create certificaterequest my-cr-test1 \
-  --from-certificate-file ../crds/certificate.yaml \
+  --from-certificate-file certificate.yaml \
   --fetch-certificate
 cat my-cr-test1.crt | certigo dump
 ```
+
+```yaml title="certificate.yaml"
+  # certificate.yaml
+  kind: Certificate
+  apiVersion: cert-manager.io/v1
+  metadata:
+    annotations:
+      #firefly.venafi.com/policy-name: istio-mtls-certs
+      firefly.venafi.com/policy-name: Firefly Playground
+  spec:
+    secretName: example-com-tls
+    commonName: srvc.acme.com
+    issuerRef:
+      name: firefly
+      kind: Issuer
+      group: firefly.venafi.com
+```      
 
 # Installing Istio
 
@@ -110,16 +127,120 @@ kubectl create ns istio-system
 ```sh
 #Install istio CSR
 helm repo add jetstack https://charts.jetstack.io --force-update
-helm upgrade -i -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr -f ../crds/istio-csr-values.yaml
+helm upgrade -i -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr -f istio-csr-values.yaml
 #helm repo add jetstack https://charts.jetstack.io --force-update
 ```
+
+```yaml title="istio-csr-values.yaml"
+replicaCount: 3
+image:
+  repository: quay.io/jetstack/cert-manager-istio-csr
+  tag: v0.14.0
+  pullPolicy: IfNotPresent
+app:
+  certmanager:
+    namespace: istio-system
+    preserveCertificateRequests: true
+    additionalAnnotations:
+    - name: firefly.venafi.com/policy-name
+      value: istio-mtls-certs
+    issuer:
+      group: firefly.venafi.com
+      kind: Issuer
+      name: firefly-istio
+  tls:
+    trustDomain: cluster.local
+    certificateDNSNames:
+    # Name used by the e2e client
+    - istio-csr.cert-manager.svc
+    # Name used within the demo cluster
+    - cert-manager-istio-csr.cert-manager.svc
+    rootCAFile: /etc/tls/root-cert.pem
+  server:
+    maxCertificateDuration: 1440m
+    serving:
+      address: 0.0.0.0
+      port: 6443
+# -- Optional extra volumes. Useful for mounting custom root CAs
+volumes:
+- name: root-ca
+  secret:
+    secretName: root-cert
+
+# -- Optional extra volume mounts. Useful for mounting custom root CAs
+volumeMounts:
+- name: root-ca
+  mountPath: /etc/tls
+```
+
+
 
 ## Step 3. Install Istio
 
 ```sh
 #Install Istio
-istioctl install -f ../istio-config/istio-config-1.17.2.yaml -y
+istioctl install -f istio-config.yaml -y
 #istioctl upgrade
+```
+
+```yaml title="istio-config.yaml"
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: "demo"
+  hub: gcr.io/istio-release
+  meshConfig:
+    # Change the following line to configure the trust domain of the Istio cluster.
+    trustDomain: cluster.local
+  values:
+    global:
+      # Change certificate provider to cert-manager istio agent for istio agent
+      caAddress: cert-manager-istio-csr.cert-manager.svc:443
+  components:
+    pilot:
+      k8s:
+        env:
+          # Disable istiod CA Sever functionality
+        - name: ENABLE_CA_SERVER
+          value: "false"
+        overlays:
+        - apiVersion: apps/v1
+          kind: Deployment
+          name: istiod
+          patches:
+
+            # Mount istiod serving and webhook certificate from Secret mount
+          - path: spec.template.spec.containers.[name:discovery].args[-1]
+            value: "--tlsCertFile=/etc/cert-manager/tls/tls.crt"
+          - path: spec.template.spec.containers.[name:discovery].args[-1]
+            value: "--tlsKeyFile=/etc/cert-manager/tls/tls.key"
+          - path: spec.template.spec.containers.[name:discovery].args[-1]
+            value: "--caCertFile=/etc/cert-manager/ca/root-cert.pem"
+
+          - path: spec.template.spec.containers.[name:discovery].volumeMounts[-1]
+            value:
+              name: cert-manager
+              mountPath: "/etc/cert-manager/tls"
+              readOnly: true
+          - path: spec.template.spec.containers.[name:discovery].volumeMounts[-1]
+            value:
+              name: ca-root-cert
+              mountPath: "/etc/cert-manager/ca"
+              readOnly: true
+
+          - path: spec.template.spec.volumes[-1]
+            value:
+              name: cert-manager
+              secret:
+                secretName: istiod-tls
+          - path: spec.template.spec.volumes[-1]
+            value:
+              name: ca-root-cert
+              configMap:
+                defaultMode: 420
+                name: istio-ca-root-cert
 ```
 
 ```sh
@@ -149,13 +270,9 @@ kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/ist
 
 ```
 
-```sh
-kubectl create ns legacy
-kubectl apply -f ../istio/samples/curl/curl.yaml -n legacy
-```
 
 ```sh
-istioctl pc secret httpbin-655fd9b676-6hjl9 \
+istioctl pc secret httpbin-xxxx \
     -n foo -o json #| \
    # jq -r '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | \
    # base64 --decode | \
@@ -167,13 +284,6 @@ echo $?
 istioctl pc secret $(kubectl get pod -n bar -l app=httpbin -o jsonpath={.items..metadata.name})
 ```
 
-```sh
-max=1
-for i in `seq 2 $max`
-do
-    for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
-
-done
 ```
 
 ```sh
