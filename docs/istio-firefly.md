@@ -1,3 +1,11 @@
+---
+icon: material/information-outline
+tags:
+  - v0.1
+  - DRAFT
+  - In Progress
+---
+
 # Firefly with Istio demo steps 
 
 ```sh
