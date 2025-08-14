@@ -5,7 +5,7 @@ tags:
   - DRAFT
 ---
 
-# cert-manager QuickStart 
+# cert-manager + EI QuickStart 
 
 ## Overview
 
