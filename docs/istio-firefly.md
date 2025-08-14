@@ -7,7 +7,7 @@ kubectl config get-contexts
 
 # Architecture
 
-![Istio](/Users/carl.bourne/development/istio-firefly/docs/images/istio-service-mesh.png "Istio")
+![Istio](./images/istio-service-mesh.png "Istio")
 
 # Create a new Kubernetes cluster
 
@@ -135,8 +135,8 @@ kubectl label namespace bar istio-injection=enabled
 #kubectl apply -f <(istioctl kube-inject -f ../samples/curl.yaml) -n foo
 kubectl create ns bar
 #kubectl label namespace bar istio-injection=enabled
-kubectl apply -f <(istioctl kube-inject -f ../samples/httpbin.yaml) -n bar
-kubectl apply -f <(istioctl kube-inject -f ../samples/curl.yaml) -n bar
+kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/httpbin/httpbin.yaml) -n bar
+kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/curl/curl.yaml) -n bar
 
 
 ```
