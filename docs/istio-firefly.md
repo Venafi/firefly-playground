@@ -6,7 +6,7 @@ tags:
   - In Progress
 ---
 
-# Firefly with Istio demo steps 
+# Firefly with Istio demo steps
 
 ```sh
 kubectl config use-context kind-demo-cluster-base-istio 
@@ -60,24 +60,78 @@ kubectl create ns venafi
 kubectl create secret generic -n cert-manager root-cert --from-file=root-cert.pem=../crypto/ztpki_certificate_chain.cer
 ```
 
-## Step 6. Store the private key for the TLSPC service account as a generic secret
+## Step 6. Create a new Venafi Service Account
 
 ```sh
-# Add the private key for the Firefly service account
-kubectl create secret generic venafi-credentials --namespace venafi --from-file=../crypto/svc-acct.key
+$(venctl iam service-accounts firefly create --name sa-firefly --api-key d6153163-a2d6-44a5-a226-7f9943d30923 --output json --output-file venafi-sa-creds.json  )
+#$(venctl iam service-accounts firefly create --name sa-firefly --api-key d6153163-a2d6-44a5-a226-7f9943d30923 --output json)
 ```
 
-## Step 7.  Install Firefly using the Helm chart
+# Step 7 Create a new Firefly configuration
+
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 33.33%;
+  padding: 1px;
+}
+</style>
+
+<div class="row">
+  <div class="column">
+    <img src="./images/issuer-configs.png" width="500">
+  </div>
+  <div class="column">
+    <img src="./images/new-issuer.png" width="500">
+  </div>
+  <div class="column">
+    <img src="./images/new-issuer-2.png" width="500">
+  </div>
+</div>
+
+
+## Step 8. Store the private key for the TLSPC service account as a generic secret
+
+```sh
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: venafi-credentials
+  namespace: venafi
+type: Generic
+stringData: 
+  svc-acct.key: $(cat venafi-sa-creds.json | jq '.. | select(.private_key?).private_key')
+EOF
+```
+
+## Step 9.  Install Firefly using the Helm chart
 
 ```sh
 # Install Firefly using the helm chart
 
 helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly \
+  --set-string deployment.venafiClientID=$(cat venafi-sa-creds.json | jq '.. | select(.client_id?).client_id') \
   --install \
   --create-namespace \
   --namespace venafi \
-  --values ../firefly/internal-values.yaml \
+  --values firefly-values.yaml \
   --version v1.5.1
+```
+
+```sh
+#firefly-values.yaml
+acceptTerms: true
+deployment:
+  venafiClientID: 4e703f4b-e205-11ef-880f-fa736a87511e
+crd:
+  approver:
+    subject:
+      name: cert-manager
+      namespace: cert-manager
 ```
 
 ## Step 8. Test Firefly using the cmctl command line
@@ -87,10 +141,10 @@ helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly 
 cmctl create certificaterequest my-cr-test1 \
   --from-certificate-file certificate.yaml \
   --fetch-certificate
-cat my-cr-test1.crt | certigo dump
+cat my-cr-test1.crt
 ```
 
-```yaml title="certificate.yaml"
+```yaml
   # certificate.yaml
   kind: Certificate
   apiVersion: cert-manager.io/v1
@@ -105,7 +159,7 @@ cat my-cr-test1.crt | certigo dump
       name: firefly
       kind: Issuer
       group: firefly.venafi.com
-```      
+```
 
 # Installing Istio
 
@@ -131,7 +185,8 @@ helm upgrade -i -n cert-manager cert-manager-istio-csr jetstack/cert-manager-ist
 #helm repo add jetstack https://charts.jetstack.io --force-update
 ```
 
-```yaml title="istio-csr-values.yaml"
+```yaml
+# istio-csr-values.yaml
 replicaCount: 3
 image:
   repository: quay.io/jetstack/cert-manager-istio-csr
@@ -173,8 +228,6 @@ volumeMounts:
   mountPath: /etc/tls
 ```
 
-
-
 ## Step 3. Install Istio
 
 ```sh
@@ -183,7 +236,7 @@ istioctl install -f istio-config.yaml -y
 #istioctl upgrade
 ```
 
-```yaml title="istio-config.yaml"
+```yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -270,7 +323,6 @@ kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/ist
 
 ```
 
-
 ```sh
 istioctl pc secret httpbin-xxxx \
     -n foo -o json #| \
@@ -284,7 +336,7 @@ echo $?
 istioctl pc secret $(kubectl get pod -n bar -l app=httpbin -o jsonpath={.items..metadata.name})
 ```
 
-```
+```yaml
 
 ```sh
 kubectl apply -n bar  -f - <<EOF
