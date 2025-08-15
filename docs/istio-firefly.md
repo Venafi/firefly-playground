@@ -15,7 +15,24 @@ kubectl config get-contexts
 
 # Architecture
 
-![Istio](./images/istio-service-mesh.png "Istio")
+
+
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 33.33%;
+  padding: 1px;
+}
+</style>
+
+<div class="row">
+  <div class="column">
+    <img src="./images/istio-service-mesh.png" width="1000">
+  </div>
+</div>
 
 # Create a new Kubernetes cluster
 
@@ -91,7 +108,6 @@ $(venctl iam service-accounts firefly create --name sa-firefly --api-key d615316
     <img src="./images/new-issuer-2.png" width="500">
   </div>
 </div>
-
 
 ## Step 8. Store the private key for the TLSPC service account as a generic secret
 
