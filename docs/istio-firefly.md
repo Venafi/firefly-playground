@@ -134,7 +134,6 @@ export API_KEY= {paste api key from above}
 
 ```sh
 $(venctl iam service-accounts firefly create --name sa-firefly-1 --api-key $API_KEY --output json --output-file venafi-sa-creds.json  )
-#$(venctl iam service-accounts firefly create --name sa-firefly --api-key d6153163-a2d6-44a5-a226-7f9943d30923 --output json)
 ```
 
 # Step 8 Create a new Firefly configuration
