@@ -321,22 +321,58 @@ EOF
 ```
 
 ```sh
-# Enable istio side-car injection 
-#kubectl label namespace legacy istio-injection=enabled
-kubectl label namespace foo istio-injection=enabled
+kubectl create ns bar
 kubectl label namespace bar istio-injection=enabled
-#kubectl label namespace bookinfo istio-injection=enabled
 ```
 
-# Install Some Demo Apps
+# Install a demo App
 
 ```sh
-kubectl create ns foo
-kubectl create ns bar
-kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/httpbin/httpbin.yaml) -n bar
-kubectl apply -f <(istioctl kube-inject -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/curl/curl.yaml) -n bar
-
-
+kubectl apply -n bar -f <(istioctl kube-inject -f - ) <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: httpbin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin
+  labels:
+    app: httpbin
+    service: httpbin
+spec:
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8080
+  selector:
+    app: httpbin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: httpbin
+        version: v1
+    spec:
+      serviceAccountName: httpbin
+      containers:
+      - image: docker.io/mccutchen/go-httpbin:v2.15.0
+        imagePullPolicy: IfNotPresent
+        name: httpbin
+        ports:
+        - containerPort: 8080
+EOF
 ```
 
 ## Inspect the Secret
@@ -347,5 +383,5 @@ Replace
 istioctl pc secret  $(kubectl get pod -n bar -l app=httpbin -o jsonpath={.items..metadata.name}) \
     -n bar -o json | \
     jq -r '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | \
-    base64 --decode | 
+    base64 --decode
 ```
