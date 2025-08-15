@@ -115,6 +115,28 @@ FOg79/sm4rXh
 EOF
 ```
 
+# Step 6 Get an API Key
+
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 33.33%;
+  padding: 1px;
+}
+</style>
+
+<div class="row">
+  <div class="column">
+    <img src="../images/get-apikey.png" width="500">
+  </div>
+  <div class="column">
+    <img src="../images/get-apikey2.png" width="500">
+  </div>
+</div>
+
 ## Step 6. Create a new Venafi Service Account
 
 ```sh
