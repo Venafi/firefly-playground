@@ -48,37 +48,35 @@ kubectl config get-contexts
       - **`jq`** A lightweight CLI tool and flexible command-line JSON processor. You can install it from here: https://jqlang.org
       - **`cmctl`** A command line tool that can help you manage cert-manager and its resources inside your cluster. You can install it from here: https://cert-manager.io/docs/reference/cmctl/#installation
 
-# Step 1. Create a new Kubernetes cluster (Optional)
-
 Lets create a new Kubernetes cluster. You can use [KIND](https://kind.sigs.k8s.io).
 
-## Step 1. Create the cluster (Optional)
+### Step 1. Create the cluster (Optional)
 
 ```sh
 kind create cluster --name kind-demo-cluster-istio-demo 
 ```
 
-## Step 2. Get cluster information (Optional)
+### Step 2. Get cluster information (Optional)
 
 ```sh
 kubectl cluster-info
 ```
 
-## Step 3. Install cert-manager
+### Step 3. Install cert-manager
 
 ```sh
 # Install cert-manager
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
 ```
 
-## Step 4. Create a new Venafi namespace
+### Step 4. Create a new Venafi namespace
 
 ```sh
 # Create Venafi namespace
 kubectl create ns venafi
 ```
 
-## Step 5. Get the trust bundle and store it as a Kubernetes generic secret
+### Step 5. Get the trust bundle and store it as a Kubernetes generic secret
 
 Login in to your're ZTPKI instance and get download the PEM chain for your CA.
 
@@ -104,7 +102,7 @@ kubectl create secret generic -n cert-manager root-cert --from-file={replace wit
 
 ```
 
-# Step 6 Get an API Key and create an environment variable
+### Step 6 Get an API Key and create an environment variable
 
 <style>
 .row {
@@ -130,13 +128,13 @@ kubectl create secret generic -n cert-manager root-cert --from-file={replace wit
 export API_KEY= {paste api key from above}
 ```
 
-# Step 7. Create a new Venafi Service Account
+### Step 7. Create a new Venafi Service Account
 
 ```sh
 $(venctl iam service-accounts firefly create --name sa-firefly-1 --api-key $API_KEY --output json --output-file venafi-sa-creds.json  )
 ```
 
-# Step 8 Create a new Firefly configuration
+### Step 8 Create a new Firefly configuration
 
 <style>
 .row {
@@ -161,7 +159,7 @@ $(venctl iam service-accounts firefly create --name sa-firefly-1 --api-key $API_
   </div>
 </div>
 
-# Step 9. Store the private key for the TLSPC service account as a generic secret
+### Step 9. Store the private key for the TLSPC service account as a generic secret
 
 ```sh
 kubectl apply -f - <<EOF
@@ -176,7 +174,7 @@ stringData:
 EOF
 ```
 
-## Step 10.  Install Firefly using a Helm chart
+### Step 10.  Install Firefly using a Helm chart
 
 ```sh
 helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly \
@@ -188,7 +186,7 @@ helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly 
   --version v1.5.1
 ```
 
-## Step 11. Test Firefly using the cmctl command line
+### Step 11. Test Firefly using the cmctl command line
 
 ```sh
 cmctl create certificaterequest my-cr-test1 --from-certificate-file - --fetch-certificate  <<EOF
@@ -208,13 +206,13 @@ cmctl create certificaterequest my-cr-test1 --from-certificate-file - --fetch-ce
 EOF
 ```
 
-# Step 12. Create a new namespace for Istio
+### Step 12. Create a new namespace for Istio
 
 ```sh
 kubectl create ns istio-system
 ```
 
-# Step 13. Install Istio-CSR using Helm
+### Step 13. Install Istio-CSR using Helm
 
 ```sh
 helm upgrade -i -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr -f - <<EOF
@@ -260,7 +258,7 @@ volumeMounts:
 EOF
 ```
 
-# Step 14. Install Istio
+### Step 14. Install Istio
 
 ```sh
 istioctl install -y -f - <<EOF
@@ -325,14 +323,14 @@ spec:
 EOF
 ```
 
-# Step 15. Create a namespace and enable side-car injection
+### Step 15. Create a namespace and enable side-car injection
 
 ```sh
 kubectl create ns bar
 kubectl label namespace bar istio-injection=enabled
 ```
 
-# Step 16. Install a demo App
+### Step 16. Install a demo App
 
 ```sh
 echo "apiVersion: v1
@@ -381,7 +379,7 @@ spec:
 kubectl apply -n bar -f <(istioctl kube-inject -f httpbin.yaml ) 
 ```
 
-# Step 17. Inspect the Secret
+### Step 17. Inspect the Secret
  
 
 ```sh
