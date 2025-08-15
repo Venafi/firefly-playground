@@ -30,7 +30,7 @@ kubectl config get-contexts
 
 <div class="row">
   <div class="column">
-    <img src="images/istio-service-mesh.png" width="1000">
+    <img src="../images/istio-service-mesh.png" width="1000">
   </div>
 </div>
 
@@ -99,13 +99,13 @@ $(venctl iam service-accounts firefly create --name sa-firefly --api-key d615316
 
 <div class="row">
   <div class="column">
-    <img src="images/issuer-configs.png" width="500">
+    <img src="../images/issuer-configs.png" width="500">
   </div>
   <div class="column">
-    <img src="images/new-issuer.png" width="500">
+    <img src="../images/new-issuer.png" width="500">
   </div>
   <div class="column">
-    <img src="images/new-issuer-2.png" width="500">
+    <img src="../images/new-issuer-2.png" width="500">
   </div>
 </div>
 
