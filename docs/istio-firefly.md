@@ -8,6 +8,8 @@ tags:
 
 # Firefly with Istio demo steps
 
+This document can be used as quick evaluation guide that showcases how CyberArk WorkLoad Identity Issuer easily integrates with Istio service-mesh. 
+
 !!! warning 
 
       This document is currently a working draft and assumes some knowledge of Kubernetes. There my some inaccuracies and errors. It is intended to provide Information Security and platform teams with a quick overview for integrating CyberArk's Workload Identitiy Issuer with 'cert-manager` and `Istio` service-mesh. It is NOT intended to be used for production purposes.
