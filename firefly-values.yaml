@@ -1,0 +1,8 @@
+acceptTerms: true
+deployment:
+  venafiClientID: 4e703f4b-e205-11ef-880f-fa736a87511e
+crd:
+  approver:
+    subject:
+      name: cert-manager
+      namespace: cert-manager
