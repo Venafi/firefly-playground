@@ -8,6 +8,10 @@ tags:
 
 # Firefly with Istio demo steps
 
+!!! warning 
+
+      This document is currently a working draft and assumes some knowledge of Kubernetes. There my some inaccuracies and errors. It is intended to provide Information Security and platform teams with a quick overview for integrating CyberArk's Workload Identitiy Issuer with 'cert-manager` and `Istio` service-mesh. It is NOT intended to be used for production purposes.
+
 ```sh
 kubectl config use-context kind-demo-cluster-istio-doc-testing
 kubectl config get-contexts
@@ -34,25 +38,28 @@ kubectl config get-contexts
   </div>
 </div>
 
-# Step 1. Create a new Kubernetes cluster
+!!! info "Prerequisites" 
 
-Lets create a new Kubernetes cluster. You can use [KIND](https://kind.sigs.k8s.io) or [K3D](https://k3d.io/stable/).
+      To complete this quick-start you will need to ensure that the following utilities are installed: 
 
-## Step 1. Create the cluster
+      - **`venctl`** A CLI tool that enables interaction with CyberArk Certificate Manager from the command line. You can install it from here: https://docs.venafi.cloud/vaas/venctl/t-venctl-install/
+      - **`jq`** A lightweight CLI tool and flexible command-line JSON processor. You can install it from here: https://jqlang.org
+      - **`cmctl`** A command line tool that can help you manage cert-manager and its resources inside your cluster. You can install it from here: https://cert-manager.io/docs/reference/cmctl/#installation
+
+# Step 1. Create a new Kubernetes cluster (Optional)
+
+Lets create a new Kubernetes cluster. You can use [KIND](https://kind.sigs.k8s.io).
+
+## Step 1. Create the cluster (Optional)
 
 ```sh
-#k3d cluster create demo-cluster-1 --volume /Users/carl.bourne/development/Istio-firefly/config:/config
-kind create cluster --name kind-demo-cluster-istio-doc-testing
+kind create cluster --name kind-demo-cluster-istio-demo 
 ```
 
-## Step 2. Get cluster information
+## Step 2. Get cluster information (Optional)
 
 ```sh
 kubectl cluster-info
-```
-
-```sh
-kubectl config get-contexts
 ```
 
 ## Step 3. Install cert-manager
@@ -138,7 +145,7 @@ EOF
 </div>
 
 ```sh
-export API_KEY=api key from above
+export API_KEY= {paste api key from above}
 ```
 
 # Step 7. Create a new Venafi Service Account
