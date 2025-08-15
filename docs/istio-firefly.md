@@ -34,7 +34,7 @@ kubectl config get-contexts
   </div>
 </div>
 
-# Create a new Kubernetes cluster
+# Step 1. Create a new Kubernetes cluster
 
 Lets create a new Kubernetes cluster. You can use [KIND](https://kind.sigs.k8s.io) or [K3D](https://k3d.io/stable/).
 
@@ -115,7 +115,7 @@ FOg79/sm4rXh
 EOF
 ```
 
-# Step 6 Get an API Key
+# Step 6 Get an API Key and create an environment variable
 
 <style>
 .row {
@@ -137,14 +137,18 @@ EOF
   </div>
 </div>
 
-## Step 6. Create a new Venafi Service Account
+```sh
+export API_KEY=api key from above
+```
+
+# Step 7. Create a new Venafi Service Account
 
 ```sh
 $(venctl iam service-accounts firefly create --name sa-firefly-1 --api-key $API_KEY --output json --output-file venafi-sa-creds.json  )
 #$(venctl iam service-accounts firefly create --name sa-firefly --api-key d6153163-a2d6-44a5-a226-7f9943d30923 --output json)
 ```
 
-# Step 7 Create a new Firefly configuration
+# Step 8 Create a new Firefly configuration
 
 <style>
 .row {
@@ -169,7 +173,7 @@ $(venctl iam service-accounts firefly create --name sa-firefly-1 --api-key $API_
   </div>
 </div>
 
-## Step 8. Store the private key for the TLSPC service account as a generic secret
+# Step 9. Store the private key for the TLSPC service account as a generic secret
 
 ```sh
 kubectl apply -f - <<EOF
@@ -184,7 +188,7 @@ stringData:
 EOF
 ```
 
-## Step 9.  Install Firefly using a Helm chart
+## Step 10.  Install Firefly using a Helm chart
 
 ```sh
 # Install Firefly using the helm chart
@@ -198,7 +202,7 @@ helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly 
   --version v1.5.1
 ```
 
-## Step 10. Test Firefly using the cmctl command line
+## Step 11. Test Firefly using the cmctl command line
 
 ```sh
 cmctl create certificaterequest my-cr-test1 --from-certificate-file - --fetch-certificate  <<EOF
@@ -218,17 +222,13 @@ cmctl create certificaterequest my-cr-test1 --from-certificate-file - --fetch-ce
 EOF
 ```
 
-# Installing Istio
-
-Now lets install Istio
-
-## Step 1. Create a new namespace for Istio
+# Step 12. Create a new namespace for Istio
 
 ```sh
 kubectl create ns istio-system
 ```
 
-## Step 2. Install Istio-CSR using Helm
+# Step 13. Install Istio-CSR using Helm
 
 ```sh
 #Install istio CSR
@@ -276,7 +276,7 @@ volumeMounts:
 EOF
 ```
 
-## Step 3. Install Istio
+# Step 14. Install Istio
 
 ```sh
 #Install Istio
@@ -342,60 +342,14 @@ spec:
 EOF
 ```
 
+# Step 15. Create a namespace and enable side-car injection
+
 ```sh
 kubectl create ns bar
 kubectl label namespace bar istio-injection=enabled
 ```
 
-# Install a demo App
-
-```sh
-kubectl apply -n bar -f <(istioctl kube-inject -f - ) <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: httpbin
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: httpbin
-  labels:
-    app: httpbin
-    service: httpbin
-spec:
-  ports:
-  - name: http
-    port: 8000
-    targetPort: 8080
-  selector:
-    app: httpbin
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: httpbin
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: httpbin
-      version: v1
-  template:
-    metadata:
-      labels:
-        app: httpbin
-        version: v1
-    spec:
-      serviceAccountName: httpbin
-      containers:
-      - image: docker.io/mccutchen/go-httpbin:v2.15.0
-        imagePullPolicy: IfNotPresent
-        name: httpbin
-        ports:
-        - containerPort: 8080
-EOF
-```
+# Step 16. Install a demo App
 
 ```sh
 echo "apiVersion: v1
@@ -444,9 +398,8 @@ spec:
 kubectl apply -n bar -f <(istioctl kube-inject -f httpbin.yaml ) 
 ```
 
-## Inspect the Secret
-
-Replace 
+# Step 17. Inspect the Secret
+ 
 
 ```sh
 istioctl pc secret  $(kubectl get pod -n bar -l app=httpbin -o jsonpath={.items..metadata.name}) \
