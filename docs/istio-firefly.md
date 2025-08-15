@@ -179,8 +179,6 @@ EOF
 ## Step 10.  Install Firefly using a Helm chart
 
 ```sh
-# Install Firefly using the helm chart
-
 helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly \
   --set-string deployment.venafiClientID=$(cat venafi-sa-creds.json | jq '.. | select(.client_id?).client_id') \
   --install \
@@ -219,8 +217,6 @@ kubectl create ns istio-system
 # Step 13. Install Istio-CSR using Helm
 
 ```sh
-#Install istio CSR
-#helm repo add jetstack https://charts.jetstack.io --force-update
 helm upgrade -i -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr -f - <<EOF
 replicaCount: 3
 image:
@@ -267,7 +263,6 @@ EOF
 # Step 14. Install Istio
 
 ```sh
-#Install Istio
 istioctl install -y -f - <<EOF
 # istio-config.yaml
 apiVersion: install.istio.io/v1alpha1
