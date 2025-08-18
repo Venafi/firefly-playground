@@ -160,7 +160,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     
     We now have three options for pulling images from the private repository. We can configure Kubernetes (option 1) to use the "image pull" credential so that it can directly pull images from the private repository. However, some orgnizations require helm charts and images to be pulled down and added "mirrored" (option 2) to their own private repositories. Alternatively, the charts and images can be downloaded (option 3) manually. 
     
-    === "Option 1 - Kubernetes pulls"
+    === "Option 1 - Kubernetes/OS pulls"
     
         This option will create a new "image pull" secret in Kubernetes that will enable Kubernetes to pull the CyberArk Enterprise components directly from the private repo   
          
