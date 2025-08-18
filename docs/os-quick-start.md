@@ -221,11 +221,11 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         --password $(cat venafi_registry_docker_config.json | jq '.. | select(.username?).auth | @base64d' -r | cut -d: -f2)
         ```
     
-        c. Download the Enterprise Issuer image and helm chart
+        c. Download the CyberArk Workload Issuer (Firefly) image and helm chart
     
         ```sh title="command"
-        imgpkg copy --image private-registry.venafi.cloud/venafi-issuer/venafi-enhanced-issuer:v0.16.0 --to-tar venafi-enhanced-issuer-v0.16.0.tar
-        imgpkg copy --image private-registry.venafi.cloud/charts/venafi-enhanced-issuer:v0.16.0 --to-tar venafi-enhanced-issuer-helm-v0.16.0.tar
+        imgpkg copy --image registry.venafi.cloud/public/venafi-images/firefly:v1.8.1 --to-tar firefly-v1.3.1.tar
+        imgpkg copy --image registry.venafi.cloud/public/venafi-images/helm/firefly:v1.8.1 --to-tar firefly-helm-v1.3.1.tar
         ```
     
         d. Download cert-manger images and helm chart
@@ -238,21 +238,21 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         imgpkg copy --image private-registry.venafi.cloud/cert-manager/cert-manager-startupapicheck:v1.18.2 --to-tar cert-manager-startupapicheck-v1.18.2.tar
         imgpkg copy --image private-registry.venafi.cloud/charts/cert-manager:v1.18.2 --to-tar cert-manager-helm-v1.18.2.tar
         ```
-        e. Publish the Enterprise Issuer image and chart to your own repository
+        e. Publish the the CyberArk Workload Issuer (Firefly) image and chart to your own enterprise repository
     
         ```sh title="command"
-        imgpkg copy --tar venafi-enhanced-issuer-v0.16.0.tar --to-repo myrepo/venafi-enhanced-issuer
-        imgpkg copy --tar venafi-enhanced-issuer-helm-v0.16.0.tar --to-repo myrepo/venafi-enhanced-issuer
+        imgpkg copy --tar firefly-v1.8.1.tar --to-repo enterprise-repo/firefly
+        imgpkg copy --tar firefly-helm-v1.8.1.tar --to-repo enterprise-repo/firefly
         ```
         f. Publish the cert-manger images and charts to your own repository
     
         ```sh title="command"
-        imgpkg copy --tar cert-manager-controller-v1.18.2.tar --to-repo myrepo/cert-manager-controller
-        imgpkg copy --tar cert-manager-acmesolver-v1.18.2.tar --to-repo myrepo/cert-manager-acmesolver
-        imgpkg copy --tar cert-manager-cainjector-v1.18.2.tar --to-repo myrepo/cert-manager-cainjector
-        imgpkg copy --tar cert-manager-webhook-v1.18.2.tar --to-repo myrepo/cert-manager-webhook
-        imgpkg copy --tar cert-manager-startupapicheck-v1.18.2.tar --to-repo myrepo/cert-manager-startupapicheck 
-        imgpkg copy --tar cert-manager-helm-v1.18.2.tar --to-repo myrepo/cert-manager 
+        imgpkg copy --tar cert-manager-controller-v1.18.2.tar --to-repo enterprise-repo/cert-manager-controller
+        imgpkg copy --tar cert-manager-acmesolver-v1.18.2.tar --to-repo enterprise-repo/cert-manager-acmesolver
+        imgpkg copy --tar cert-manager-cainjector-v1.18.2.tar --to-repo enterprise-repo/cert-manager-cainjector
+        imgpkg copy --tar cert-manager-webhook-v1.18.2.tar --to-repo enterprise-repo/cert-manager-webhook
+        imgpkg copy --tar cert-manager-startupapicheck-v1.18.2.tar --to-repo enterprise-repo/cert-manager-startupapicheck 
+        imgpkg copy --tar cert-manager-helm-v1.18.2.tar --to-repo enterprise-repo/cert-manager 
         ```
 
 
