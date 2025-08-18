@@ -158,7 +158,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
        --output dockerconfig \
        --output-file venafi_registry_docker_config.json \  # (2)
        --validity 365 \
-       --api-key 3968e3bb-12bc-48d6-aaf6-f51c05d900b3  # (3)
+       --api-key {API_KEY}  # (3)
      ```
      
      1. :fontawesome-solid-circle-info: This is the display name for the credential listed in the SaaS control plane under "Service accounts"
