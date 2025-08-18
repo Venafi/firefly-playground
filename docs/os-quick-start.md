@@ -3,9 +3,17 @@ icon: material/information-outline
 tags:
   - v0.1
   - DRAFT
+  - In Progress
 ---
 
 # OpenShift cert-manager + CyberArk Workload Identity Issuer
+
+!!! warning 
+
+      This document is currently a working draft and assumes some knowledge of Kubernetes/OpenShift and there my some inaccuracies and errors. It is intended to provide Information Security and platform teams with a quick overview for integrating CyberArk's Workload Identity Issuer with 'cert-manager` and `Istio` service-mesh. It is NOT intended to be used for production purposes.
+
+      Please also not that the original Venafi product names are currently transitioning to CyberArk therefore the document uses both Venafi and CyberArk interchangeably.
+
 
 ## Overview
 
