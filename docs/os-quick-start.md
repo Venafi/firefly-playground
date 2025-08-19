@@ -263,6 +263,104 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         imgpkg copy --tar cert-manager-helm-v1.18.2.tar --to-repo enterprise-repo/cert-manager 
         ```
 
+??? abstract "Step 3. Create a new service account"
+
+    In this step we will create a new service account for Firefly. The service account is used by Firefly to connect to the control plane.
+    
+    a. Create a new service account for Firefly
+
+    ```sh title="Command"
+    venctl iam service-accounts firefly create \
+      --name "Firefly-OpenShift" \
+      --output-file "cybr_mis_firefly_secret.json" \
+      --output "secret" \
+      --owning-team "Firefly Playground" \
+      --validity 10 \
+      --api-key "5498568a-42f5-4865-83b4-28edab0e70cf" 
+
+    -r '.private_key' "cybr_mis_firefly_secret.json" > "cybr_mis_firefly_secret.yaml"
+    -r '.client_id' "cybr_mis_firefly_secret.json" > "cybr_mis_firefly_client_id.txt"
+
+    ```
+
+    b. Create a new secret from using the private key from the service acount
+
+    ```sh title="Command"
+    kubectl apply -n cyberark -f - <<EOF
+      $(cat cybr_mis_firefly_secret.yaml )
+    EOF
+    ```
+
+??? abstract "Step 4. Create a Firefly Policiy"
+
+    In this step we will create Firefly configuration 
+    
+    1. Login to the Venafi Console and navigate to "Policies - Workload Issuance Policies" (See Example 1.)
+    2. Click "New" and complete the first part of the configuration - For now we'll leave the policy fairly open (See Example 2.)
+    3. Click "Save" 
+
+    <style>
+    .row {
+      display: flex;
+    }
+
+    .column {
+      flex: 33.33%;
+      padding: 5px;
+    }
+    </style>
+
+    <div class="row">
+      <div class="column">
+      <caption>Example 1 :material-arrow-down-right:</caption>
+        <img src="../images/openshift/policies-image1.png" width="500">
+      </div>
+      <div class="column">
+      <caption>Example 2 :material-arrow-down-right:</caption>
+        <img src="../images/openshift/policies-image2.png" width="500">
+      </div>
+           
+      
+    </div>
+
+
+??? abstract "Step 4. Create a Firefly Configuration "
+
+    In this step we will create Firefly configuration 
+    
+    1. Login to the Venafi Console and navigate to "Configurations - Issuer Configurations" (See Example 1.)
+    2. Click "New" and complete the first part of the configuration (See Example 2.)
+    3. Click "Continue" and complete the second part of the configuration (See Example 3.)
+
+    <style>
+    .row {
+      display: flex;
+    }
+
+    .column {
+      flex: 33.33%;
+      padding: 5px;
+    }
+    </style>
+
+    <div class="row">
+      <div class="column">
+      <caption>Example 1 :material-arrow-down-right:</caption>
+        <img src="../images/openshift/configuration-image1.png" width="500">
+      </div>
+      <div class="column">
+      <caption>Example 2 :material-arrow-down-right:</caption>
+        <img src="../images/openshift/configuration-image2.png" width="500">
+      </div>
+           <div class="column">
+           <caption>Example 3 :material-arrow-down-right:</caption>
+        <img src="../images/openshift/configuration-image3.png" width="500">
+      </div>
+      
+    </div>
+
+
+
 
 
 
