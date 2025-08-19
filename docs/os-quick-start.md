@@ -438,5 +438,31 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     ```
 
 
+??? abstract "Step 7. Test the CyberArk Workload Issuer & cert-manager "
+
+    In this step we will install CyberArk Workload Issuer (Firefly) using the Venafi Operator 
+
+
+    ```sh title="Command" 
+    kubectl apply -f - <<EOF
+    kind: Certificate
+    apiVersion: cert-manager.io/v1
+    metadata:
+      name: 6goats.acme.com
+      namespace: cyberark
+      annotations:
+         firefly.venafi.com/policy-name: Firefly Playground
+    spec:
+      privateKey:
+        rotationPolicy: Always
+      secretName: 6goats.acme.com
+      commonName: 6goats.acme.com
+      issuerRef:
+        name: firefly
+        kind: Issuer
+        group: firefly.venafi.com
+    EOF
+    ```
+
 
 
