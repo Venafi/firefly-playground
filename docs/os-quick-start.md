@@ -56,17 +56,17 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
 
     In this step we will create a new `cyberark` namespace within our OpenShift cluster and then install the CyberArk Certificate Manager Operator for OpenShift.
     
-    a. Create a new name-space
+    **1. Create a new name-space**
 
     ```sh title="Command"
      kubectl create namespace cyberark
     ```
 
-    b. Install the OpenShift Operator
+    **2. Install the OpenShift Operator**
 
-    1. Login to your OpenShift Cluster Console and navigate to "Operators, OperatorHub" in the left hand menu. Then type "CyberArk" in the search field. (See Example 1.)
-    2. Click "Install" (See Example 2.)
-    3. Click on the "Installed Namespace" drop-down and select "CyberArk", then click "Install" (See Example 3.)
+    **a.** Login to your OpenShift Cluster Console and navigate to "Operators, OperatorHub" in the left hand menu. Then type "CyberArk" in the search field. (See Example 1.) </br>
+    **b.** Click "Install" (See Example 2.) </br>
+    **c.** Click on the "Installed Namespace" drop-down and select "CyberArk", then click "Install" (See Example 3.)
 
     <style>
     .row {
@@ -149,8 +149,43 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
           - US: oci://private-registry.venafi.cloud/
           - EU: oci://private-registry.venafi.eu/     
      
+    **1. Export the Venafi SaaS API Key**
+
+    **a.** Login to the Venafi SaaS Console and navigate to "Account - Preferences" in the top right of the screen (See Example 1.) </br>
+    **b.** Copy the API key to your clipboard (See Example 2.)
+
+     <style>
+    .row {
+      display: flex;
+    }
+
+    .column {
+      flex: 33.33%;
+      padding: 5px;
+    }
+    </style>
+
+    <div class="row">
+      <div class="column">
+      <caption>Example 1 :material-arrow-down-right:</caption>
+        <img src="../images/openshift/venafi-account-image1.png" width="500">
+      </div>
+      <div class="column">
+      <caption>Example 2 :material-arrow-down-right:</caption>
+       <img src="../images/openshift/venafi-account-image2.png" width="500">
+      </div>
+           
+      
+    </div>
+
+     **2. Save the API key as an environment variable**
+
+    ```sh title="Command:"
+    export API_KEY="content from clipboard"
+    ```
+
      
-     a. Create an "image pull" credential
+    **3. Create an "image pull" credential**
      
      ```sh title="Command: Create an image pull credential"
      venctl iam service-accounts registry create --name "Enterprise Image Pull Secret" \  # (1)
@@ -158,12 +193,12 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
        --output dockerconfig \
        --output-file venafi_registry_docker_config.json \  # (2)
        --validity 365 \
-       --api-key {API_KEY}  # (3)
+       --api-key $API_KEY  # (3)
      ```
      
-     1. :fontawesome-solid-circle-info: This is the display name for the credential listed in the SaaS control plane under "Service accounts"
-     2. :fontawesome-solid-circle-info: This is the file name that will be used to store the new credential"
-     3. :fontawesome-solid-circle-info: This is API key used to authenticate with the SaaS control plane under "Account, Preferences"    
+       1. :fontawesome-solid-circle-info: This is the display name for the credential listed in the SaaS control plane under "Service accounts"
+       2. :fontawesome-solid-circle-info: This is the file name that will be used to store the new credential"
+       3. :fontawesome-solid-circle-info: This is API key used to authenticate with the SaaS control plane under "Account, Preferences"    
     
     
     We now have three options for pulling images from the private repository. We can configure Kubernetes (option 1) to use the "image pull" credential so that it can directly pull images from the private repository. However, some orgnizations require helm charts and images to be pulled down and added "mirrored" (option 2) to their own private repositories. Alternatively, the charts and images can be downloaded (option 3) manually. 
@@ -172,13 +207,13 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     
         This option will create a new "image pull" secret in Kubernetes that will enable Kubernetes to pull the CyberArk Enterprise components directly from the private repo   
          
-         a. Create a new secret from the credential
+        **4. Create a new secret from the credential**
          
          ```sh title="Command: Create secret for image-pull"
          kubectl create secret docker-registry venafi-image-pull-secret --namespace cyberark --from-file .dockerconfigjson=venafi_registry_docker_config.json
          ```
          
-         b. Inspect the secret
+        **5. Inspect the secret**
          
          ```sh title="Command: Get secret"
          kubectl get secret venafi-image-pull-secret --namespace venafi \
@@ -192,7 +227,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     
         To set up Docker mirroring, follow the specific process for your mirroring tool, like Artifactory.
     
-        The username and password can be extracted from the "image pull" credential from above using the following command:
+        **4. Extract the username and password**
     
          ```sh title="command"
          cat venafi_registry_docker_config.json \
@@ -213,14 +248,14 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     
     
     
-        a. Extract the username and password
+        **4. Extract the username and password**
     
         ```sh title="Command"
         cat venafi_registry_docker_config.json \
         jq '.. | select(.username?) | "username: \(.username)\npassword: \(.auth)"' -r
         ```
     
-        b. Login to the private repo using the username/password extracted from the above command,
+        **5.** Login to the private repo using the username/password extracted from the above command**
     
     
         ```sh title="command"
@@ -229,14 +264,14 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         --password $(cat venafi_registry_docker_config.json | jq '.. | select(.username?).auth | @base64d' -r | cut -d: -f2)
         ```
     
-        c. Download the CyberArk Workload Issuer (Firefly) image and helm chart
+        **6. Download the CyberArk Workload Issuer (Firefly) image and helm chart**
     
         ```sh title="command"
         imgpkg copy --image registry.venafi.cloud/public/venafi-images/firefly:v1.8.1 --to-tar firefly-v1.3.1.tar
         imgpkg copy --image registry.venafi.cloud/public/venafi-images/helm/firefly:v1.8.1 --to-tar firefly-helm-v1.3.1.tar
         ```
     
-        d. Download cert-manger images and helm chart
+        **7. Download cert-manger images and helm chart**
     
         ```sh title="command"
         imgpkg copy --image private-registry.venafi.cloud/cert-manager/cert-manager-controller:v1.18.2 --to-tar cert-manager-controller-v1.18.2.tar
@@ -246,13 +281,13 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         imgpkg copy --image private-registry.venafi.cloud/cert-manager/cert-manager-startupapicheck:v1.18.2 --to-tar cert-manager-startupapicheck-v1.18.2.tar
         imgpkg copy --image private-registry.venafi.cloud/charts/cert-manager:v1.18.2 --to-tar cert-manager-helm-v1.18.2.tar
         ```
-        e. Publish the the CyberArk Workload Issuer (Firefly) image and chart to your own enterprise repository
+        **8. Publish the the CyberArk Workload Issuer (Firefly) image and chart to your own enterprise repository**
     
         ```sh title="command"
         imgpkg copy --tar firefly-v1.8.1.tar --to-repo enterprise-repo/firefly
         imgpkg copy --tar firefly-helm-v1.8.1.tar --to-repo enterprise-repo/firefly
         ```
-        f. Publish the cert-manger images and charts to your own repository
+        **9. Publish the cert-manger images and charts to your own repository**
     
         ```sh title="command"
         imgpkg copy --tar cert-manager-controller-v1.18.2.tar --to-repo enterprise-repo/cert-manager-controller
@@ -267,23 +302,23 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
 
     In this step we will create a new service account for Firefly. The service account is used by Firefly to connect to the control plane.
     
-    a. Create a new service account for Firefly
+    **1. Create a new service account for Firefly using the `venctl` CLI**
 
     ```sh title="Command"
     venctl iam service-accounts firefly create \
-      --name "Firefly-OpenShift" \
+      --name "Firefly-OpenShift-tmp" \
       --output-file "cybr_mis_firefly_secret.json" \
       --output "secret" \
       --owning-team "Firefly Playground" \
       --validity 10 \
-      --api-key "5498568a-42f5-4865-83b4-28edab0e70cf" 
+      --api-key $API_KEY
 
-    -r '.private_key' "cybr_mis_firefly_secret.json" > "cybr_mis_firefly_secret.yaml"
-    -r '.client_id' "cybr_mis_firefly_secret.json" > "cybr_mis_firefly_client_id.txt"
+    jq -r '.private_key' "cybr_mis_firefly_secret.json" > "cybr_mis_firefly_secret.yaml"
+    export SA_ID=$(jq -r '.client_id' "cybr_mis_firefly_secret.json")
 
     ```
 
-    b. Create a new secret from using the private key from the service acount
+    **2. Create a new secret using the private key from the service account**
 
     ```sh title="Command"
     kubectl apply -n cyberark -f - <<EOF
@@ -291,13 +326,13 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     EOF
     ```
 
-??? abstract "Step 4. Create a Firefly Policiy"
+??? abstract "Step 4. Create a Firefly Policy"
 
     In this step we will create Firefly configuration 
     
-    1. Login to the Venafi Console and navigate to "Policies - Workload Issuance Policies" (See Example 1.)
-    2. Click "New" and complete the first part of the configuration - For now we'll leave the policy fairly open (See Example 2.)
-    3. Click "Save" 
+    **1.** Login to the Venafi Console and navigate to "Policies - Workload Issuance Policies" (See Example 1.) </br>
+    **2.** Click "New" and complete the first part of the configuration - For now we'll leave the policy fairly open (See Example 2.) </br>
+    **3.** Click "Save" 
 
     <style>
     .row {
@@ -324,7 +359,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     </div>
 
 
-??? abstract "Step 4. Create a Firefly Configuration "
+??? abstract "Step 5. Create a Firefly Configuration "
 
     In this step we will create Firefly configuration 
     
@@ -360,6 +395,47 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     </div>
 
 
+??? abstract "Step 6. Install CyberArk Workload Issuer (Firefly) "
+
+    In this step we will install CyberArk Workload Issuer (Firefly) using the Venafi Operator 
+
+    ```sh title="Command"
+    kubectl apply -f - <<EOF
+    apiVersion: installer.venafi.com/v1alpha1
+    kind: VenafiInstall
+    metadata:
+      name: firefly-install
+    spec:
+      venafiConnection:
+        install: true
+      certManager:
+        install: true
+      globals:
+        namespace: cyberark
+        region: US
+        imagePullSecretNames:
+          - venafi-image-pull-secret
+        vcpRegion: US
+        enableDefaultApprover: true
+      venafiEnhancedIssuer:
+        install: false
+        skip: true
+      firefly:
+        acceptTOS: true
+        clientID: $CLIENT_ID
+        install: true
+        values:
+          deployment:
+            config:
+              bootstrap:
+                vaas:
+                  url: https://api.venafi.cloud
+              controller:
+                certManager:
+                  caRootChainPopulation: true    
+    EOF
+
+    ```
 
 
 
