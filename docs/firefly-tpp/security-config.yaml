@@ -1,0 +1,49 @@
+# Manifest generated with: venctl configuration firefly generate --output-file security-config.yaml
+# Firefly security configuration documentation: https://docs.venafi.cloud/firefly/r-ff-tpp-cfg/
+subCaProvider:
+  validityPeriod: P60D
+  commonName: subca.example.com
+  keyAlgorithm: RSA_4096
+  tppPolicyFolderDN: "firefly\\SubCA"
+policies:
+- name: Policy
+  validityPeriod: P7D
+  subject:
+    commonName:
+      type: REQUIRED
+      allowedValues:
+      - example.com
+      minOccurrences: 1
+      maxOccurrences: 1
+    organization:
+      type: OPTIONAL
+      allowedValues:
+      - ^(example|acme)$
+      defaultValues:
+      - example
+      maxOccurrences: 1
+  sans:
+    dnsNames:
+      type: REQUIRED
+      allowedValues:
+      - "^[A-Za-z0-9][A-Za-z0-9-]*\\.example\\.com$"
+      minOccurrences: 1
+      maxOccurrences: 10
+  keyUsages:
+  - digitalSignature
+  - keyEncipherment
+  - keyAgreement
+  extendedKeyUsages:
+  - CLIENT_AUTH
+  - SERVER_AUTH
+  keyAlgorithm:
+    allowedValues:
+    - RSA_2048
+    - RSA_3072
+    - RSA_4096
+    - EC_P256
+    - EC_P384
+    - EC_P521
+    - EC_ED25519
+    defaultValue: EC_P256
+minTlsVersion: TLS13
