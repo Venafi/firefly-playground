@@ -1,0 +1,28 @@
+acceptTerms: true
+deployment:
+  extraVolumes: 
+  - name: ca-bundle-cert
+    secret:
+      secretName: ca-bundle-cert
+  extraVolumeMounts: 
+  - mountPath: /etc/ssl/certs/
+    name: ca-bundle-cert
+  config:
+    bootstrap:
+      tpp:
+        enabled: true
+        csr:
+          instanceNaming: Instance1 Location1 
+        configurationDN: firefly\\security-config 
+        connection:
+          create: true 
+          name: tpp-connection
+          url: https://tpp.example.com/ 
+          usernamePassword: 
+            enabled: true
+            name: firefly-credentials 
+    controller:
+      enabled: true 
+      certManager:
+        caRootChainPopulation: false 
+        checkApproval: true
