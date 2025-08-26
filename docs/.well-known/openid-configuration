@@ -1,5 +1,5 @@
 {
-    "issuer": "https://kubernetes.default.svc.cluster.local",
+    "issuer": "https://raw.githubusercontent.com/Venafi/firefly-playground/refs/heads/main/docs",
     "jwks_uri": "https://venafi.github.io/firefly-playground/keys.json",
     "response_types_supported": [
         "id_token"
@@ -11,3 +11,4 @@
         "RS256"
     ]
 }
+
