@@ -5,7 +5,8 @@ tags:
   - DRAFT
 ---
 
-# Evaluators Guide - cert-manager :material-arrow-right-bold: CyberArk Enterprise Issuer :material-arrow-right-bold: CyberArk Certificate Manager
+# Evaluators Guide: CyberArk Enterprise Issuer
+## cert-manager :material-arrow-right-bold: CyberArk Enterprise Issuer :material-arrow-right-bold: CyberArk Certificate Manager
 
 ## Objective
 
