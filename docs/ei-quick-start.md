@@ -5,11 +5,24 @@ tags:
   - DRAFT
 ---
 
-# cert-manager + EI QuickStart
+# valuation Guide - cert-manager :material-connection: CyberArk Enterprise Issuer :material-connection: CyberArk Certificate Manager
+
+## Objective
+
+  - Install CyberArk's Enterprise Issuer in a Kubernetes or OpenShift cluster using `helm`
+  - Install CyberArk's Enterprise `cert-manager` in a Kubernetes or OpenShift cluster using `helm`
+  - Configure CyberArk Enterprise Issuer to connect to CyberArk's SaaS or Self Hosted control planes
+  - Configure `cert-manager` to use CyberArk Enterprise Issuer for requesting certificates via CyberArk's SaaS or Self Hosted control planes
+  - Create a new certificate request resource and observe it creating a new certificate request
+  - View the new certificate in the Kubernetes secret store
+
+```yaml
+
+```
 
 ## Overview
 
-This quick-start is intended to to provide a single point of reference for installing and configuring CyberArk Enterprise Issuer (EI) with cert-manager.
+This evaluation guide is intended to to provide a single point of reference for installing and configuring CyberArk Enterprise Issuer (EI) with cert-manager. It provides the evaluator with a structured guided step by step list of tasks with explanations along the way. 
 
 It will include the following components:
 
