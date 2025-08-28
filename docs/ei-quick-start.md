@@ -6,7 +6,7 @@ tags:
 ---
 
 # Evaluators Guide: CyberArk Enterprise Issuer
-## cert-manager :material-arrow-right-bold: CyberArk Enterprise Issuer :material-arrow-right-bold: CyberArk Certificate Manager
+### cert-manager :material-arrow-right-bold: CyberArk Enterprise Issuer :material-arrow-right-bold: CyberArk Certificate Manager
 
 ## Objective
 
@@ -16,10 +16,6 @@ tags:
   - Configure `cert-manager` to use CyberArk Enterprise Issuer for requesting certificates via CyberArk's SaaS or Self Hosted control planes
   - Create a new certificate request resource and observe it creating a new certificate request
   - View the new certificate in the Kubernetes secret store
-
-```yaml
-
-```
 
 ## Overview
 
