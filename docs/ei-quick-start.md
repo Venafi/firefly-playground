@@ -7,26 +7,31 @@ tags:
 ---
 
 # Evaluators Guide: CyberArk Enterprise Issuer
+
+```sql
+kubectl config use-context kind-enhanced-issuer 
+```
+
 ### cert-manager :material-arrow-right-bold: CyberArk Enterprise Issuer :material-arrow-right-bold: CyberArk Certificate Manager
 
-!!! warning 
+!!! warning
 
       This document is currently a working draft and assumes some knowledge of Kubernetes/OpenShift and there my some inaccuracies and errors. It is intended to provide Information Security and platform teams with a quick overview for integrating CyberArk's Workload Identity Issuer with 'cert-manager` and `Istio` service-mesh. It is NOT intended to be used for production purposes.
-
+    
       Please also not that the original Venafi product names are currently transitioning to CyberArk therefore the document uses both Venafi and CyberArk interchangeably.
 
 ## Objective
 
-  - Install CyberArk's Enterprise Issuer in a Kubernetes or OpenShift cluster using `helm`
-  - Install CyberArk's Enterprise `cert-manager` in a Kubernetes or OpenShift cluster using `helm`
-  - Configure CyberArk Enterprise Issuer to connect to CyberArk's SaaS or Self Hosted control planes
-  - Configure `cert-manager` to use CyberArk Enterprise Issuer for requesting certificates via CyberArk's SaaS or Self Hosted control planes
-  - Create a new certificate request resource and observe it creating a new certificate request
-  - View the new certificate in the Kubernetes secret store
+- Install CyberArk's Enterprise Issuer in a Kubernetes or OpenShift cluster using `helm`
+- Install CyberArk's Enterprise `cert-manager` in a Kubernetes or OpenShift cluster using `helm`
+- Configure CyberArk Enterprise Issuer to connect to CyberArk's SaaS or Self Hosted control planes
+- Configure `cert-manager` to use CyberArk Enterprise Issuer for requesting certificates via CyberArk's SaaS or Self Hosted control planes
+- Create a new certificate request resource and observe it creating a new certificate request
+- View the new certificate in the Kubernetes secret store
 
 ## Overview
 
-This evaluation guide is intended to to provide a single point of reference for installing and configuring CyberArk Enterprise Issuer (EI) with cert-manager. It provides the evaluator with a structured guided step by step list of tasks with explanations along the way. 
+This evaluation guide is intended to to provide a single point of reference for installing and configuring CyberArk Enterprise Issuer (EI) with cert-manager. It provides the evaluator with a structured guided step by step list of tasks with explanations along the way.
 
 It will include the following components:
 
@@ -336,10 +341,10 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         apiVersion: jetstack.io/v1alpha1
         kind: VenafiConnection
         metadata:
-        name: venafi-saas-connection
-        namespace: venafi
+          name: venafi-saas-connection
+          namespace: venafi
         spec:
-        vaas:
+          vaas:
             url: https://api.venafi.cloud
             apiKey:
             - secret:
@@ -604,5 +609,102 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       #- spiffe://cluster.local/ns/sandbox/sa/srvc1
     EOF
     ```
+??? abstract "Step 8. Securing an NGINX Ingress"
+
+    
+    There are two primary ways to secure an NGINX ingress resource: using annotations on the ingress with ingress-shim or directly creating a certificate resource.
+
+    In this example, we will add annotations to the ingress, and take advantage of ingress-shim to have it create the certificate resource on our behalf. 
+
+    Now lets secure an NGINX ingress. For this demo we'll use the example [kuard](https://github.com/kubernetes-up-and-running/kuard) application.
+
+    First we'll create a deployment
+    
+    ```yaml title="Create a deployment"
+    kubectl apply -f - <<EOF
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: kuard
+    spec:
+      selector:
+        matchLabels:
+          app: kuard
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: kuard
+        spec:
+          containers:
+          - image: gcr.io/kuar-demo/kuard-amd64:1
+            imagePullPolicy: Always
+            name: kuard
+            ports:
+            - containerPort: 8080
+      EOF
+    ```
+    Now lets create a service 
+    
+    ```yaml title="Create the an service"
+    kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: kuard
+    spec:
+      ports:
+      - port: 80
+        targetPort: 8080
+        protocol: TCP
+      selector:
+        app: kuard
+    EOF
+    ```
+
+    Finally lets create an ingress that uses the `venafi-saas-cluster-issuer` to get a certificate. 
+    
+    ```yaml title="Create the an NGINX ingress" 
+    kubectl apply -f - <<EOF
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: kuard
+      annotations:
+        cert-manager.io/issuer: venafi-saas-cluster-issuer
+        cert-manager.io/issuer-kind: VenafiClusterIssuer 
+        cert-manager.io/issuer-group: jetstack.io
+        cert-manager.io/common-name: example.example.com
+    spec:
+      ingressClassName: nginx
+      tls:
+      - hosts:
+        - example.example.com
+        secretName: example.example.com-tls
+      rules:
+      - host: example.example.com
+        http:
+          paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kuard
+                port:
+                  number: 80
+    EOF
+    ```
+
+    Inspect the certificate
+    
+    ```sh title="Create the an NGINX ingress" 
+    kubectl get secret example.example.com-tls -o json | jq -r '.data."tls.crt"' | base64 -d | certigo dump
+    ```
+
+
+
+
+    
+
 
 
