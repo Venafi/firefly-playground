@@ -1,7 +1,7 @@
 ---
 icon: material/information-outline
 tags:
-  - v0.2
+  - v0.3
   - DRAFT
   - In Progress
 ---
