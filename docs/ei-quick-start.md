@@ -856,7 +856,20 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     echo "  kubectl -n ${CERT_NAMESPACE} describe certificaterequest -l cert-manager.io/certificate-name=${CERT_NAME}"
     ```  
 
+    i. Update the VirtualServer config to include
 
+    ```yaml
+    tls:
+      secret: my-secret-tls
+      cert-manager:
+        issuer: venafi-saas-issuer
+        issuer-kind: VenafiIssuer
+        issuer-group: jetstack.io
+        common-name: my-secret.example.com
+        duration: 720h
+        renew-before: 480h
+        usages: digital signature,server auth,client auth
+    ```
 
 
     
