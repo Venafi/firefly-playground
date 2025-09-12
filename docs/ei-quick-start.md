@@ -700,11 +700,103 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     ```sh title="Create the an NGINX ingress" 
     kubectl get secret example.example.com-tls -o json | jq -r '.data."tls.crt"' | base64 -d | certigo dump
     ```
-
-
-
+??? abstract "Step 9. Access to out of tree issuers"
 
     
+    This section covers configuring an "out-of-tree" VenafiIssuer that can be access from another namespace. 
+
+    a. 
+
+    ```yaml title="Set some env variables"
+    export CERT_SUFFIX="$(date +%S%H%M%d%m)"
+    export CERT_NAME=cert-${CERT_SUFFIX}.svc.cluster.local
+    export CERT_ZONE="cert-manager\\demo"
+    export CCM_APIKEY="REPLACE_WITH_API_KEY"
+    export CCM_NAMESPACE="venafi"
+    export CERT_NAMESPACE="foo"
+    ```
+
+    b.  
+
+    ```yaml title="Create a new VenafiConnection resource "
+    # create venafi connection resource 
+    kubectl apply -f - <<EOF
+    apiVersion: jetstack.io/v1alpha1
+    kind: VenafiConnection
+    metadata:
+      name: venafi-saas-connection-for-nginx
+      namespace: ${CCM_NAMESPACE}
+    spec:
+      allowReferencesFrom:
+        matchLabels:
+          kubernetes.io/metadata.name: ${CERT_NAMESPACE}
+      vaas:
+        url: https://api.venafi.cloud
+        apiKey:
+        - secret:
+            name: venafi-cloud-credentials
+            fields: ["venafi-cloud-key"]
+    EOF
+    ```
+
+    c. 
+
+    ```sh title="Check the VenafiConnection"
+    kubectl get VenafiConnection -n venafi
+    ```
+
+    d. 
+
+    ```yaml title="Create cluster role and binding"
+    kubectl apply -f - <<EOF
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: read-ccm-credentials
+      namespace: ${CCM_NAMESPACE}
+    rules:
+    - apiGroups: [""]
+      resources: ["secrets"]
+      resourceNames: ["venafi-cloud-credentials"]
+      verbs: ["get"]
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: read-ccm-credentials
+      namespace: ${CCM_NAMESPACE}
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: read-ccm-credentials
+    subjects:
+    - kind: ServiceAccount
+      name: venafi-connection
+      namespace: ${CCM_NAMESPACE}
+    EOF
+    ```
+
+    e.  
+
+    ```sh title="Create a test namespace"
+    kubectl create namespace ${CERT_NAMESPACE}
+    ```
+
+    f. 
+
+    ```yaml title="Create a VenafiIssuer in the test namespace"
+    kubectl apply -f - <<EOF
+    apiVersion: jetstack.io/v1alpha1
+    kind: VenafiIssuer
+    metadata:
+      name: venafi-saas-issuer-for-nginx
+      namespace: ${CERT_NAMESPACE}
+    spec:
+      venafiConnectionName: venafi-saas-connection-for-nginx
+      venafiConnectionNamespace: ${CCM_NAMESPACE}
+      zone: ${CERT_ZONE}
+    EOF    
+    ```    
 
 
-
+ 
