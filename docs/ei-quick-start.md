@@ -705,9 +705,11 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     
     This section covers configuring an "out-of-tree" VenafiIssuer that can be access from another namespace. 
 
-    a. 
+    a. Create Environment Variables
 
-    ```yaml title="Set some env variables"
+    The a only for testing the out-of-tree VenafiIssuer.
+
+    ```yaml title="Command"
     export CERT_SUFFIX="$(date +%S%H%M%d%m)"
     export CERT_NAME=cert-${CERT_SUFFIX}.svc.cluster.local
     export CERT_ZONE="cert-manager\\demo"
@@ -716,9 +718,9 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     export CERT_NAMESPACE="foo"
     ```
 
-    b.  
+    b. Create a new VenafiConnection resource
 
-    ```yaml title="Create a new VenafiConnection resource "
+    ```yaml title="Command"
     # create venafi connection resource 
     kubectl apply -f - <<EOF
     apiVersion: jetstack.io/v1alpha1
@@ -739,15 +741,15 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     EOF
     ```
 
-    c. 
+    c. Check the VenafiConnection
 
-    ```sh title="Check the VenafiConnection"
+    ```sh title="Command"
     kubectl get VenafiConnection -n venafi
     ```
 
-    d. 
+    d. Create cluster role and binding
 
-    ```yaml title="Create cluster role and binding"
+    ```yaml title="Command"
     kubectl apply -f - <<EOF
     apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
@@ -776,15 +778,15 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     EOF
     ```
 
-    e.  
+    e. Create a test namespace
 
-    ```sh title="Create a test namespace"
+    ```sh title="Command"
     kubectl create namespace ${CERT_NAMESPACE}
     ```
 
-    f. 
+    f. Create a VenafiIssuer in the test namespace
 
-    ```yaml title="Create a VenafiIssuer in the test namespace"
+    ```yaml title="Command"
     kubectl apply -f - <<EOF
     apiVersion: jetstack.io/v1alpha1
     kind: VenafiIssuer
@@ -797,6 +799,67 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       zone: ${CERT_ZONE}
     EOF    
     ```    
+
+    g. Create a Certificate resource
+
+       This is a test certificate only used to test the out-of-tree VenafiConnection
+
+    ```yaml title="Command"
+    kubectl apply -f - <<EOF
+    kind: Certificate
+    apiVersion: cert-manager.io/v1
+    metadata:
+      name: ${CERT_NAME}
+      namespace: ${CERT_NAMESPACE}
+    spec:
+      secretName: ${CERT_NAME}
+      commonName: ${CERT_NAME}
+      duration: 24h
+      renewBefore: 8h
+      issuerRef:
+        name: venafi-saas-issuer-for-nginx
+        kind: "VenafiIssuer"
+        group: "jetstack.io"
+      privateKey:
+        rotationPolicy: Always
+        size: 2048
+      dnsNames:
+      - ${CERT_NAME}
+      #uris:
+      #- spiffe://cluster.local/ns/sandbox/sa/srvc1
+    EOF
+    ```  
+
+
+    h. Validate the certificate is ready
+
+       Use the following command to check that the certificate reaches the ready state. 
+
+    ```yaml title="Command"
+    echo "Waiting up to 30s for Certificate ${CERT_NAME} in ns ${CERT_NAMESPACE} to be Ready..."
+    for i in {1..30}; do
+      READY=$(kubectl -n "${CERT_NAMESPACE}" get certificate "${CERT_NAME}" \
+        -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' 2>/dev/null || true)
+
+      if [[ "${READY}" == "True" ]]; then
+        echo "#################################################"
+        echo "Certificate ${CERT_NAME} is Ready"
+        echo "#################################################" 
+        exit 0
+      fi
+      sleep 1
+    done
+
+    echo "Certificate ${CERT_NAME} not Ready after 30s"
+    echo "Troubleshoot with:"
+    echo "  kubectl -n ${CERT_NAMESPACE} describe certificate ${CERT_NAME}"
+    echo "  kubectl -n ${CERT_NAMESPACE} describe certificaterequest -l cert-manager.io/certificate-name=${CERT_NAME}"
+    ```  
+
+
+
+
+    
 
 
  
