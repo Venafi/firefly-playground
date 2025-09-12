@@ -835,7 +835,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
 
        Use the following command to check that the certificate reaches the ready state. 
 
-    ```yaml title="Command"
+    ```sh title="Command"
     echo "Waiting up to 30s for Certificate ${CERT_NAME} in ns ${CERT_NAMESPACE} to be Ready..."
     for i in {1..30}; do
       READY=$(kubectl -n "${CERT_NAMESPACE}" get certificate "${CERT_NAME}" \
