@@ -1,0 +1,1 @@
+{"id_token_signing_alg_values_supported":["ES256"],"issuer":"http://localhost:8080","jwks_uri":"http://localhost:8080/keys.json","response_types_supported":["id_token"],"subject_types_supported":["public"]}
