@@ -3,11 +3,11 @@
     {
       "alg": "ES256",
       "crv": "P-256",
-      "kid": "be2ea6b1-8c32-40e1-be9b-eb2fd069f645",
+      "kid": "53bce9de-9b91-49cd-909c-f8a1f5cd5d7d",
       "kty": "EC",
       "use": "sig",
-      "x": "Viop_228vpg6-b4V0P4OMNkMREaY81W0pdfmdhH1GwM",
-      "y": "evkzdCjwfJ3OOKeBSocxhz0n2QIiqaTV-pErzD596aM"
+      "x": "Pg50tapNofwQ9nvrD3Q_Q-gmUL695jwI1bmL_ip-bnY",
+      "y": "TE2UiZjH4tF7kf-X67jIlBpa1fpFYgS7Odh0cxU_sdE"
     }
   ]
 }
