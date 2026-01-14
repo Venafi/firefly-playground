@@ -1,0 +1,1203 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="ei-quick-start/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Firefly Playground</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M11.383.617C5.097.617%200%205.714%200%2012s5.097%2011.383%2011.383%2011.383S22.763%2018.286%2022.763%2012a11.3%2011.3%200%200%200-.878-4.389l-3.203%203.203c.062.387.1.782.1%201.186a7.398%207.398%200%201%201-7.4-7.398c1.499%200%202.889.448%204.054%201.214l2.857-2.857a11.33%2011.33%200%200%200-6.91-2.342m9.674.756c-.292%200-.583.112-.805.334q-4.453%204.449-8.9%208.902L9.596%208.854a1.14%201.14%200%200%200-1.61%200l-1.775%201.773a1.14%201.14%200%200%200%200%201.61l4.166%204.163a1.42%201.42%200%200%200%202.012%200L23.666%205.121a1.136%201.136%200%200%200%200-1.61l-1.805-1.804a1.14%201.14%200%200%200-.804-.334%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-with-the-venafi-firefly-playground" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Firefly Playground" class="md-header__button md-logo" aria-label="Firefly Playground" data-md-component="logo">
+      
+  <img src="assets/firefly-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Firefly Playground
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting started with the Venafi Firefly Playground.
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/venafi/firefly-playground" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    firefly-playground
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Firefly Playground" class="md-nav__button md-logo" aria-label="Firefly Playground" data-md-component="logo">
+      
+  <img src="assets/firefly-logo.svg" alt="logo">
+
+    </a>
+    Firefly Playground
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/venafi/firefly-playground" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    firefly-playground
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started with the Venafi Firefly Playground.
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started with the Venafi Firefly Playground.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audience
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-firefly-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Firefly Demo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the Firefly Demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-configure-the-control-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 - Configure the control plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-start-firefly-and-the-local-jwt-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 - Start Firefly and the local JWT service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-a-new-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 - Create a new JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-create-a-certificate-signing-request-csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 - Create a Certificate Signing Request (CSR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-request-a-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 - Request a certificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ei-quick-start/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluators Guide: CyberArk Enterprise Issuer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="istio-firefly/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Firefly with Istio demo steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="os-quick-start/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenShift cert-manager + CyberArk Workload Identity Issuer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audience
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-firefly-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Firefly Demo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the Firefly Demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-configure-the-control-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 - Configure the control plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-start-firefly-and-the-local-jwt-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 - Start Firefly and the local JWT service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-a-new-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 - Create a new JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-create-a-certificate-signing-request-csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 - Create a Certificate Signing Request (CSR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-request-a-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 - Request a certificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <nav class="md-tags">
+    
+      
+      
+      
+      
+        <span class="md-tag">v0.1</span>
+      
+    
+  </nav>
+
+
+
+<h1 id="getting-started-with-the-venafi-firefly-playground">Getting started with the Venafi Firefly Playground.</h1>
+<h2 id="overview">Overview</h2>
+<p>This quick-start playground is intended to showcase Venafi's Firefly ephemeral CA in the shortest possible time. Assuming the following prerequisites, it should take less than 60 seconds to deploy a fully functioning Firefly instance in a Github CodeSpaces or local Docker environment. </p>
+<p>For simplicity the demo will use a built in certificate authority CA provided by as part of the Venafi Cloud service. </p>
+<h3 id="architecture">Architecture</h3>
+<p>The following diagram provides a high level architectural overview that shows the outcome of what we will be building: </p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/firefly-tlspc-architecture.svg" data-desc-position="bottom"><img alt="alt text" src="images/firefly-tlspc-architecture.svg"></a></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>This playground can be run in one of two ways as follows: </p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.5 3.75C3.5 2.784 4.284 2 5.25 2h13.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 18.75 13H5.25a1.75 1.75 0 0 1-1.75-1.75Zm-2 12c0-.966.784-1.75 1.75-1.75h17.5c.966 0 1.75.784 1.75 1.75v4a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75ZM5.25 3.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h13.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Zm-2 12a.25.25 0 0 0-.25.25v4c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25v-4a.25.25 0 0 0-.25-.25Z"></path><path d="M10 17.75a.75.75 0 0 1 .75-.75h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1-.75-.75m-4 0a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75"></path></svg></span>  GitHub CodeSpaces</td>
+<td>This is the quickest and easiest way to get started as there are no local dependencies. The codespace includes everything you need to try Firefly in your own GitHub dev container.</td>
+</tr>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 0 0 .186-.186V3.574a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.186.186 0 0 0-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51q-.508.001-1.01.087c-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.75.75 0 0 0-.75.748 11.4 11.4 0 0 0 .692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137a15.7 15.7 0 0 0 2.93-.266 12.3 12.3 0 0 0 3.823-1.389 10.5 10.5 0 0 0 2.61-2.136c1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"></path></svg></span> Local Docker</td>
+<td>This option can be used to run Firefly on your local machine and has additional dependencies</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Run directly from GitHub CodeSpaces - no local dependencies</li>
+<li>Clone the repository and run in your own Docker environment - with local dependencies 
+  ffdsfds</li>
+</ul>
+<div class="admonition dependencies">
+<p class="admonition-title">Dependencies</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Run Playground in GitHub CodeSpaces</label><label for="__tabbed_1_2">Run Playground in local Docker environment</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The following prerequisites can be used to run the Firefly playground in a GitHub CodeSpaces environment. This easiest and quickest way to get started and has no local dependencies and can be run entirely in a browser. </p>
+<hr>
+<ul>
+<li>A working GitHub account </li>
+<li>Venafi Cloud account for Firefly - you can signup for a free 30 day trial <a href="https://venafi.com/try-venafi/firefly/">here</a></li>
+<li>An API key for your Venafi Cloud account. Use the instructions in the info panel below to get your API key.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>The following prerequisites can be used to run the Firefly playground in your own Docker environment. This option has has mandatory and some optional local dependencies.</p>
+<hr>
+<ul>
+<li>Access to a fairly recent Docker runtime environment </li>
+<li>Venafi Cloud account for Firefly - you can signup for a free 30 day trial <a href="https://venafi.com/try-venafi/firefly/">here</a></li>
+<li>An API key for your Venafi Cloud account. Use the instructions in the info panel below to get your API key.</li>
+<li>The following utilities are not required to run the Firefly playground but are used as a convenience to quickly demonstrate the Firefly API.     <ul>
+<li>Locally installed (cURL)[https://curl.se] command line utility</li>
+<li>Locally installed (JQ)[https://jqlang.github.io/jq/] command line utility</li>
+<li>Locally installed (OpenSSL)[https://www.openssl.org] command line utility</li>
+<li>Locally installed (JWT)[https://github.com/mike-engel/jwt-cli] command line utility</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<details class="info">
+<summary>Getting an API Key</summary>
+<p>If you don't have an API key you can follow this steps: </p>
+<ol>
+<li>Login to https://ui.venafi.cloud. If you don't already have an account you can sign-up for a 30 day trail. </li>
+<li>In the menu bar, click your <strong>avatar</strong> in the top-right corner, and then click <strong>Preferences</strong>. <figure markdown>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/preferences.png" data-desc-position="bottom"><img alt="Image title" src="images/preferences.png" width="300"></a>
+  </figure></li>
+<li>Click the "Generate New Key" link, then specify the "API Key Validity Period". Recommend 30 days. <figure markdown>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/generate-api-key.png" data-desc-position="bottom"><img alt="Image title" src="images/generate-api-key.png" width="300"></a>
+  </figure></li>
+<li>Click the "Generate" button at the bottom of the page. You will then see options to view or copy the new key. Keep a note of the API key somewhere secure for later<figure markdown>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/copy-api-key.png" data-desc-position="bottom"><img alt="Image title" src="images/copy-api-key.png" width="300"></a>
+  </figure></li>
+</ol>
+</details>
+<h2 id="audience">Audience</h2>
+<p>The intended audience for this playground is: </p>
+<ul>
+<li>New or existing Venafi customers wanting to quickly see Firefly working within their own environments.</li>
+<li>InfoSec teams wanting to learn more about service that they can provide to cloud native developers, SRE's and platform engineering teams.</li>
+<li>Developers, SRE's and platform engineering teams wanting to learn more about the services that Info Sec teams should be providing </li>
+<li>Internal Venafi staff wanting to demonstrate Firefly to partners and customers.</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p>The quick-start demo runs entirely in Docker and consists of three container images that a pulled from the public Docker repositories. </p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.152.682a2.25 2.25 0 0 1 2.269 0l.007.004 6.957 4.276a2.28 2.28 0 0 1 1.126 1.964v7.516c0 .81-.432 1.56-1.133 1.968l-.002.001-11.964 7.037-.004.003c-.706.41-1.578.41-2.284 0l-.026-.015-6.503-4.502a2.27 2.27 0 0 1-1.096-1.943V9.438c0-.392.1-.77.284-1.1l.003-.006.014-.026c.197-.342.48-.627.82-.827h.002L13.152.681Zm.757 1.295h-.001L2.648 8.616l6.248 4.247a.78.78 0 0 0 .758-.01h.001l11.633-6.804-6.629-4.074a.75.75 0 0 0-.75.003ZM8.517 14.33a2.3 2.3 0 0 1-.393-.18l-.023-.014-6.102-4.147v7.003c0 .275.145.528.379.664l.025.014 6.114 4.232zM18 9.709l-3.25 1.9v7.548L18 17.245Zm-7.59 4.438-.002.002a2.3 2.3 0 0 1-.391.18v7.612l3.233-1.902v-7.552Zm9.09-5.316v7.532l2.124-1.25a.78.78 0 0 0 .387-.671V7.363Z"></path></svg></span> &nbsp; <em>3goats/elevate</em> - This a utility application that automates all of the required Venafi SaaS (control plane tasks) that would ordinarily be performed by an InfoSec team. Whilst these tasks can be performed manually, the utility helps by fully automating the configuration, thus new users get to see Firefly working much quicker.</p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.152.682a2.25 2.25 0 0 1 2.269 0l.007.004 6.957 4.276a2.28 2.28 0 0 1 1.126 1.964v7.516c0 .81-.432 1.56-1.133 1.968l-.002.001-11.964 7.037-.004.003c-.706.41-1.578.41-2.284 0l-.026-.015-6.503-4.502a2.27 2.27 0 0 1-1.096-1.943V9.438c0-.392.1-.77.284-1.1l.003-.006.014-.026c.197-.342.48-.627.82-.827h.002L13.152.681Zm.757 1.295h-.001L2.648 8.616l6.248 4.247a.78.78 0 0 0 .758-.01h.001l11.633-6.804-6.629-4.074a.75.75 0 0 0-.75.003ZM8.517 14.33a2.3 2.3 0 0 1-.393-.18l-.023-.014-6.102-4.147v7.003c0 .275.145.528.379.664l.025.014 6.114 4.232zM18 9.709l-3.25 1.9v7.548L18 17.245Zm-7.59 4.438-.002.002a2.3 2.3 0 0 1-.391.18v7.612l3.233-1.902v-7.552Zm9.09-5.316v7.532l2.124-1.25a.78.78 0 0 0 .387-.671V7.363Z"></path></svg></span> &nbsp; <em>tr1ck3r/jwt-this</em> - <strong>jwt-this</strong> (pronounced "jot this") is a command line utility I created to simplify demonstration, evaluation, and simple testing with Venafi Firefly. When run, it generates a new signing key pair, uses it to sign and output a new JSON Web Token (JWT) containing specified <em>Firefly</em>-related claims, and starts a basic HTTP server (listening on port 8000 by default) where the signing public key is published via a JSON Web Key Set (JWKS) so it can be used by <em>Firefly</em> to verify the signature of the JWT.</p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.152.682a2.25 2.25 0 0 1 2.269 0l.007.004 6.957 4.276a2.28 2.28 0 0 1 1.126 1.964v7.516c0 .81-.432 1.56-1.133 1.968l-.002.001-11.964 7.037-.004.003c-.706.41-1.578.41-2.284 0l-.026-.015-6.503-4.502a2.27 2.27 0 0 1-1.096-1.943V9.438c0-.392.1-.77.284-1.1l.003-.006.014-.026c.197-.342.48-.627.82-.827h.002L13.152.681Zm.757 1.295h-.001L2.648 8.616l6.248 4.247a.78.78 0 0 0 .758-.01h.001l11.633-6.804-6.629-4.074a.75.75 0 0 0-.75.003ZM8.517 14.33a2.3 2.3 0 0 1-.393-.18l-.023-.014-6.102-4.147v7.003c0 .275.145.528.379.664l.025.014 6.114 4.232zM18 9.709l-3.25 1.9v7.548L18 17.245Zm-7.59 4.438-.002.002a2.3 2.3 0 0 1-.391.18v7.612l3.233-1.902v-7.552Zm9.09-5.316v7.532l2.124-1.25a.78.78 0 0 0 .387-.671V7.363Z"></path></svg></span> &nbsp; <em>public.ecr.aws/venafi-images/firefly</em> - This is the main Firefly instance that will be initialised for the demonstration</p>
+<p>To start the demo using Github CodeSpaces, use the steps in following info panel.</p>
+<details class="info">
+<summary>Launching the Firefly Playground using Github CodeSpaces</summary>
+<p>A codespace is a development environment that's hosted in the cloud. The Firefly playground GitHub repository provides a custom dev container that includes all of the prerequisites that are required:</p>
+<ol>
+<li>Login to your GitHub account and goto https://github.com/Venafi/firefly-playground</li>
+<li>
+<p>Create a new CodeSpace by clicking on the "Code" button, then "Create codespace on main" e.g. </p><figure markdown>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/github-codespaces.png" data-desc-position="bottom"><img alt="Image title" src="images/github-codespaces.png" width="400"></a>
+</figure><p></p>
+</li>
+<li>
+<p>This will build and launch a new dev container which will take a few minutes to complete. You should then see a new development environment. e.g. </p><figure markdown>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/new-codespace.png" data-desc-position="bottom"><img alt="Image title" src="images/new-codespace.png" width="400"></a>
+</figure><p></p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>Before you start using the new CodeSpace wait for the <code>PostCreateCommand</code> to finish installing the dependencies for the dev container.</p>
+</div>
+</details>
+<h2 id="running-the-firefly-demo">Running the Firefly Demo</h2>
+<p>To simplify the this demonstration, the project includes an interactive Jupyter (formerly IPython Notebook) notebook that includes all of the required commands. However, please note that this does not include some of the Docker commands which must be run from the terminal. To continue open the <code>demo.ipynb</code> file and follow the steps from there. </p>
+<details class="warning" open="open">
+<summary>Important</summary>
+<p>Before you can run Firefly, you must edit the <code>.env</code> file to include a valid Venafi cloud API key (referenced in the prerequisites) at the placeholder. This is the only thing you need to change.</p>
+<p>The first task in the demo creates a <code>.env</code> file that is used to store a variable for the API key.</p>
+<p>e.g. </p>
+<div class="highlight"><span class="filename">create a .env file</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>echo "TLSPC_API_KEY=xxxxx-xxxxxx-xxxxxx-xxxxxx" &gt; .env
+</code></pre></div>
+</details>
+<p>At this point you can either follow the instructions here and cut/past the commands into the terminal in the codesdpace, or just step through and run each of the cells in the <code>demo.ipynb</code> interactive notebook file.</p>
+<h3 id="step-1-configure-the-control-plane"><font color="#FF6333">Step 1 </font>  - Configure the control plane</h3>
+<p>Every Firefly instance requires a valid service account, configuration and policy in the Venafi Control Plane (TLS Protect Cloud). For production, this task would often be completed by your InfoSec team. However, it might be undertaken by the platform engineering teams. Either way, you need to login to https://ui.venafi.cloud to create various config items. </p>
+<p>To simplify this process and reduce the time it takes to get started, we will use the prebuilt <code>3goats/elevate</code> container that fully automates the creation of the service account, configuration and policy. It will also create a private key file <code>private-key.pem</code> and local firefly <code>config.yaml</code> in the <code>config</code> directory.  </p>
+<p>To do this use the following <code>docker compose</code> command. This will run only the <code>3goats/elevate</code> container.</p>
+<details class="warning" open="open">
+<summary>Important</summary>
+<p>Do not run the <code>docker</code> commands in the interactive <code>demo.ipynb</code> environment. Instead type or cut and past the commands into the terminal. </p>
+</details>
+<div class="highlight"><span class="filename">Configure the Control Plane</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>--profile<span class="w"> </span>control-plane<span class="w"> </span>up
+</code></pre></div>
+<p>You should see the following output. 
+</p><div class="highlight"><span class="filename">Example output</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">2</span>/0
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w"> </span>✔<span class="w"> </span>Network<span class="w"> </span>firefly-quickstart_default<span class="w">      </span>Created<span class="w">  </span><span class="m">0</span>.0s<span class="w"> </span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>firefly-quickstart-elevate-1<span class="w">  </span>Created<span class="w">  </span><span class="m">0</span>.0s<span class="w"> </span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Attaching<span class="w"> </span>to<span class="w"> </span>elevate-1
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>elevate-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>elevate-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>bootstrap:
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>elevate-1<span class="w">  </span><span class="p">|</span><span class="w">   </span>vaas:
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>elevate-1<span class="w">  </span><span class="p">|</span><span class="w">     </span>url:<span class="w"> </span>https://api.venafi.cloud<span class="w"> </span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>elevate-1<span class="w">  </span><span class="p">|</span><span class="w">     </span>auth:
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>...
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>elevate-1<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>code<span class="w"> </span><span class="m">0</span>
+</code></pre></div><p></p>
+<p>The following files should now have been updated to include valid content in the  <code>./config</code> directory. </p>
+<ul>
+<li><strong>config.yaml</strong> - This is a generated Firefly configuration that will be used to pass the Firefly instance some basic values that are required as part of the bootstrap process,</li>
+<li><strong>private-key.pem</strong> This is the private part of a generated key pair that will be used by firefly to authenticate to the Venafi Cloud control plane.  </li>
+</ul>
+<p>If you take a look at the <code>config.yaml</code> it will look something like this:</p>
+<div class="highlight"><span class="filename">config.yaml</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w"> </span>bootstrap:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">   </span>vaas:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">     </span>url:<span class="w"> </span>https://api.venafi.cloud<span class="w"> </span><span class="c1"># (1)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">     </span>auth:
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">       </span>privateKeyFile:<span class="w"> </span>/etc/firefly/private-key.pem<span class="w">  </span><span class="c1"># (2)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">       </span>clientID:<span class="w"> </span>8104b51c-bf7e-11ee-9c78-4a98e9dd68c7<span class="w">  </span><span class="c1"># (3)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">     </span>csr:
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">       </span>instanceNaming:<span class="w"> </span>Firefly<span class="w"> </span>Playground<span class="w"> </span><span class="c1"># (4)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w"> </span>server:<span class="w"> </span><span class="c1"># (5)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">   </span>rest:<span class="w"> </span><span class="c1"># (6)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">     </span>port:<span class="w"> </span><span class="m">8281</span><span class="w"> </span><span class="c1"># (7)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">     </span>tls:<span class="w"> </span><span class="c1"># (8)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">       </span>dnsNames:<span class="w"> </span><span class="c1"># (9)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">       </span>-<span class="w"> </span>firefly.venafi.example
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">       </span>ipAddress:<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="c1"># (10)</span>
+</code></pre></div>
+<ol>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> This is the url for the Venafi control plane API.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> The path to the private key that will be used to authenticate the Firefly instance to the Venafi control plane. The corresponding public key is stored in the control plane definition for the service account.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> This is a reference to the <code>clientID</code> that will be used to authenticate the Firefly instance.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> A name that will be used to identify the Firefly instance in the control plane.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Firefly will run in server mode and expose networking ports. Firefly can also run in Kubernetes operator mode and will not expose networking ports.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Firefly will expose a REST API. Firefly supports REST, GraphQL and gRPC.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> The port used for the REST API.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Define the TLS configuration for the REST API.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> A list of FQDN's that will be used to represent the Firefly instance in the auto generated TLS certificate used for the REST API.</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> The IP address used for the REST API.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Firefly Configuration file</p>
+<p>Click on the <code>+</code> symbols in the output above to learn more about how Firefly uses the local <code>config.yaml</code> file. </p>
+</div>
+<h3 id="step-2-start-firefly-and-the-local-jwt-service"><font color="#FF6333">Step 2 </font> - Start Firefly and the local JWT service</h3>
+<p>Now that we've configured the Control Plane, we can now start the Firefly container <code>public.ecr.aws/venafi-images/firefly</code> and the <code>tr1ck3r/jwt-this</code>. </p>
+<p>To do this use the following <code>docker compose</code> command. The <code>--profile firefly</code> flag tells Docker to run only the <code>public.ecr.aws/venafi-images/firefly</code> and the <code>tr1ck3r/jwt-this</code> containers.</p>
+<div class="highlight"><span class="filename">Start Firefly &amp; the JWT service</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>--profile<span class="w"> </span>firefly<span class="w"> </span>up
+</code></pre></div>
+<p>This will create 2 containers</p>
+<p>You should see the following output. </p>
+<div class="highlight"><span class="filename">Example output - Truncated</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>--profile<span class="w"> </span>firefly<span class="w"> </span>up
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">2</span>/0
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>firefly-playground-jwt-this-1<span class="w">  </span>Created<span class="w">                                                                                                                   </span><span class="m">0</span>.0s<span class="w"> </span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>firefly-playground-firefly-1<span class="w">   </span>Created<span class="w">                                                                                                                   </span><span class="m">0</span>.0s<span class="w"> </span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Attaching<span class="w"> </span>to<span class="w"> </span>firefly-1,<span class="w"> </span>jwt-this-1
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>Token
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">=====</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>eyJhbGciOiJFUzI1NiIsImtpZCI6Im8weWttRGFUTDZhU283WnVGUFRQaDVKbWdkYjBjVnVJMklLX1lUQ0ZtQmciLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE3MDczOTUzOTksImlhdCI6MTcwNzMwODk5OSwiaXNzIjoiaHR0cDovLzE3Mi4xOC4wLjI6ODAwMCIsInN1YiI6Imp3dC10aGlzIiwidmVuYWZpLWZpcmVmbHkuYWxsb3dBbGxQb2xpY2llcyI6ZmFsc2UsInZlbmFmaS1maXJlZmx5LmFsbG93ZWRQb2xpY2llcyI6WyJCYXNpYyBEZW1vIl0sInZlbmFmaS1maXJlZmx5LmNvbmZpZ3VyYXRpb24iOiJCYXNpYyBEZW1vIn0.PM0S76Dp47GDV6lnKxTYQdi2rlNpTsCFHAZdJRJWSvqm6Vu8jdjBAm3DYL9wxJV0j-RK_d5w2s2x-lv7zaUizQ
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>Header
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">======</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w">   </span><span class="s2">"alg"</span>:<span class="w"> </span><span class="s2">"ES256"</span>,
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w">   </span><span class="s2">"kid"</span>:<span class="w"> </span><span class="s2">"o0ykmDaTL6aSo7ZuFPTPh5Jmgdb0cVuI2IK_YTCFmBg"</span>,
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w">   </span><span class="s2">"typ"</span>:<span class="w"> </span><span class="s2">"JWT"</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span>Claims
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">======</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w">   </span><span class="s2">"exp"</span>:<span class="w"> </span><span class="m">1707395399</span>,
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>jwt-this-1<span class="w">  </span><span class="p">|</span><span class="w">   </span><span class="s2">"iat"</span>:<span class="w"> </span><span class="m">1707308999</span>,
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>...
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:00.469163<span class="w">       </span><span class="m">1</span><span class="w"> </span>options.go:141<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"process successfully set mlockall()"</span><span class="w"> </span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:00.479032<span class="w">       </span><span class="m">1</span><span class="w"> </span>client.go:195<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"creating vaas client"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"client"</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:00.479230<span class="w">       </span><span class="m">1</span><span class="w"> </span>client.go:241<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"getting VaaS configuration"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"client"</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:01.090982<span class="w">       </span><span class="m">1</span><span class="w"> </span>readyz.go:68<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"adding readiness check"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.manager.readyz"</span><span class="w"> </span><span class="s2">"name"</span><span class="o">=</span><span class="s2">"signer/inmemory"</span><span class="w"> </span><span class="s2">"path"</span><span class="o">=</span><span class="s2">"/readyz"</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:01.091020<span class="w">       </span><span class="m">1</span><span class="w"> </span>client.go:195<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"creating vaas client"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.bootstrap.vaas.client"</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>...
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.061899<span class="w">       </span><span class="m">1</span><span class="w"> </span>client.go:296<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"retrieve issued intermediate certificate from VaaS"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.bootstrap.vaas.client"</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.169560<span class="w">       </span><span class="m">1</span><span class="w"> </span>vaas.go:123<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"issued intermediate certificate from VaaS"</span><span class="w"> </span><span class="s2">"CN"</span><span class="o">=</span><span class="s2">"Firefly Playground Issuer"</span><span class="w"> </span><span class="s2">"id"</span><span class="o">=</span><span class="s2">"9d03a130-c5b4-11ee-b282-75b352d68206"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.bootstrap.vaas"</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.172270<span class="w">       </span><span class="m">1</span><span class="w"> </span>inmemory.go:49<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"stored in memory certificate private key bundle"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.signer.inmemory"</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.172303<span class="w">       </span><span class="m">1</span><span class="w"> </span>renewer.go:135<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"fetched intermediate certificate from bootstrap"</span><span class="w"> </span><span class="s2">"CN"</span><span class="o">=</span><span class="s2">"Firefly Playground Issuer"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.agent_renewer"</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.172324<span class="w">       </span><span class="m">1</span><span class="w"> </span>renewer.go:169<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"waiting to renew certificate"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.agent_renewer"</span><span class="w"> </span><span class="s2">"renew_time"</span><span class="o">=</span><span class="s2">"2024-04-07 12:29:51 +0000 UTC"</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.172328<span class="w">       </span><span class="m">1</span><span class="w"> </span>tls.go:144<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"signing tls certificate"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.server.rest.tls"</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>firefly-1<span class="w">   </span><span class="p">|</span><span class="w"> </span>I0207<span class="w"> </span><span class="m">12</span>:30:02.173788<span class="w">       </span><span class="m">1</span><span class="w"> </span>tls.go:169<span class="o">]</span><span class="w"> </span><span class="s2">"msg"</span><span class="o">=</span><span class="s2">"signed tls certificate"</span><span class="w"> </span><span class="s2">"logger"</span><span class="o">=</span><span class="s2">"agent.server.rest.tls"</span><span class="w"> </span><span class="s2">"renewal_time"</span><span class="o">=</span><span class="s2">"2024-02-08T04:30:02Z"</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above command runs docker in interactive mode which means that the process does not exit. Be careful not to accidentally exit the process.</p>
+</div>
+<h3 id="step-3-create-a-new-jwt"><font color="#FF6333">Step 3 </font>  - Create a new JWT</h3>
+<p>When running in <code>server mode</code> all certificate requests will require a valid JWT to be provided in the HTTP <code>auth</code> header. i.e. the request must include a </p>
+<div class="highlight"><span class="filename">Authorization Header</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Authorization:<span class="w"> </span>Bearer<span class="w"> </span>eyJhbGciOiJFUzI1NiIsImtpZCI6IlNVVkQwc3NlNGxNcWhQ...<span class="w"> </span>
+</code></pre></div>
+<p>Lets use cURL get a JWT using using the <code>jwt-this</code> service. This creates a new environment variable <code>$token</code> that stores the token.  </p>
+<div class="highlight"><span class="filename">cURL Usage to request JWT</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">token</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/x-www-form-urlencoded"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8001/token<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">     </span>-k<span class="w"> </span>-s<span class="w"> </span><span class="p">|</span><span class="w">  </span>jq<span class="w"> </span>-r<span class="w">  </span><span class="s1">'.access_token'</span><span class="w"> </span><span class="k">)</span><span class="w"> </span>
+</code></pre></div>
+<p>You can decode and see the JWT content using a nifty trick with the <code>jq</code> command. e.g.</p>
+<div class="highlight"><span class="filename">JQ Usage to decode JWT</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">token</span><span class="si">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-R<span class="w"> </span><span class="s1">'split(".") | .[0],.[1] | @base64d | fromjson'</span>
+</code></pre></div>
+<div class="highlight"><span class="filename">Output</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="o">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="s2">"alg"</span>:<span class="w"> </span><span class="s2">"ES256"</span>,
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="s2">"kid"</span>:<span class="w"> </span><span class="s2">"fsX3WvpPBwpi_YK91dCulTrSQj6ogkGKb6V58Pj7Eaw"</span>,
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="s2">"typ"</span>:<span class="w"> </span><span class="s2">"JWT"</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="o">}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="o">{</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="s2">"email"</span>:<span class="w"> </span><span class="s2">"user1@acme.com"</span>,
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="s2">"exp"</span>:<span class="w"> </span><span class="m">1707401178</span>,
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="s2">"iat"</span>:<span class="w"> </span><span class="m">1707314778</span>,
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span><span class="s2">"iss"</span>:<span class="w"> </span><span class="s2">"http://172.18.0.2:8000"</span>,
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="s2">"sub"</span>:<span class="w"> </span><span class="s2">"jwt-this"</span>,
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span><span class="s2">"venafi-firefly.allowAllPolicies"</span>:<span class="w"> </span>false,
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span><span class="s2">"venafi-firefly.allowedPolicies"</span>:<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="c1"># (1)</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="s2">"Firefly Playground"</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span><span class="o">]</span>,
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">  </span><span class="s2">"venafi-firefly.configuration"</span>:<span class="w"> </span><span class="s2">"Firefly Playground"</span><span class="w"> </span><span class="c1"># (2)</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="o">}</span>
+</code></pre></div>
+<ol>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Determines what certificate issuing policies the requestor is allowed to use</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Determines what Firefly configuration the requestor is allowed to use</li>
+</ol>
+<p>Note the <code>venafi-firefly.allowAllPolicies</code>, <code>venafi-firefly.allowedPolicies</code> and <code>venafi-firefly.configuration</code> fields. </p>
+<h3 id="step-4-create-a-certificate-signing-request-csr"><font color="#FF6333">Step 4 </font> - Create a Certificate Signing Request (CSR)</h3>
+<p>Before we can request a new certificate we first need to create a Certificate Signing Request (CSR). To keep things simple we'll just use <code>openssl</code> to create this. We'll then store it as another environment variable called <code>$csr</code>. Because we need to format the CSR as JSON string this is a 2 step process. </p>
+<div class="highlight"><span class="filename">openssl Usage to request create CSR</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Step 1. (1)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">tmp</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>req<span class="w"> </span>-nodes<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-keyout<span class="w"> </span>example.key<span class="w"> </span>-out<span class="w"> </span>-<span class="w"> </span>-subj<span class="w"> </span><span class="s2">"/C=GB/ST=London/L=London/O=Global Security/OU=IT Department/CN=test.example.com"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span><span class="w"> </span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Step 2. (2)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nv">csr</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>jq<span class="w"> </span>-n<span class="w"> </span>--arg<span class="w"> </span>string<span class="w"> </span><span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span><span class="w"> </span><span class="s1">'$string'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">'"'</span><span class="w"> </span><span class="k">)</span><span class="w"> </span>
+</code></pre></div>
+<ol>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Store's the CSR in PEM format</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> Formats the PEM formatted CSR as JSON string that be sent to Firefly</li>
+</ol>
+<h3 id="step-5-request-a-certificate">Step 5 - Request a certificate</h3>
+<p>Now that we have both a JWT and a CSR we can make a request to our Firefly instance. </p>
+<p>The following cURL command sends a simple JSON data structure to Firefly that contains the CSR and a reference to the policy that will be used to fulfill the certificate request. The policy reference must correspond to one of the <code>venafi-firefly.allowedPolicies</code> within the JWT. </p>
+<div class="highlight"><span class="filename">cURL Usage to request certificate</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span><span class="s1">'https://localhost:8289/v1/certificatesigningrequest'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>--header<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>--data<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="s1">    "request": "'</span><span class="s2">"</span><span class="nv">$csr</span><span class="s2">"</span><span class="s1">'",</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="s1">    "policyName": "Firefly Playground"</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="s1">}'</span><span class="w"> </span>-k<span class="w"> </span>-s<span class="w"> </span>
+</code></pre></div>
+<p>You should see output similar to the following. Note: The response includes the following certificates which are returned in the order listed: </p>
+<ul>
+<li>The entity/leaf certificate itself </li>
+<li>The intermediate certificate for the <code>Firefly SubCA</code> used to sign the requested entity/leaf certificate </li>
+<li>The intermediate/SubCa certificate for the<code>Sub CA Provider</code> as listed in the Venafi Control plane</li>
+</ul>
+<div class="highlight"><span class="filename">Truncated Output</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="o">{</span><span class="s2">"certificateChain"</span>:<span class="s2">"-----BEGIN CERTIFICATE-----\nMIICgDCCAiagAwIBAgIRAPVKH ....</span>
+</code></pre></div>
+<details class="tip">
+<summary>Tip - Getting a valid PEM format</summary>
+<p>Because the output is returned as a JSON data structure it will be JSON encoded and the certificate chain will be on a single line. This will not work with your applications that typically require a PEM format which includes newlines. You can use the <code>JQ</code> utility to reformat the certificate chain and remove the JSON encoding. To do this pipe the output to <code>JQ</code> and specifiy the <code>-r</code> for raw flag.</p>
+<div class="highlight"><span class="filename">Example</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>curl<span class="w"> </span>--location<span class="w"> </span><span class="s1">'https://localhost:8289/v1/certificatesigningrequest'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>--header<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>--data<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="s1">    "request": "'</span><span class="s2">"</span><span class="nv">$csr</span><span class="s2">"</span><span class="s1">'",</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="s1">    "policyName": "Firefly Playground"</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="s1">}'</span><span class="w"> </span>-k<span class="w"> </span>-s<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.certificateChain
+</code></pre></div>
+<p>This will produce a PEM output that will probably be more useful and can be used directly by your applications. </p>
+<div class="highlight"><span class="filename">Example PEM Output</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="w">    </span>-----BEGIN<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>MIICgDCCAiagAwIBAgIRALcojaIkJtPIm7suinBqQPgwCgYIKoZIzj0EAwIwFjEU
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>MBIGA1UEAxMLRGVtbyBJc3N1ZXIwHhcNMjQwMjEwMTEzMjAzWhcNMjQwNTEwMTEz
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>MjAzWjBAMQ4wDAYDVQQHEwVTb2ZpYTEVMBMGA1UEChMMVmVuYWZpLCBJbmMuMRcw
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>FQYDVQQDDA51c2VyMUBhY21lLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>AQoCggEBAK1whkeg9ucVyPCB/Kyur6w3WzVepUT03tzF8GHSRbT6RXdwGPcq/ck7
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>X3/D3mPuU2S3HL7FjpNIEi3pXJazjQBFxzKaKqlYorkcEs7IPwDa+xgMUubCBK7/
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>1i27HmMo0yBRtrN6ulUNsuTFhXUsQpLThtOTafcGjwau7grIp9IXmYrvdkS9HQOs
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>YATxN3HM9FMaUNWrF/p7iaMNSMttnLu7aGVUe5O15i1C9ixzlc4u0SU0ZR6K722z
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>2EuFNQtQzsXKBobqmvMUo3Pi4HUuDQ4W79TEEBoWHdotCZY+NO153+bBCVdh/nwO
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>gzkya5+atFNFdr6EetegN/yoxrb4sAUCAwEAAaNgMF4wDgYDVR0PAQH/BAQDAgWg
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>MB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAAMB8G
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>A1UdIwQYMBaAFJZxTTv0xv8Kc2mLIjlXunAOoCiuMAoGCCqGSM49BAMCA0gAMEUC
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>IQDQcZHeoZ2ngis5LAsG4cLAng+CyVYEnyCMG9/cGZdEVgIgal9HjdkasP1DeRga
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="nv">K3i8pw9dTr40mvhPVtQwYQw03cM</span><span class="o">=</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>-----END<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>-----BEGIN<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>MIIDtTCCAp2gAwIBAgIUaafwxTAoCEc2EkPeII39lnt8y/UwDQYJKoZIhvcNAQEL
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>BQAweDELMAkGA1UEBhMCVVMxFTATBgNVBAoTDFZlbmFmaSwgSW5jLjERMA8GA1UE
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>CxMIQnVpbHQtaW4xPzA9BgNVBAMTNkRlZGljYXRlZCAtIFZlbmFmaSBDbG91ZCBC
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>dWlsdC1JbiBJbnRlcm1lZGlhdGUgQ0EgLSBHMTAeFw0yNDAyMTAxMTExNTdaFw0y
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>NDA1MTAxMTEyMjdaMBYxFDASBgNVBAMTC0RlbW8gSXNzdWVyMFkwEwYHKoZIzj0C
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>AQYIKoZIzj0DAQcDQgAEresHmPd1pKTqTD5Cob8O0VVgm+3rMnJGpBRidsV2AguR
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>xUFLtjq5VdWqx+RjVSHyZ6n+r1jyVPE20Q90Bo+wFqOCAWIwggFeMBIGA1UdEwEB
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>/wQIMAYBAf8CAQAwHQYDVR0OBBYEFJZxTTv0xv8Kc2mLIjlXunAOoCiuMB8GA1Ud
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>IwQYMBaAFCe55cW8WhjR9H0N3jhpvocPFjUCMIGCBggrBgEFBQcBAQR2MHQwcgYI
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>KwYBBQUHMAKGZmh0dHA6Ly9idWlsdGluY2EudmVuYWZpLmNsb3VkL3YxL2J1aWx0
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>aW5jYS9jYWNoYWluLzBkNDdhNTgxLTk1OGQtMTFlZC1iN2JjLWJmZTEyYmY1ZTUx
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>Ni1JbnRlcm1lZGlhdGVDQTBzBgNVHR8EbDBqMGigZqBkhmJodHRwOi8vYnVpbHRp
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>bmNhLnZlbmFmaS5jbG91ZC92MS9idWlsdGluY2EvY3JsLzBkNDdhNTgxLTk1OGQt
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>MTFlZC1iN2JjLWJmZTEyYmY1ZTUxNi1JbnRlcm1lZGlhdGVDQTAOBgNVHQ8BAf8E
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>BAMCAoQwDQYJKoZIhvcNAQELBQADggEBAHr/CzXpoq5XGWWBQIgWCka4cQKisSK5
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>wJAVY771mcwxjt0kfQh7jKzI6gH/xGJIeWXIbzAnIIAMItWWNeVnCJfQD8rkDPdC
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>IyrscWUzZJIxxqeNt0oV4a8qV5OAY24ODRo9vYdR1wqKE0CPAYLFAzgIZSR4aQY5
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>FYMl2Hk1XoY67nYlSBLr2IcletACpHmt83GjBKyeT0VX00AEqO7Z9cDQ/Iq3qInC
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>dLxuPbSd+0cPM6mQEcVrZpkzqYSWYgkIm2BdPbYyQFUnFRICC0IGzz4+xfvLppRE
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>QDxLYgi8/MD8ebn9xuwZIyJZ4FgFbci49Df4qgPGgTRiE4cnED76wBc<span class="o">=</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>-----END<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>-----BEGIN<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>MIIEtzCCA5+gAwIBAgIUZLSN3/h90AM/RJcoX2beeYd1vqkwDQYJKoZIhvcNAQEL
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>BQAwZjELMAkGA1UEBhMCVVMxFTATBgNVBAoTDFZlbmFmaSwgSW5jLjERMA8GA1UE
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>CxMIQnVpbHQtaW4xLTArBgNVBAMTJERlZGljYXRlZCAtIFZlbmFmaSBDbG91ZCBC
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>dWlsdC1JbiBDQTAeFw0yMzAxMTYxMTAwMjlaFw0yODAxMTUxMTAwNTlaMHgxCzAJ
+<a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>BgNVBAYTAlVTMRUwEwYDVQQKEwxWZW5hZmksIEluYy4xETAPBgNVBAsTCEJ1aWx0
+<a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>LWluMT8wPQYDVQQDEzZEZWRpY2F0ZWQgLSBWZW5hZmkgQ2xvdWQgQnVpbHQtSW4g
+<a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>SW50ZXJtZWRpYXRlIENBIC0gRzEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+<a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>AoIBAQDbB2x7ti8wNQFho7BhriBfOArJnh5blnuk+M0OO3LdBNWc0C0Kw7LusPAi
+<a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>jL26iliHilX9jTcmSO/8fTnHmAJp2ZgtG6BBGUX+srez1i/oyGKn4ISPpLezvawy
+<a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>qym4CBGcYkq6Ob9EaGX8kl7todPRvrkWBRQxX/iXnt1p+WBoqw3H4D/uZw1M2LRY
+<a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>gxaqTwyjotOQmsfv/nN1Ylpn5Qc3glOTcIX9ijP7EvBpwIuSGE9zpuH6d7JCaV6t
+<a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>mDr7Lk7KgCxSVaM7mBiZ3Nkf1JC+J805chUOCf4P5wOL8yGphYN8LsmpJgNw/gEo
+<a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>dwl+dt96WfW29meEWos9pVY4/Y/VAgMBAAGjggFJMIIBRTAOBgNVHQ8BAf8EBAMC
+<a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>AQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUJ7nlxbxaGNH0fQ3eOGm+hw8W
+<a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>NQIwHwYDVR0jBBgwFoAUxmQN0ktNODYkJmEFxskk7NhgrYowdQYIKwYBBQUHAQEE
+<a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a>aTBnMGUGCCsGAQUFBzAChllodHRwOi8vYnVpbHRpbmNhLnZlbmFmaS5jbG91ZC92
+<a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>MS9idWlsdGluY2EvY2EvMGQ0N2E1ODEtOTU4ZC0xMWVkLWI3YmMtYmZlMTJiZjVl
+<a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>NTE2LVJvb3RDQTBrBgNVHR8EZDBiMGCgXqBchlpodHRwOi8vYnVpbHRpbmNhLnZl
+<a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>bmFmaS5jbG91ZC92MS9idWlsdGluY2EvY3JsLzBkNDdhNTgxLTk1OGQtMTFlZC1i
+<a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a>N2JjLWJmZTEyYmY1ZTUxNi1Sb290Q0EwDQYJKoZIhvcNAQELBQADggEBAJttmpUq
+<a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a>EXNfl3DLfWuMaFOrLWh5B/m5bPJXGtMKzJFN3MtLjiBRz5yq5BtRf4xHbEHYGk0h
+<a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>N2jJo56zSR7H6YI0tmy/uPW0H9NNkVMBvOIX/qhOkVPWMCmJY82qI5bv4yAgClXY
+<a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a>xBaA2IaATA+ZAd9IvJdyLnkKxkKz1vP2OwJ3eF3oX0gY5NnQNtXGUyAMfgyrJaCi
+<a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a>eKEwu5EVKVwoXYDyO3rrkKgnmzktyiKxtAij6sf3Z4CRDhrnfwGXJnv6DJHj1yFd
+<a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a>LHv2Zzh0jOjXXtvwoP5pvoOTkToVsTdW+KpBowracf19pS56ZbLtOOxIxX65FpGo
+<a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a><span class="nv">x4QlptWfjmdj2zI</span><span class="o">=</span>
+<a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>-----END<span class="w"> </span>CERTIFICATE-----<span class="w">   </span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2025 CyberArk
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.annotate", "navigation.expand", "content.tabs.link", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

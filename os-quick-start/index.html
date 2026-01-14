@@ -1,0 +1,955 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../istio-firefly/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>OpenShift cert-manager + CyberArk Workload Identity Issuer - Firefly Playground</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M11.383.617C5.097.617%200%205.714%200%2012s5.097%2011.383%2011.383%2011.383S22.763%2018.286%2022.763%2012a11.3%2011.3%200%200%200-.878-4.389l-3.203%203.203c.062.387.1.782.1%201.186a7.398%207.398%200%201%201-7.4-7.398c1.499%200%202.889.448%204.054%201.214l2.857-2.857a11.33%2011.33%200%200%200-6.91-2.342m9.674.756c-.292%200-.583.112-.805.334q-4.453%204.449-8.9%208.902L9.596%208.854a1.14%201.14%200%200%200-1.61%200l-1.775%201.773a1.14%201.14%200%200%200%200%201.61l4.166%204.163a1.42%201.42%200%200%200%202.012%200L23.666%205.121a1.136%201.136%200%200%200%200-1.61l-1.805-1.804a1.14%201.14%200%200%200-.804-.334%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openshift-cert-manager-cyberark-workload-identity-issuer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Firefly Playground" class="md-header__button md-logo" aria-label="Firefly Playground" data-md-component="logo">
+      
+  <img src="../assets/firefly-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Firefly Playground
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OpenShift cert-manager + CyberArk Workload Identity Issuer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/venafi/firefly-playground" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    firefly-playground
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Firefly Playground" class="md-nav__button md-logo" aria-label="Firefly Playground" data-md-component="logo">
+      
+  <img src="../assets/firefly-logo.svg" alt="logo">
+
+    </a>
+    Firefly Playground
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/venafi/firefly-playground" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    firefly-playground
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started with the Venafi Firefly Playground.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ei-quick-start/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluators Guide: CyberArk Enterprise Issuer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../istio-firefly/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Firefly with Istio demo steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenShift cert-manager + CyberArk Workload Identity Issuer
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenShift cert-manager + CyberArk Workload Identity Issuer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <nav class="md-tags">
+    
+      
+      
+      
+      
+        <span class="md-tag">DRAFT</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">In Progress</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">v0.1</span>
+      
+    
+  </nav>
+
+
+
+<h1 id="openshift-cert-manager-cyberark-workload-identity-issuer">OpenShift cert-manager + CyberArk Workload Identity Issuer</h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This document is currently a working draft and assumes some knowledge of Kubernetes/OpenShift and there my some inaccuracies and errors. It is intended to provide Information Security and platform teams with a quick overview for integrating CyberArk's Workload Identity Issuer with 'cert-manager<code>and</code>Istio` service-mesh. It is NOT intended to be used for production purposes.</p>
+<p>Please also not that the original Venafi product names are currently transitioning to CyberArk therefore the document uses both Venafi and CyberArk interchangeably.</p>
+</div>
+<h2 id="overview">Overview</h2>
+<p>This quick-start is intended to to provide a single point of reference for installing and configuring Firefly with cert-manager using the CyberArk OpenShift Operator.</p>
+<p>It will include the following components:</p>
+<ul>
+<li><strong>Enterprise cert-manager:</strong> Enterprise cert-manager adds certificates and certificate issuers as resource types in Kubernetes clusters, and simplifies the process of obtaining, renewing and using certificates. Venafi provides Long-Term Support (LTS) releases of cert-manager to help organizations with lifecycle planning. Each LTS release is maintained for a minimum of two years.</li>
+<li><strong>CyberArk Workload Identity Issuer:</strong> A lightweight, distributed, and cloud-native machine identity issuer, specifically designed to secure workloads in dynamic, cloud-native environments.  </li>
+</ul>
+<p>These enterprise components and are stored in a private repository.</p>
+<p>Users in the US, Canada, Australia, and Singapore regions should use the US registry. Users in the EU and UK should use the EU registry:</p>
+<ul>
+<li>US: oci://private-registry.venafi.cloud/</li>
+<li>EU: oci://private-registry.venafi.eu/</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Prerequisites</p>
+<p>To complete this quick-start you will need access to:</p>
+<ul>
+<li><strong>A RedHat OpenShift Cluster</strong> You will need permissions that enable you to install the "CyberArk Certificate Manager Operator" You can learn more here: https://catalog.redhat.com/en/software/container-stacks/detail/65ba7a33a723d0b8f2df84b4</li>
+<li><strong>Access to a CyberArk Certificate Manager Tenant (Formally Venafi TLS Protect Cloud)</strong> </li>
+<li><strong>Successfully Installed the CyberArk Certificate Manager Operator for OpenShift</strong></li>
+</ul>
+<p>You will also need to ensure that the following utilities are installed: </p>
+<ul>
+<li><strong><code>kubectl</code></strong> The Kubernetes CLI tool. This needs to be configured with the correct context to access the OpenShift cluster.</li>
+<li><strong><code>venctl</code></strong> A CLI tool that enables interaction with CyberArk Certificate Manager from the command line. You can install it from here: https://docs.venafi.cloud/vaas/venctl/t-venctl-install/</li>
+<li><strong><code>imgpkg</code></strong> A CLI  tool that allows users to store a set of arbitrary files as an OCI image. You can install it from here: https://github.com/carvel-dev/imgpkg</li>
+<li><strong><code>jq</code></strong> A lightweight CLI tool and flexible command-line JSON processor. You can install it from here: https://jqlang.org</li>
+<li><strong><code>cmctl</code></strong> A command line tool that can help you manage cert-manager and its resources inside your cluster. You can install it from here: https://cert-manager.io/docs/reference/cmctl/#installation</li>
+</ul>
+</div>
+<details class="abstract">
+<summary>Step 1. Install the "CyberArk Certificate Manager Operator for OpenShift</summary>
+<p>In this step we will create a new <code>cyberark</code> namespace within our OpenShift cluster and then install the CyberArk Certificate Manager Operator for OpenShift.</p>
+<p><strong>1. Create a new name-space</strong></p>
+<div class="highlight"><span class="filename">Command</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>cyberark
+</code></pre></div>
+<p><strong>2. Install the OpenShift Operator</strong></p>
+<p><strong>a.</strong> Login to your OpenShift Cluster Console and navigate to "Operators, OperatorHub" in the left hand menu. Then type "CyberArk" in the search field. (See Example 1.) <br>
+<strong>b.</strong> Click "Install" (See Example 2.) <br>
+<strong>c.</strong> Click on the "Installed Namespace" drop-down and select "CyberArk", then click "Install" (See Example 3.)</p>
+<p><style>
+.row {
+  display: flex;
+}</p>
+<p>.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+</style></p>
+<p></p><div class="row">
+  <div class="column">
+  Example 1 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/image1.png" data-desc-position="bottom"><img src="../images/openshift/image1.png" width="500"></a>
+  </div>
+  <div class="column">
+  Example 2 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/image2.png" data-desc-position="bottom"><img src="../images/openshift/image2.png" width="500"></a>
+  </div>
+       <div class="column">
+       Example 3 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/image3.png" data-desc-position="bottom"><img src="../images/openshift/image3.png" width="500"></a>
+  </div><p></p>
+</div>
+<p>Upon completion you should see:</p>
+<p><style>
+.row {
+  display: flex;
+}</p>
+<p>.column {
+  flex: 33.33%;
+  padding: 5px;
+}</p>
+</style>
+</p><p></p><div class="row">
+  <div class="column">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/image4.png" data-desc-position="bottom"><img src="../images/openshift/image4.png" width="500"></a>
+  </div>
+  <div class="column">
+  </div>
+  <div class="column">
+  </div>
+</div><p></p>
+</details>
+<details class="abstract">
+<summary>Step 2. Enable access to the private CyberArk OCI registry</summary>
+<p>In this step we will enable access to the private CyberArk OCI (Open Container Initiative) registry which stores the enterprise container images, Helm charts, and other artifacts. To save some time we'll use the <code>venctl</code> command line to get the credential. </p>
+<p>This step also requires access to a system where <code>jq</code> and <code>kubectl</code> are installed.</p>
+<div class="admonition note">
+<p class="admonition-title">A note about CyberArk OCI registries</p>
+<p>There are two types of registries: public and private.</p>
+<ul>
+<li><strong>Public Registries:</strong> These are deployed in all available Venafi Control Plane regions and serve from a single location: registry.venafi.cloud. Public registries hold publicly available artifacts and do not require authentication.</li>
+<li>
+<p><strong>Private Registries:</strong> These registries store enterprise Venafi software and are available in region-specific locations.
+  US region - private-registry.venafi.cloud
+  EU region - private-registry.venafi.eu
+  Users in the US, Canada, Australia, and Singapore regions should use the US registry. Users in the EU and UK should use the EU registry.
+  Access to these registries requires a subscription to the Venafi Control Plane. For your convenience, the private registries also contain the public artifacts hosted by the public registries.
+  There are two ways to acquire credentials to access the registry:</p>
+</li>
+<li>
+<p>Using the Venafi Control Plane UI</p>
+</li>
+<li>Using the CLI tool for CyberArk Certificate Manager</li>
+</ul>
+<p>Users in the US, Canada, Australia, and Singapore regions should use the US registry. Users in the EU and UK should use the EU registry:</p>
+<ul>
+<li>US: oci://private-registry.venafi.cloud/</li>
+<li>EU: oci://private-registry.venafi.eu/     </li>
+</ul>
+</div>
+<p><strong>1. Export the Venafi SaaS API Key</strong></p>
+<p><strong>a.</strong> Login to the Venafi SaaS Console and navigate to "Account - Preferences" in the top right of the screen (See Example 1.) <br>
+<strong>b.</strong> Copy the API key to your clipboard (See Example 2.)</p>
+<p><style>
+.row {
+  display: flex;
+}</p>
+<p>.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+</style></p>
+<p></p><div class="row">
+  <div class="column">
+  Example 1 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/venafi-account-image1.png" data-desc-position="bottom"><img src="../images/openshift/venafi-account-image1.png" width="500"></a>
+  </div>
+  <div class="column">
+  Example 2 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/venafi-account-image2.png" data-desc-position="bottom"><img src="../images/openshift/venafi-account-image2.png" width="500"></a>
+  </div><p></p>
+</div>
+<p><strong>2. Save the API key as an environment variable</strong></p>
+<div class="highlight"><span class="filename">Command:</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">API_KEY</span><span class="o">=</span><span class="s2">"content from clipboard"</span>
+</code></pre></div>
+<p><strong>3. Create an "image pull" credential</strong></p>
+<div class="highlight"><span class="filename">Command: Create an image pull credential</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>venctl<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>registry<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">"Enterprise Image Pull Secret"</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (1)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--scopes<span class="w"> </span>cert-manager-components,enterprise-venafi-issuer,enterprise-approver-policy,openshift-routes<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--output<span class="w"> </span>dockerconfig<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--output-file<span class="w"> </span>venafi_registry_docker_config.json<span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (2)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--validity<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--api-key<span class="w"> </span><span class="nv">$API_KEY</span><span class="w">  </span><span class="c1"># (3)</span>
+</code></pre></div>
+<ol>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> This is the display name for the credential listed in the SaaS control plane under "Service accounts"</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> This is the file name that will be used to store the new credential"</li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512m-32-352a32 32 0 1 1 64 0 32 32 0 1 1-64 0m-8 64h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-80c-13.3 0-24-10.7-24-24s10.7-24 24-24h24v-64h-24c-13.3 0-24-10.7-24-24s10.7-24 24-24"></path></svg></span> This is API key used to authenticate with the SaaS control plane under "Account, Preferences"    </li>
+</ol>
+<p>We now have three options for pulling images from the private repository. We can configure Kubernetes (option 1) to use the "image pull" credential so that it can directly pull images from the private repository. However, some orgnizations require helm charts and images to be pulled down and added "mirrored" (option 2) to their own private repositories. Alternatively, the charts and images can be downloaded (option 3) manually. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2zm-4-6H5v-2h2z"></path></svg></span> Option 1 - Kubernetes/OS pulls</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2zm-4-6H5v-2h2z"></path></svg></span> Option 2 - Mirror the repository</label><label for="__tabbed_1_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2zm-4-6H5v-2h2z"></path></svg></span> Option 3 - Manual download</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>This option will create a new "image pull" secret in Kubernetes that will enable Kubernetes to pull the CyberArk Enterprise components directly from the private repo   </p>
+<p><strong>4. Create a new secret from the credential</strong></p>
+<div class="highlight"><span class="filename">Command: Create secret for image-pull</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>docker-registry<span class="w"> </span>venafi-image-pull-secret<span class="w"> </span>--namespace<span class="w"> </span>cyberark<span class="w"> </span>--from-file<span class="w"> </span>.dockerconfigjson<span class="o">=</span>venafi_registry_docker_config.json
+</code></pre></div>
+<p><strong>5. Inspect the secret</strong></p>
+<div class="highlight"><span class="filename">Command: Get secret</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>venafi-image-pull-secret<span class="w"> </span>--namespace<span class="w"> </span>venafi<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--output<span class="o">=</span><span class="s2">"jsonpath={.data.\.dockerconfigjson}"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>jq
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>To set up Docker mirroring, follow the specific process for your mirroring tool, like Artifactory.</p>
+<p><strong>4. Extract the username and password</strong></p>
+<div class="highlight"><span class="filename">command</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span>venafi_registry_docker_config.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.. | select(.username?) | "username: \(.username)\npassword: \(.auth)"'</span><span class="w"> </span>-r
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>We'll use this option to download the helm charts and images for cert-manager and the Enterprise issuer using the <code>imgpkg</code> CLI utility. </p>
+<div class="admonition note">
+<p class="admonition-title">A note about imgpkg</p>
+<p><code>imgpkg</code> is a tool that allows users to store a set of arbitrary files as an OCI image. One of the driving use cases is to store Kubernetes configuration (plain YAML, ytt templates, Helm templates, etc.) in OCI registry as an image.</p>
+<p>You can install it from here: https://github.com/carvel-dev/imgpkg</p>
+</div>
+<p><strong>4. Extract the username and password</strong></p>
+<div class="highlight"><span class="filename">Command</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span>venafi_registry_docker_config.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>jq<span class="w"> </span><span class="s1">'.. | select(.username?) | "username: \(.username)\npassword: \(.auth)"'</span><span class="w"> </span>-r
+</code></pre></div>
+<p><strong>5.</strong> Login to the private repo using the username/password extracted from the above command**</p>
+<div class="highlight"><span class="filename">command</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>docker<span class="w"> </span>login<span class="w"> </span>private-registry.venafi.cloud<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>--username<span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>venafi_registry_docker_config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.. | select(.username?).username'</span><span class="w"> </span>-r<span class="k">)</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>--password<span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>venafi_registry_docker_config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.. | select(.username?).auth | @base64d'</span><span class="w"> </span>-r<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d:<span class="w"> </span>-f2<span class="k">)</span>
+</code></pre></div>
+<p><strong>6. Download the CyberArk Workload Issuer (Firefly) image and helm chart</strong></p>
+<div class="highlight"><span class="filename">command</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>registry.venafi.cloud/public/venafi-images/firefly:v1.8.1<span class="w"> </span>--to-tar<span class="w"> </span>firefly-v1.3.1.tar
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>registry.venafi.cloud/public/venafi-images/helm/firefly:v1.8.1<span class="w"> </span>--to-tar<span class="w"> </span>firefly-helm-v1.3.1.tar
+</code></pre></div>
+<p><strong>7. Download cert-manger images and helm chart</strong></p>
+<p></p><div class="highlight"><span class="filename">command</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>private-registry.venafi.cloud/cert-manager/cert-manager-controller:v1.18.2<span class="w"> </span>--to-tar<span class="w"> </span>cert-manager-controller-v1.18.2.tar
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>private-registry.venafi.cloud/cert-manager/cert-manager-acmesolver:v1.18.2<span class="w"> </span>--to-tar<span class="w"> </span>cert-manager-acmesolver-v1.18.2.tar
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>private-registry.venafi.cloud/cert-manager/cert-manager-cainjector:v1.18.2<span class="w"> </span>--to-tar<span class="w"> </span>cert-manager-cainjector-v1.18.2.tar
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>private-registry.venafi.cloud/cert-manager/cert-manager-webhook:v1.18.2<span class="w"> </span>--to-tar<span class="w"> </span>cert-manager-webhook-v1.18.2.tar
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>private-registry.venafi.cloud/cert-manager/cert-manager-startupapicheck:v1.18.2<span class="w"> </span>--to-tar<span class="w"> </span>cert-manager-startupapicheck-v1.18.2.tar
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--image<span class="w"> </span>private-registry.venafi.cloud/charts/cert-manager:v1.18.2<span class="w"> </span>--to-tar<span class="w"> </span>cert-manager-helm-v1.18.2.tar
+</code></pre></div>
+<strong>8. Publish the the CyberArk Workload Issuer (Firefly) image and chart to your own enterprise repository</strong><p></p>
+<p></p><div class="highlight"><span class="filename">command</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>firefly-v1.8.1.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/firefly
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>firefly-helm-v1.8.1.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/firefly
+</code></pre></div>
+<strong>9. Publish the cert-manger images and charts to your own repository</strong><p></p>
+<div class="highlight"><span class="filename">command</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>cert-manager-controller-v1.18.2.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/cert-manager-controller
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>cert-manager-acmesolver-v1.18.2.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/cert-manager-acmesolver
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>cert-manager-cainjector-v1.18.2.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/cert-manager-cainjector
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>cert-manager-webhook-v1.18.2.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/cert-manager-webhook
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>cert-manager-startupapicheck-v1.18.2.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/cert-manager-startupapicheck<span class="w"> </span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>imgpkg<span class="w"> </span>copy<span class="w"> </span>--tar<span class="w"> </span>cert-manager-helm-v1.18.2.tar<span class="w"> </span>--to-repo<span class="w"> </span>enterprise-repo/cert-manager<span class="w"> </span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</details>
+<details class="abstract">
+<summary>Step 3. Create a new service account</summary>
+<p>In this step we will create a new service account for Firefly. The service account is used by Firefly to connect to the control plane.</p>
+<p><strong>1. Create a new service account for Firefly using the <code>venctl</code> CLI</strong></p>
+<div class="highlight"><span class="filename">Command</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>venctl<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>firefly<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">"Firefly-OpenShift-tmp"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>--output-file<span class="w"> </span><span class="s2">"cybr_mis_firefly_secret.json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>--output<span class="w"> </span><span class="s2">"secret"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span>--owning-team<span class="w"> </span><span class="s2">"Firefly Playground"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>--validity<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span>--api-key<span class="w"> </span><span class="nv">$API_KEY</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.private_key'</span><span class="w"> </span><span class="s2">"cybr_mis_firefly_secret.json"</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"cybr_mis_firefly_secret.yaml"</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SA_ID</span><span class="o">=</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.client_id'</span><span class="w"> </span><span class="s2">"cybr_mis_firefly_secret.json"</span><span class="k">)</span>
+</code></pre></div>
+<p><strong>2. Create a new secret using the private key from the service account</strong></p>
+<div class="highlight"><span class="filename">Command</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span>cyberark<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="s">  $(cat cybr_mis_firefly_secret.yaml )</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="s">EOF</span>
+</code></pre></div>
+</details>
+<details class="abstract">
+<summary>Step 4. Create a Firefly Policy</summary>
+<p>In this step we will create Firefly configuration </p>
+<p><strong>1.</strong> Login to the Venafi Console and navigate to "Policies - Workload Issuance Policies" (See Example 1.) <br>
+<strong>2.</strong> Click "New" and complete the first part of the configuration - For now we'll leave the policy fairly open (See Example 2.) <br>
+<strong>3.</strong> Click "Save" </p>
+<p><style>
+.row {
+  display: flex;
+}</p>
+<p>.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+</style></p>
+<p></p><div class="row">
+  <div class="column">
+  Example 1 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/policies-image1.png" data-desc-position="bottom"><img src="../images/openshift/policies-image1.png" width="500"></a>
+  </div>
+  <div class="column">
+  Example 2 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/policies-image2.png" data-desc-position="bottom"><img src="../images/openshift/policies-image2.png" width="500"></a>
+  </div><p></p>
+</div>
+</details>
+<details class="abstract">
+<summary>Step 5. Create a Firefly Configuration </summary>
+<p>In this step we will create Firefly configuration </p>
+<ol>
+<li>Login to the Venafi Console and navigate to "Configurations - Issuer Configurations" (See Example 1.)</li>
+<li>Click "New" and complete the first part of the configuration (See Example 2.)</li>
+<li>Click "Continue" and complete the second part of the configuration (See Example 3.)</li>
+</ol>
+<p><style>
+.row {
+  display: flex;
+}</p>
+<p>.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+</style></p>
+<p></p><div class="row">
+  <div class="column">
+  Example 1 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/configuration-image1.png" data-desc-position="bottom"><img src="../images/openshift/configuration-image1.png" width="500"></a>
+  </div>
+  <div class="column">
+  Example 2 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/configuration-image2.png" data-desc-position="bottom"><img src="../images/openshift/configuration-image2.png" width="500"></a>
+  </div>
+       <div class="column">
+       Example 3 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.5 14.5 16 20l-5.5-5.5 1.41-1.41L15 16.17V10.5C15 8 13 6 10.5 6H4V4h6.5a6.5 6.5 0 0 1 6.5 6.5v5.67l3.09-3.09z"></path></svg></span>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/openshift/configuration-image3.png" data-desc-position="bottom"><img src="../images/openshift/configuration-image3.png" width="500"></a>
+  </div><p></p>
+</div>
+</details>
+<details class="abstract">
+<summary>Step 6. Install CyberArk Workload Issuer (Firefly) </summary>
+<p>In this step we will install CyberArk Workload Issuer (Firefly) using the Venafi Operator </p>
+<div class="highlight"><span class="filename">Command</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="s">apiVersion: installer.venafi.com/v1alpha1</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="s">kind: VenafiInstall</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="s">metadata:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="s">  name: firefly-install</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="s">spec:</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="s">  venafiConnection:</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="s">    install: true</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="s">  certManager:</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="s">    install: true</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="s">  globals:</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="s">    namespace: cyberark</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="s">    region: US</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="s">    imagePullSecretNames:</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="s">      - venafi-image-pull-secret</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="s">    vcpRegion: US</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="s">    enableDefaultApprover: true</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="s">  venafiEnhancedIssuer:</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="s">    install: false</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="s">    skip: true</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="s">  firefly:</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="s">    acceptTOS: true</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="s">    clientID: $CLIENT_ID</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="s">    install: true</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="s">    values:</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="s">      deployment:</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="s">        config:</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="s">          bootstrap:</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="s">            vaas:</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="s">              url: https://api.venafi.cloud</span>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="s">          controller:</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="s">            certManager:</span>
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="s">              caRootChainPopulation: true    </span>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="s">EOF</span>
+</code></pre></div>
+</details>
+<details class="abstract">
+<summary>Step 7. Test the CyberArk Workload Issuer &amp; cert-manager </summary>
+<p>In this step we will install CyberArk Workload Issuer (Firefly) using the Venafi Operator </p>
+<div class="highlight"><span class="filename">Command</span><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="s">kind: Certificate</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s">apiVersion: cert-manager.io/v1</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s">metadata:</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="s">  name: 6goats.acme.com</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="s">  namespace: cyberark</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="s">  annotations:</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="s">     firefly.venafi.com/policgit y-name: Firefly Playground</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="s">spec:</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="s">  privateKey:</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="s">    rotationPolicy: Always</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="s">  secretName: 6goats.acme.com</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="s">  commonName: 6goats.acme.com</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="s">  issuerRef:</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="s">    name: firefly</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="s">    kind: Issuer</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="s">    group: firefly.venafi.com</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="s">EOF</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2025 CyberArk
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.annotate", "navigation.expand", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
