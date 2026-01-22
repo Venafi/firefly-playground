@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kuard
+  annotations:
+    cert-manager.io/issuer: venafi-saas-cluster-issuer
+    cert-manager.io/issuer-kind: VenafiClusterIssuer 
+    cert-manager.io/issuer-group: jetstack.io
+    cert-manager.io/common-name: example.example.com
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - example.example.com
+    secretName: example.example.com-tls
+  rules:
+  - host: example.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kuard
+            port:
+              number: 80

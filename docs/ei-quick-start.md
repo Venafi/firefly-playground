@@ -414,7 +414,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     
         create a TPP secret 
     
-        ```yaml title="create SaaS secret"
+        ```yaml title="create TPP secret"
         #title="venafi-cloud-credentials secret"
         kubectl apply -f - <<EOF
         apiVersion: v1
@@ -512,9 +512,9 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         apiVersion: jetstack.io/v1alpha1
         kind: VenafiClusterIssuer
         metadata:
-          name: venafi-saas-cluster-issuer
+          name: venafi-tpp-cluster-issuer
         spec:
-          venafiConnectionName: venafi-saas-connection
+          venafiConnectionName: venafi-tpp-connection
           zone: cert-manager\\demo
         EOF
         ```
@@ -536,7 +536,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         apiVersion: jetstack.io/v1alpha1
         kind: VenafiIssuer
         metadata:
-          name: ingress-certs
+          name: venafi-tpp-issuer
           namespace: application-team-1
         spec:
           venafiConnectionName: application-team-1-connection
@@ -609,15 +609,15 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       #- spiffe://cluster.local/ns/sandbox/sa/srvc1
     EOF
     ```
+
 ??? abstract "Step 8. Securing an NGINX Ingress"
 
-    
     There are two primary ways to secure an NGINX ingress resource: using annotations on the ingress with ingress-shim or directly creating a certificate resource.
-
+    
     In this example, we will add annotations to the ingress, and take advantage of ingress-shim to have it create the certificate resource on our behalf. 
-
+    
     Now lets secure an NGINX ingress. For this demo we'll use the example [kuard](https://github.com/kubernetes-up-and-running/kuard) application.
-
+    
     First we'll create a deployment
     
     ```yaml title="Create a deployment"
@@ -661,7 +661,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         app: kuard
     EOF
     ```
-
+    
     Finally lets create an ingress that uses the `venafi-saas-cluster-issuer` to get a certificate. 
     
     ```yaml title="Create the an NGINX ingress" 
@@ -694,21 +694,21 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
                   number: 80
     EOF
     ```
-
+    
     Inspect the certificate
     
     ```sh title="Create the an NGINX ingress" 
     kubectl get secret example.example.com-tls -o json | jq -r '.data."tls.crt"' | base64 -d | certigo dump
     ```
+
 ??? abstract "Step 9. Access to out of tree issuers"
 
-    
     This section covers configuring an "out-of-tree" VenafiIssuer that can be access from another namespace. 
-
+    
     a. Create Environment Variables
-
+    
     The a only for testing the out-of-tree VenafiIssuer.
-
+    
     ```yaml title="Command"
     export CERT_SUFFIX="$(date +%S%H%M%d%m)"
     export CERT_NAME=cert-${CERT_SUFFIX}.svc.cluster.local
@@ -717,9 +717,9 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
     export CCM_NAMESPACE="venafi"
     export CERT_NAMESPACE="foo"
     ```
-
+    
     b. Create a new VenafiConnection resource
-
+    
     ```yaml title="Command"
     # create venafi connection resource 
     kubectl apply -f - <<EOF
@@ -740,15 +740,15 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
             fields: ["venafi-cloud-key"]
     EOF
     ```
-
+    
     c. Check the VenafiConnection
-
+    
     ```sh title="Command"
     kubectl get VenafiConnection -n venafi
     ```
-
+    
     d. Create cluster role and binding
-
+    
     ```yaml title="Command"
     kubectl apply -f - <<EOF
     apiVersion: rbac.authorization.k8s.io/v1
@@ -777,15 +777,15 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       namespace: ${CCM_NAMESPACE}
     EOF
     ```
-
+    
     e. Create a test namespace
-
+    
     ```sh title="Command"
     kubectl create namespace ${CERT_NAMESPACE}
     ```
-
+    
     f. Create a VenafiIssuer in the test namespace
-
+    
     ```yaml title="Command"
     kubectl apply -f - <<EOF
     apiVersion: jetstack.io/v1alpha1
@@ -799,11 +799,11 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       zone: ${CERT_ZONE}
     EOF    
     ```    
-
+    
     g. Create a Certificate resource
-
+    
        This is a test certificate only used to test the out-of-tree VenafiConnection
-
+    
     ```yaml title="Command"
     kubectl apply -f - <<EOF
     kind: Certificate
@@ -829,18 +829,18 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       #- spiffe://cluster.local/ns/sandbox/sa/srvc1
     EOF
     ```  
-
-
+    
+    
     h. Validate the certificate is ready
-
+    
        Use the following command to check that the certificate reaches the ready state. 
-
+    
     ```sh title="Command"
     echo "Waiting up to 30s for Certificate ${CERT_NAME} in ns ${CERT_NAMESPACE} to be Ready..."
     for i in {1..30}; do
       READY=$(kubectl -n "${CERT_NAMESPACE}" get certificate "${CERT_NAME}" \
         -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' 2>/dev/null || true)
-
+    
       if [[ "${READY}" == "True" ]]; then
         echo "#################################################"
         echo "Certificate ${CERT_NAME} is Ready"
@@ -849,15 +849,15 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
       fi
       sleep 1
     done
-
+    
     echo "Certificate ${CERT_NAME} not Ready after 30s"
     echo "Troubleshoot with:"
     echo "  kubectl -n ${CERT_NAMESPACE} describe certificate ${CERT_NAME}"
     echo "  kubectl -n ${CERT_NAMESPACE} describe certificaterequest -l cert-manager.io/certificate-name=${CERT_NAME}"
     ```  
-
+    
     i. Update the VirtualServer config to include
-
+    
     ```yaml
     tls:
       secret: my-secret-tls
@@ -870,9 +870,3 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         renew-before: 480h
         usages: digital signature,server auth,client auth
     ```
-
-
-    
-
-
- 
