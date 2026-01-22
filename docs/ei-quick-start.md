@@ -539,7 +539,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
           name: venafi-tpp-issuer
           namespace: application-team-1
         spec:
-          venafiConnectionName: application-team-1-connection
+          venafiConnectionName: venafi-tpp-connection
           zone: \VED\Policy\Teams\application-team-1\ingress-certs
         EOF  
         ```
