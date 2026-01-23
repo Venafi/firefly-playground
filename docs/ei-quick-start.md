@@ -584,31 +584,62 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
 
 ??? abstract "Step 7. Creating a testing certificate resources"
 
-    Create a new Certificate
-    
-    ```sh
-    kubectl apply -f - <<EOF
-    kind: Certificate
-    apiVersion: cert-manager.io/v1
-    metadata:
-      name: venafi-tpp-test-1
-      namespace: venafi
-    spec:
-      secretName: venafi-tpp-test-1
-      commonName: srvc2.acme.com
-      issuerRef:
-        name: venafi-tpp-cluster-issuer
-        kind: "VenafiClusterIssuer"
-        group: "jetstack.io"
-      privateKey:
-        rotationPolicy: Always
-        size: 2048
-      dnsNames:
-      - srvc3.acme.com
-      #uris:
-      #- spiffe://cluster.local/ns/sandbox/sa/srvc1
-    EOF
-    ```
+    === "Using venafi-saas-cluster-issuer"
+
+        Create a new Certificate
+
+        ```sh
+        kubectl apply -f - <<EOF
+        kind: Certificate
+        apiVersion: cert-manager.io/v1
+        metadata:
+          name: venafi-saas-test-1
+          namespace: venafi
+        spec:
+          secretName: venafi-saas-test-1
+          commonName: srvc2.acme.com
+          issuerRef:
+            name: venafi-saas-cluster-issuer
+            kind: "VenafiClusterIssuer"
+            group: "jetstack.io"
+          privateKey:
+            rotationPolicy: Always
+            size: 2048
+          dnsNames:
+          - srvc3.acme.com
+          #uris:
+          #- spiffe://cluster.local/ns/sandbox/sa/srvc1
+        EOF
+        ```
+
+    === "Using venafi-tpp-cluster-issuer"
+
+        Create a new Certificate
+        
+        ```sh
+        kubectl apply -f - <<EOF
+        kind: Certificate
+        apiVersion: cert-manager.io/v1
+        metadata:
+          name: venafi-tpp-test-1
+          namespace: venafi
+        spec:
+          secretName: venafi-tpp-test-1
+          commonName: srvc2.acme.com
+          issuerRef:
+            name: venafi-tpp-cluster-issuer
+            kind: "VenafiClusterIssuer"
+            group: "jetstack.io"
+          privateKey:
+            rotationPolicy: Always
+            size: 2048
+          dnsNames:
+          - srvc3.acme.com
+          #uris:
+          #- spiffe://cluster.local/ns/sandbox/sa/srvc1
+        EOF
+        ```
+
 
 ??? abstract "Step 8. Securing an NGINX Ingress"
 

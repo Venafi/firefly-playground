@@ -1,0 +1,229 @@
+
+---
+title: OpenShift QuickStart
+---
+
+import { Code, Steps } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+
+
+### TPP Configuration
+
+![A rocketship in space](../../assets/houston.webp)
+
+<Steps>
+
+1. Create the TPP API integration for Venafi CLI
+
+   <Code code={venctlIntegration1} lang="json" title="Venafi CLI Integration" />
+
+   <Code code={fireflyIntegration} lang="json" title="Firefly Integration" />
+
+   <Code code={pushSecurityConfig} lang="sh" title="Push Security Config" />
+
+   <Code code={pushSecurityConfigDemo} lang="sh" title="Push Security Config (Demo)" />
+
+   <Code code={deleteSecurityConfig} lang="sh" title="Delete Security Config" />
+
+2. Create a Kubernetes Namespace
+
+   <Code code={createNamespace} lang="sh" title="Create Namespace" />
+
+3. Add the TPP CA Bundle and store it as a secret
+
+   <Code code={createCABundleSecret} lang="sh" title="Create CA Bundle Secret" />
+
+4. Add the TPP Credentials and store it as a secret
+
+   <Code code={createTPPCredentials} lang="sh" title="Create TPP Credentials Secret" />
+
+5. Export the API Key for your SaaS tenant
+
+   <Code code={apiKey} lang="sh" title="Set API Key" />
+
+6. Create a new service account in your SaaS tenant
+
+   <Code code={createImagePullSecret} lang="sh" title="Create Image Pull Secret" />
+
+7. Create a Kubernetes Image Pull Secret
+
+   <Code code={addImagePullSecret} lang="sh" title="Add Image Pull Secret to Kubernetes" />
+
+8. Create a new RBAC Role and RoleBinding for the Firefly service account to access the TPP credentials secret
+
+   <Code code={rbacApproval} lang="sh" title="RBAC Approval Configuration" />
+
+9. Install cert-manager using Helm
+
+   <Code code={helmCertManager} lang="sh" title="Helm Upgrade Cert-Manager" />
+
+10. Install Firefly using Helm
+
+    <Code code={helmFirefly} lang="sh" title="Helm Upgrade Firefly" />
+
+11. Configure cert-manager approval
+
+    <Code code={certManagerApproval} lang="sh" title="Configure Cert-Manager Approval" />
+
+12. Create a new certificate resource
+
+    <Code code={certificateResource} lang="sh" title="Create Certificate Resource" />
+
+</Steps>
+
+#### Congratulations! You have completed the OpenShift QuickStart for Firefly.
+
+export const venctlIntegration1 = `#Create the TPP API integration
+{
+"id": "venctl",
+"name": "Venafi CLI",
+"vendor": "CyberArk Software Ltd.",
+"description": "CLI utility for managing Firefly configurations",
+"scope": "configuration;security:delete,manage;certificate:manage"
+}`
+
+export const venctlIntegration = `#Create the TPP API integration
+{
+"id": "venctl",
+"name": "Venafi CLI",
+"vendor": "CyberArk Software Ltd.",
+"description": "CLI utility for managing Firefly configurations",
+"scope": "configuration;security:delete,manage;certificate:manage"
+}`
+
+export const fireflyIntegration = `#Create the TPP API integration
+# Use the TPP admin console to do this. Create new API integration and import the following JSON:
+{
+"id": "firefly",
+"name": "Firefly",
+"vendor": "CyberArk Software Ltd.",
+"description": "Decentralized workload identity issuance governed by a control plane",
+"scope": "certificate:manage;security:manage"
+}`
+
+export const pushSecurityConfig = `venctl configuration firefly push  --file "security-config.yaml" --api-url "https://tpp.example.com"`
+
+export const pushSecurityConfigDemo = `venctl configuration firefly push "Certificates\\Firefly\\security-config" --file "security-config.yaml" --api-url "https://tpp.emea.venafidemo.com" --username carl-master --password Tdoxwg7HysJOACvT`
+
+export const deleteSecurityConfig = `venctl configuration firefly delete "Certificates\\Firefly\\security-config" --api-url "https://tpp.emea.venafidemo.com" --username carl-master --password Tdoxwg7HysJOACvT`
+
+export const createNamespace = `kubectl create namespace venafi`
+
+export const createCABundleSecret = `# Add the private TPP CA bundle so that Firefly trusts the TPP instance 
+kubectl create secret generic ca-bundle-cert \
+--namespace venafi \
+"--from-file=ca-bundle-cert=cacerts.pem"`
+
+export const createTPPCredentials = `#kubectx default/api-cb-1-86qb-p3-openshiftapps-com:443/cluster-admin
+# Add the private CA bundle so that Firefly trusts the TPP instance
+#kubectx default/api-cb-1-86qb-p3-openshiftapps-com:443/cluster-admin
+# Add the private CA bundle so that Firefly trusts the TPP instance
+#kubectx default/api-cb-1-86qb-p3-openshiftapps-com:443/cluster-admin
+# Add the private CA bundle so that Firefly trusts the TPP instance
+kubectl create secret generic venafi-tpp-credentials  
+--namespace=venafi  
+--from-literal=username='carl'  
+--from-literal=password='Tdoxwg7HysJOACvT'`
+
+export const apiKey = `export API_KEY=5498568a-42f5-4865-83b4-28edab0e70cf`
+
+export const createImagePullSecret = `# Create an image pull secret
+venctl iam service-accounts registry create --name "Enterprise Image Pull Secret" \
+--scopes cert-manager-components,enterprise-venafi-issuer,enterprise-approver-policy,openshift-routes \
+--output dockerconfig \
+--output-file venafi_registry_docker_config.json \
+--validity 365 \
+--api-key 5498568a-42f5-4865-83b4-28edab0e70cf`
+
+export const addImagePullSecret = `# Add the image pull secret to Kubernetes
+kubectl create secret docker-registry venafi-image-pull-secret --namespace venafi --from-file .dockerconfigjson=/Users/carl.bourne/development/firefly-playground/venafi_registry_docker_config.json`
+
+export const rbacApproval = `kubectl apply -f - <<EOF
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+name: get-venafi-tpp-credentials
+namespace: venafi
+rules:
+- apiGroups: [ "" ]
+   resources: [ "secrets" ]
+   verbs: [ "get" ]
+   resourceNames: [ "venafi-tpp-credentials" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+name: venafi-tpp-credentials-secret-rolebinding
+namespace: venafi
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: Role
+name: get-venafi-tpp-credentials
+subjects:
+- kind: ServiceAccount
+   name: venafi-connection
+   namespace: venafi  
+   EOF`
+
+export const helmCertManager = `helm upgrade cert-manager oci://registry.venafi.cloud/charts/cert-manager \
+--install \
+--wait \
+--create-namespace \
+--namespace venafi \
+--values cert-manager.values-without-approveSignerNames.yaml \
+--version v1.19.2`
+
+export const helmFirefly = `#helm delete prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly --namespace venafi
+helm upgrade prod oci://registry.venafi.cloud/public/venafi-images/helm/firefly \
+--namespace venafi \
+--values firefly.values-password.yaml \
+--version v1.10.1`
+
+export const certManagerApproval = `# Configure cert-manager approval
+kubectl apply -f - <<EOF
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+name: cert-manager-controller-approve:firefly
+rules:
+- apiGroups: ["cert-manager.io"]
+   resources: ["signers"]
+   verbs: ["approve"]
+   # resourceNames: ["venafiissuers.jetstack.io/*", "venaficlusterissuers.jetstack.io/*", "firefly.venafi.com/v1alpha1/issuers", "issuers.cert-manager.io/*", "clusterissuers.cert-manager.io/*", "issuers.firefly.venafi.com/*" ]
+   resourceNames: ["issuers.firefly.venafi.com/*", "issuers.cert-manager.io/*" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+name: cert-manager-controller-approve:firefly
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: ClusterRole
+name: cert-manager-controller-approve:firefly
+subjects:
+- name: cert-manager
+   namespace: venafi
+   kind: ServiceAccount
+   EOF`
+
+export const certificateResource = `# Create Certificate resource
+kubectl apply -f - <<EOF
+kind: Certificate
+apiVersion: cert-manager.io/v1
+metadata:
+annotations:
+firefly.venafi.com/policy-name: Policy
+name: venafi-firefly-test-2
+namespace: venafi
+spec:
+secretName: venafi-firefly-test-2
+commonName: example.com
+dnsNames:
+- test.example.com
+privateKey:
+rotationPolicy: Always  
+issuerRef:
+name: firefly
+kind: Issuer
+group: firefly.venafi.com
+EOF`
