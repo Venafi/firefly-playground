@@ -1,0 +1,25 @@
+global:
+  imagePullSecrets:
+    - name: venafi-image-pull-secret 
+
+crds:
+  enabled: true
+
+image:
+  repository: private-registry.venafi.cloud/cert-manager/cert-manager-controller
+
+acmesolver:
+  image:
+    repository: private-registry.venafi.cloud/cert-manager/cert-manager-acmesolver
+
+webhook:
+  image:
+    repository: private-registry.venafi.cloud/cert-manager/cert-manager-webhook
+
+cainjector:
+  image:
+    repository: private-registry.venafi.cloud/cert-manager/cert-manager-cainjector
+
+startupapicheck:
+  image:
+    repository: private-registry.venafi.cloud/cert-manager/cert-manager-startupapicheck
