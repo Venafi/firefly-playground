@@ -8,17 +8,6 @@ tags:
 
 # Evaluators Guide: CyberArk Enterprise Issuer
 
-- [x] Lorem ipsum dolor sit amet, consectetur adipiscing elit
-- [ ] Vestibulum convallis sit amet nisi a tincidunt
-    * [x] In hac habitasse platea dictumst
-    * [x] In scelerisque nibh non dolor mollis congue sed et metus
-    * [ ] Praesent sed risus massa
-- [ ] Aenean pretium efficitur erat, donec pharetra, ligula non scelerisque
-
-```sql
-kubectl config use-context kind-enhanced-issuer 
-```
-
 ### cert-manager :material-arrow-right-bold: CyberArk Enterprise Issuer :material-arrow-right-bold: CyberArk Certificate Manager
 
 !!! warning
@@ -592,9 +581,9 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
 ??? abstract "Step 7. Creating a testing certificate resources"
 
     === "Using venafi-saas-cluster-issuer"
-
+    
         Create a new Certificate
-
+    
         ```sh
         kubectl apply -f - <<EOF
         kind: Certificate
@@ -618,9 +607,9 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
           #- spiffe://cluster.local/ns/sandbox/sa/srvc1
         EOF
         ```
-
+    
     === "Using venafi-tpp-cluster-issuer"
-
+    
         Create a new Certificate
         
         ```sh
@@ -646,7 +635,6 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
           #- spiffe://cluster.local/ns/sandbox/sa/srvc1
         EOF
         ```
-
 
 ??? abstract "Step 8. Securing an NGINX Ingress"
 
