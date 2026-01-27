@@ -1,0 +1,11 @@
+global:
+  imagePullSecrets:
+    - name: venafi-image-pull-secret 
+
+venafiConnection:
+  include: true # set to `false` if Venafi Connection CRDs & RBAC are already installed
+
+venafiEnhancedIssuer:
+  manager:
+    image:
+      repository: private-registry.venafi.cloud/venafi-issuer/venafi-enhanced-issuer
