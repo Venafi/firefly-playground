@@ -10,3 +10,10 @@ updates:
    directory: "/"
    schedule:
      interval: weekly
+ - package-ecosystem: "pip"
+   directory: "/"
+   schedule:
+     interval: "weekly"
+     time: "09:00"
+     day: "monday"
+     timezone: "America/Inuvik"
