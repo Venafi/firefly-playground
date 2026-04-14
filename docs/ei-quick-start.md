@@ -405,7 +405,7 @@ Users in the US, Canada, Australia, and Singapore regions should use the US regi
         get an access token with VCert
     
         ```sh title="get access token"
-        vcert getcred -u "https://tpp.emea.venafidemo.com" --username carl --password Tdoxwg7HysJOACvT
+        vcert getcred -u "https://tpp.emea.venafidemo.com" --username xxxx --password xxxxx
         ```
     
         create a TPP secret 
