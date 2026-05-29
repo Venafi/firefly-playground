@@ -1,6 +1,18 @@
 {
     "issuer": "https://kubernetes.default.svc.cluster.local",
-    "jwks_uri": "https://venafi.github.io/firefly-playground/keys.json",
+    "jwks": {
+        "keys": [
+            {
+                "alg": "ES256",
+                "crv": "P-256",
+                "kid": "ead6baba-9199-4c51-9344-1671f5a22d72",
+                "kty": "EC",
+                "use": "sig",
+                "x": "AytXXua5W9pwhDZNAxN_mvJJykxO7fm8WGY94SpY0-Y",
+                "y": "YuBJgPbK9NavZij5bvO3dlYXOohwv7lL2GKaEWRSHKk"
+            }
+        ]
+    },
     "response_types_supported": [
         "id_token"
     ],
@@ -8,6 +20,6 @@
         "public"
     ],
     "id_token_signing_alg_values_supported": [
-        "RS256"
+        "ES256"
     ]
 }
