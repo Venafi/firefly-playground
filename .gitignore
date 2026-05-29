@@ -3,3 +3,4 @@ config/private-key.pem
 opa-policy
 tlspc-config
 .env.bu
+venafi_registry_docker_config.json
